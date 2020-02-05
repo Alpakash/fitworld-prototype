@@ -1,0 +1,1 @@
+cd shared-lib && npm run build && rm -rf ../src-web/src/lib && mkdir ../src-web/src/lib  && mv dist/**/* ../src-web/src/lib && rm -rf dist

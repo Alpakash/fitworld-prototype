@@ -1,0 +1,1 @@
+cd shared-lib && npm run build && rm -rf ../src-mobile/lib && mkdir ../src-mobile/lib && mv dist/**/* ../src-mobile/lib && rm -rf dist

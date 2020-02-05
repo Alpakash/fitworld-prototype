@@ -18,7 +18,6 @@ import {
 
 import {
   Header,
-  LearnMoreLinks,
   Colors,
   DebugInstructions,
   ReloadInstructions,
@@ -32,8 +31,8 @@ const App: () => React$Node = () => {
         <ScrollView
           contentInsetAdjustmentBehavior="automatic"
           style={styles.scrollView}>
-          <View>
-            <Text style={styles.sectionTitle}>Welcome to Fitworld</Text>
+          <View style={{flex: 1, justifyContent: "center", alignItems: "center", height: 200, backgroundColor: "#673AB7"}}>
+            <Text style={styles.title}>Welcome to Fitworld!</Text>
           </View>
           {global.HermesInternal == null ? null : (
             <View style={styles.engine}>
@@ -48,25 +47,6 @@ const App: () => React$Node = () => {
                 screen and then come back to see your edits.
               </Text>
             </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>See Your Changes</Text>
-              <Text style={styles.sectionDescription}>
-                <ReloadInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Debug</Text>
-              <Text style={styles.sectionDescription}>
-                <DebugInstructions />
-              </Text>
-            </View>
-            <View style={styles.sectionContainer}>
-              <Text style={styles.sectionTitle}>Learn More</Text>
-              <Text style={styles.sectionDescription}>
-                Read the docs to discover what to do next:
-              </Text>
-            </View>
-            <LearnMoreLinks />
           </View>
         </ScrollView>
       </SafeAreaView>
@@ -88,6 +68,11 @@ const styles = StyleSheet.create({
   sectionContainer: {
     marginTop: 32,
     paddingHorizontal: 24,
+  },
+  title: {
+    fontSize: 32,
+    fontWeight: '600',
+    color: Colors.white
   },
   sectionTitle: {
     fontSize: 24,
