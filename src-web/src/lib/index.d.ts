@@ -1,8 +1,7 @@
 declare class Queries {
-    UsernameAndFriends: () => void;
+    getDogs: () => void;
 }
 declare class Mutations {
-    CreateUsername: () => void;
 }
 declare class GlobalState {
     state: () => void;

@@ -97,17 +97,4 @@ $RECYCLE.BIN/
 # Windows shortcuts
 *.lnk
 
-.buckconfig
-.eslintrc.js
-.flowconfig
-.gitattributes
-.gitignore
-.prettierrc.js
-.watchmanconfig
 __tests__/
-app.json
-babel.config.js
-index.js
-metro.config.js
-package.json
-yarn.lock

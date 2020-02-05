@@ -1,6 +1,15 @@
 // Queries
 class Queries {
-
+ getDogs = () => {
+   `
+  {
+    dogs {
+      id
+      breed
+    }
+  }
+`
+ }
 }
 
 // Mutations
