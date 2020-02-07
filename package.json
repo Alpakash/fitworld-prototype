@@ -16,5 +16,10 @@
   "bugs": {
     "url": "https://gitlab.com/fitworld/fitworld-frontend/issues"
   },
-  "homepage": "https://gitlab.com/fitworld/fitworld-frontend#readme"
+  "homepage": "https://gitlab.com/fitworld/fitworld-frontend#readme",
+  "dependencies": {
+    "apollo-boost": "^0.4.7",
+    "apollo-server": "^2.10.0",
+    "graphql": "^14.6.0"
+  }
 }

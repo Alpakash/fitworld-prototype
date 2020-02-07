@@ -5,18 +5,25 @@
   "main": "src/electron.js",
   "homepage": "./",
   "dependencies": {
+    "@apollo/react-hooks": "^3.1.3",
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
-    "quasar": "^1.8.5",
+    "apollo-boost": "^0.4.7",
+    "graphql": "^14.6.0",
+    "graphql-tag": "^2.10.2",
+    "graphql-tools": "^4.0.6",
     "react": "^16.12.0",
     "react-dom": "^16.12.0",
-    "react-scripts": "3.3.1"
+    "react-grid-system": "^6.1.0",
+    "react-scripts": "3.3.1",
+    "styled-components": "^5.0.1"
   },
   "scripts": {
     "start": "cd ../ && npm run build-web && cd src-web && react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "eject": "react-scripts eject",
     "electron": "nodemon --watch * --exec \"electron .\""
   },
   "eslintConfig": {

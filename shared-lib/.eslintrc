@@ -1,0 +1,18 @@
+{
+  "extends": [
+    "react-app"
+  ],
+  "rules": {
+    "import/first": "info"
+  },
+  "overrides": [
+    {
+      "files": [
+        "**/*.ts?(x)"
+      ],
+      "rules": {
+        "additional-typescript-only-rule": "warn"
+      }
+    }
+  ]
+}

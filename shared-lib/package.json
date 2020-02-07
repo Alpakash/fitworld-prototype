@@ -19,6 +19,7 @@
     "node": ">=6.0.0"
   },
   "scripts": {
+    "start": "npm run build",
     "build": "tsc --build tsconfig.json"
   },
   "lint-staged": {

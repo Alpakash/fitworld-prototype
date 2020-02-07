@@ -18,10 +18,12 @@ import {
 
 import {
   Header,
+  LearnlensMoreLinks,
   Colors,
   DebugInstructions,
   ReloadInstructions,
 } from 'react-native/Libraries/NewAppScreen';
+import { GRID } from './components/grid'
 
 const App: () => React$Node = () => {
   return (

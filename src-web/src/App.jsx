@@ -1,31 +1,35 @@
-import React from 'react';
-import './App.css';
+import React from 'react'
+import './App.css'
 import './menubar.css'
-import { GlobalState, Queries } from './lib/index'
+import { ApolloProvider } from '@apollo/react-hooks'
+import ApolloClient from 'apollo-boost'
+import Frame from './components/frame/frame'
+import Query from './components/query'
+import Mutation from './components/mutation'
+import Grid from './components/grid'
 
-const State = new GlobalState();
-const Query = new Queries();
+export const client = new ApolloClient({
+  uri: 'https://swapi.graph.cool/'
+});
+
 
 function App() {
   return (
-    <div className="App">
-      <header>
-          <div className="title-bar">
-              <div className="app-name-container" />
-              <div className="window-controls-container">
-                  <button id="minimize-button" className="minimize-button" />
-                  <button id="min-max-button" className="min-max-button" />
-                  <button id="close-button" className="close-button" />
-              </div>
+    <ApolloProvider client={client}>
+      <div className="App">
+        <header>
+          <Frame/>
+          <div className="App-header">
+            Yo Fitworld!
+              {/* Query and mutation via the Starwars API*/}
+              <Query/>
+              <Mutation/>
           </div>
-
-        <div className="App-header">
-          Yo Fitworld!
-        </div>
-      </header>
-
-    </div>
-  );
+        </header>
+        <Grid/>
+      </div>
+    </ApolloProvider>
+  )
 }
 
-export default App;
+export default App
