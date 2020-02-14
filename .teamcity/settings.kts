@@ -1,4 +1,5 @@
 import jetbrains.buildServer.configs.kotlin.v2019_2.*
+import jetbrains.buildServer.configs.kotlin.v2019_2.buildSteps.script
 import jetbrains.buildServer.configs.kotlin.v2019_2.triggers.vcs
 
 /*
@@ -30,8 +31,33 @@ project {
     buildType(Build)
 }
 
+
 object Build : BuildType({
     name = "Build"
+    val environment = "prod"
+
+    steps {
+        // Web
+        script {
+            name = "[WEB] Compile source code"
+            scriptContent = "cd src-web " +
+                    "&& rm -rf build " +
+                    "&& npm i " +
+                    "&& npm run build"
+        }
+        script {
+            name = "[WEB] Upload to S3 development bucket"
+            scriptContent = "cd src-web/build " +
+                    "&& AWS_PROFILE=${environment} aws s3 cp . s3://${DslContext.projectName}-${environment} --recursive"
+        }
+        script {
+            name = "[WEB] Cleanup"
+            scriptContent = "rm -rf src-web/build"
+        }
+
+        // MobileAndroid
+        // MobileIos
+    }
 
     vcs {
         root(DslContext.settingsRoot)
@@ -39,6 +65,7 @@ object Build : BuildType({
 
     triggers {
         vcs {
+
         }
     }
 })
