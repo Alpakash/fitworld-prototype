@@ -5,8 +5,9 @@ declare class Mutations {
 }
 declare class GridSystem {
 }
-declare const SharedStyling: {
-    Button: string;
+declare const StyledComponents: {
+    borderDiv: string;
+    button: string;
 };
 declare class Font {
     static regular: string;
@@ -171,9 +172,5 @@ declare class Theme {
     static zIndex: Map<any, any>;
 }
 declare class Mixins {
-    static errorText: {
-        fontWeight: string;
-        color: string;
-    };
 }
-export { Queries, Mutations, GridSystem, SharedStyling, Theme, Font, Mixins };
+export { Queries, Mutations, GridSystem, StyledComponents, Theme, Font, Mixins };

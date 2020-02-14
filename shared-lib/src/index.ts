@@ -1,5 +1,5 @@
-import gql from "graphql-tag"
-import UserQueries from './queries/UserQueries'
+import UserQueries from './queries/UserQueries';
+import Styles from './styled/StyledComponents';
 
 // Queries
 const Queries = {
@@ -17,14 +17,9 @@ class GridSystem {
 
 }
 
-// shared-component styling
-const SharedStyling = {
-  Button: `
-  font-size: 1.5em;
-  text-align: center;
-  color: palevioletred;
-  #mixins-for-styled-components
-  `
+// shared styled-components
+const StyledComponents = {
+ ...Styles
 }
 
 // Helpers for colors and fonts in theme
@@ -37,7 +32,6 @@ class Font {
   static italic = "Liberation Sans Italic";
   static bold = "Liberation Sans Bold";
 }
-
 
 class Theme {
   // Breakpoints for different device sizes
@@ -123,10 +117,7 @@ class Theme {
 
 // Mixins, styles which will be used more often in different components
 class Mixins {
-  static errorText = {
-    fontWeight: "700",
-    color: "red",
-  }
+
 }
 
-export { Queries, Mutations, GridSystem, SharedStyling, Theme, Font, Mixins }
+export { Queries, Mutations, GridSystem, StyledComponents, Theme, Font, Mixins }

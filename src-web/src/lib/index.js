@@ -10,6 +10,7 @@ var __assign = (this && this.__assign) || function () {
     return __assign.apply(this, arguments);
 };
 import UserQueries from './queries/UserQueries';
+import Styles from './styled/StyledComponents';
 // Queries
 var Queries = __assign({}, UserQueries);
 // Check of je mutation kunt schrijven uit Starwars lib
@@ -25,10 +26,8 @@ var GridSystem = /** @class */ (function () {
     }
     return GridSystem;
 }());
-// shared-component styling
-var SharedStyling = {
-    Button: "\n  font-size: 1.5em;\n  text-align: center;\n  color: palevioletred;\n  #mixins-for-styled-components\n  "
-};
+// shared styled-components
+var StyledComponents = __assign({}, Styles);
 // Helpers for colors and fonts in theme
 var colorHelper = function (light, main, dark, contrastText) { return ({ light: light, main: main, dark: dark, contrastText: contrastText }); };
 var fontHelper = function (fontFamily, fontSize, letterSpacing, lineHeight) {
@@ -121,11 +120,7 @@ var Theme = /** @class */ (function () {
 var Mixins = /** @class */ (function () {
     function Mixins() {
     }
-    Mixins.errorText = {
-        fontWeight: "700",
-        color: "red",
-    };
     return Mixins;
 }());
-export { Queries, Mutations, GridSystem, SharedStyling, Theme, Font, Mixins };
+export { Queries, Mutations, GridSystem, StyledComponents, Theme, Font, Mixins };
 //# sourceMappingURL=index.js.map

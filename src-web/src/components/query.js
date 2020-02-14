@@ -1,10 +1,10 @@
 import React from 'react'
 import gql from "graphql-tag"
-import { useQuery, useMutation } from '@apollo/react-hooks'
-import { Queries, Mutations } from '../lib/index';
+import { useQuery } from '@apollo/react-hooks'
+import { Queries } from '../lib/index';
 
 // Query
-const RANDOM_WORLD = Queries.hello;
+const RANDOM_WORLD = Queries.getUser;
 
 const Query = () => {
   // fetch data

@@ -1,4 +1,4 @@
 declare const _default: {
-    getUser: import("graphql").DocumentNode;
+    errorText: string;
 };
 export default _default;

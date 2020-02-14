@@ -1,36 +1,38 @@
+var __assign = (this && this.__assign) || function () {
+    __assign = Object.assign || function(t) {
+        for (var s, i = 1, n = arguments.length; i < n; i++) {
+            s = arguments[i];
+            for (var p in s) if (Object.prototype.hasOwnProperty.call(s, p))
+                t[p] = s[p];
+        }
+        return t;
+    };
+    return __assign.apply(this, arguments);
+};
+import UserQueries from './queries/UserQueries';
+import Styles from './styled/StyledComponents';
 // Queries
-var Queries = /** @class */ (function () {
-    function Queries() {
-        this.getDogs = function () {
-            return ("{\n    dogs {\n      id\n      breed\n    }\n  }\n");
-        };
-    }
-    return Queries;
-}());
-// Mutations
+var Queries = __assign({}, UserQueries);
+// Check of je mutation kunt schrijven uit Starwars lib
 var Mutations = /** @class */ (function () {
     function Mutations() {
     }
     return Mutations;
 }());
+// leidt de gridsystem af van een library a la BOOTSTRAP; #simple
 // Column lib: grid size 12 column + gutter size 5px
 var GridSystem = /** @class */ (function () {
     function GridSystem() {
     }
     return GridSystem;
 }());
+// shared styled-components
+var StyledComponents = __assign({}, Styles);
 // Helpers for colors and fonts in theme
 var colorHelper = function (light, main, dark, contrastText) { return ({ light: light, main: main, dark: dark, contrastText: contrastText }); };
 var fontHelper = function (fontFamily, fontSize, letterSpacing, lineHeight) {
     return ({ fontFamily: fontFamily, fontSize: fontSize, letterSpacing: letterSpacing, lineHeight: lineHeight });
 };
-// shared-component styling
-var SharedStyling = /** @class */ (function () {
-    function SharedStyling() {
-    }
-    return SharedStyling;
-}());
-export { SharedStyling };
 var Font = /** @class */ (function () {
     function Font() {
     }
@@ -39,7 +41,6 @@ var Font = /** @class */ (function () {
     Font.bold = "Liberation Sans Bold";
     return Font;
 }());
-export { Font };
 var Theme = /** @class */ (function () {
     function Theme() {
     }
@@ -115,14 +116,11 @@ var Theme = /** @class */ (function () {
         .set("mobileStepper", 1000);
     return Theme;
 }());
+// Mixins, styles which will be used more often in different components
 var Mixins = /** @class */ (function () {
     function Mixins() {
-        this.errorText = {
-            fontWeight: "700",
-            color: "red",
-        };
     }
     return Mixins;
 }());
-export { Queries, Mutations, GridSystem, Theme, Mixins };
+export { Queries, Mutations, GridSystem, StyledComponents, Theme, Font, Mixins };
 //# sourceMappingURL=index.js.map

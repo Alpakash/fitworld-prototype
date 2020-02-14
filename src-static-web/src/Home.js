@@ -12,7 +12,7 @@ class Home extends React.Component {
         </div>
         <p className="Home-intro">
           To get started, edit <code>src/App.js</code> or{' '}
-          <code>src/Home.js</code> and save to reload.
+          <code>src/HomeScreen.js</code> and save to reload.
         </p>
         <ul className="Home-resources">
           <li>

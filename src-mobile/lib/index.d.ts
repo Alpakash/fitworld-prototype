@@ -1,13 +1,15 @@
-declare class Queries {
-    getDogs: () => string;
-}
+declare const Queries: {
+    getUser: import("graphql").DocumentNode;
+};
 declare class Mutations {
 }
 declare class GridSystem {
 }
-export declare class SharedStyling {
-}
-export declare class Font {
+declare const StyledComponents: {
+    borderDiv: string;
+    button: string;
+};
+declare class Font {
     static regular: string;
     static italic: string;
     static bold: string;
@@ -170,9 +172,5 @@ declare class Theme {
     static zIndex: Map<any, any>;
 }
 declare class Mixins {
-    errorText: {
-        fontWeight: string;
-        color: string;
-    };
 }
-export { Queries, Mutations, GridSystem, Theme, Mixins };
+export { Queries, Mutations, GridSystem, StyledComponents, Theme, Font, Mixins };
