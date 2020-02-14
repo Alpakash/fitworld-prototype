@@ -27,13 +27,12 @@ To debug in IntelliJ Idea, open the 'Maven Projects' tool window (View
 version = "2019.2"
 
 project {
-    buildType(BaseBuild("+:develop"))
-    buildType(BaseBuild("+:<default>"))
+    buildType(BaseBuild("+:develop", "prod", "Develop"))
+    buildType(BaseBuild("+:<default>", "prod", "Prod"))
 }
 
-open class BaseBuild(val branchFilterValue: String) : BuildType({
-    name = "Build"
-    val environment = "prod"
+open class BaseBuild(val branchFilterValue: String, val environment: String, val buildName: String) : BuildType({
+    name = "Build$buildName"
 
     steps {
         // Web
