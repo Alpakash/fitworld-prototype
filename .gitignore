@@ -100,7 +100,3 @@ $RECYCLE.BIN/
 
 __tests__/
 .idea/
-
-src-mobile/lib/
-
-src-web/src/lib/
