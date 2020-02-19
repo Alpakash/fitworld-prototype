@@ -88,7 +88,7 @@
         ],
         "rules": {
           "additional-typescript-only-rule": "warn",
-          "import/first": "warn",
+          "import/first": "warn"
         }
       }
     ]

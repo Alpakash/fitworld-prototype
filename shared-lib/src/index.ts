@@ -114,4 +114,4 @@ class Mixins {
 
 }
 
-export { Queries, Mutations, GridSystem, StyledComponents, Theme, Font, Mixins }
+export { Queries, Mutations, StyledComponents, Theme, Font, Mixins }
