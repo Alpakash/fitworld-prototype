@@ -7,7 +7,7 @@ const StyledButton = styled.button`${StyledComponents.button}`;
 const Button = (props) => {
   return (
     <div>
-      <StyledButton>{props.text}</StyledButton>
+      <StyledButton>{props.children}</StyledButton>
     </div>
   )
 }

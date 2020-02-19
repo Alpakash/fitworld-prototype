@@ -11,12 +11,6 @@ class Mutations {
 
 }
 
-// leidt de gridsystem af van een library a la BOOTSTRAP; #simple
-// Column lib: grid size 12 column + gutter size 5px
-class GridSystem {
-
-}
-
 // shared styled-components
 const StyledComponents = {
  ...Styles

@@ -13,7 +13,7 @@ font-weight: bold;
 
 const Button = (props) => {
   return (
-      <StyledButton>
+      <StyledButton onPress={props.onPress}>
         <ButtonText textColor={props.textColor}>
           {props.text}
         </ButtonText>

@@ -1,25 +1,12 @@
-import React, {useState} from 'react'
-import {
-  ScrollView,
-  Text,
-  TextInput,
-  View,
-  StyleSheet,
-  LayoutAnimationStatic as LayoutAnimation,
-  TouchableOpacity,
-} from 'react-native'
-import { Colors } from "react-native/Libraries/NewAppScreen"
+import React, { useState } from 'react'
+import { ScrollView, StyleSheet, Text, TextInput, View } from 'react-native'
+import { Colors } from 'react-native/Libraries/NewAppScreen'
 
 const RNComponents = () => {
-  const [value, onChangeText] = useState('Placeholder');
-  const [expanded, adjustExpand] = useState(false);
+  const [value, onChangeText] = useState('Placeholder')
 
   return (
     <>
-      <View alignItems={"center"}>
-        <Text style={{ fontSize: 20}}>Menu</Text>
-      </View>
-      
       <ScrollView showsHorizontalScrollIndicator={false}
                   horizontal style={styles.scrollView}>
         <Text style={styles.text}>
@@ -50,9 +37,10 @@ export default RNComponents
 
 const styles = StyleSheet.create({
   scrollView: {
-      backgroundColor: Colors.lighter,
+    backgroundColor: Colors.lighter
   },
   text: {
     fontSize: 42
   }
-});
+})
+
