@@ -1,17 +1,24 @@
 import React from 'react'
 import styled from 'styled-components'
-// CSS Grid
-
-// Next steps (more complex):
-// <Grid>
-// <Col>
+import Logo from '../assets/fitworld-icon.svg'
 
 const Wrapper = styled.div`
     display: grid;
     grid-template-columns: repeat(12, 1fr);
     grid-gap: 5px;
     grid-auto-rows: minmax(100px, auto);
+    margin-top: 10px;
     `
+
+const Zero = styled.image`
+    grid-column: 6;
+    grid-row: 1;
+    width: "100px";
+    height: "100px";
+    border-radius: 20px;
+    margin-right: -40px;
+    text-align: end;
+`
 
 const One = styled.div`
     grid-column: 1/3;
@@ -54,28 +61,40 @@ const Four = styled.div`
     text-align: center;
 `
 
+const Five = styled.div`
+    grid-column: 4/13;
+    grid-row: 3;
+    width: "100px";
+    height: "100px";
+    background-color: green;
+    border-radius: 20px;    
+    text-align: center;
+`
+
+const Six = styled.div`
+    grid-column: 5/9;
+    grid-row: 2;
+    width: "100px";
+    height: "100px";
+    background-color: blue;
+    border-radius: 20px;    
+    text-align: center;
+`
+
 const Grid = () => {
   return (
-    <Wrapper>
-      <One>
-        one
-      </One>
-
-      <Two>
-        two
-      </Two>
-
-      <Three>
-        three
-      </Three>
-
-      <Four>
-        four
-      </Four>
-    </Wrapper>
+      <Wrapper>
+        <Zero>
+          <Logo width={70}/>
+        </Zero>
+        <One/>
+        <Two/>
+        <Three/>
+        <Four/>
+        <Five/>
+        <Six/>
+      </Wrapper>
   )
 }
 
 export default Grid
-
-const hello = {}

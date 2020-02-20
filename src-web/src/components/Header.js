@@ -1,9 +1,10 @@
 import React from 'react'
-import styled from 'styled-components';
+import styled from 'styled-components'
 import Button from './Button'
 import Query from './query'
 import Mutation from './mutation'
-import Logo from '../fitworld-icon.svg'
+import Logo from '../assets/fitworld-icon.svg'
+import Grid from '../components/grid'
 
 const FitWorldLogo = styled(Logo)`
     margin-left: 10px;
@@ -22,18 +23,21 @@ const HeaderStyle = styled.div`
   justify-content: center;
   font-size: calc(10px + 2vmin);
   color: white;
-`;
+`
 
 const Header = () => {
   return (
+    <>
       <HeaderStyle>
         <FitWorldLogo/>
         Yo Fitworld!
-      <Button>Hello!</Button>
-      {/* Query and mutation via the Starwars API*/}
-      <Query/>
-      <Mutation/>
-    </HeaderStyle>
+        <Button>Hello!</Button>
+        {/* Query and mutation via the Starwars API*/}
+        <Query/>
+        <Mutation/>
+      </HeaderStyle>
+      <Grid/>
+    </>
   )
 }
 

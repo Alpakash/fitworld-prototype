@@ -1,6 +1,6 @@
 import React, { createContext, useState } from 'react'
 
-const CreateThemeContext = createContext();
+const ThemeContext = createContext('light');
 
 /*
  1. First make the ThemeContext state (themes available in project)
@@ -10,14 +10,14 @@ const CreateThemeContext = createContext();
         - e.g. lib/reducers/theme or lib/reducers/language
 */
 
-const ThemeContext = (props) => {
-  const [theme, setTheme] = useState("light" | "dark" | "")
+const ThemeContextProvider = (props) => {
+  const [theme, setTheme] = useState(props.value)
 
   return (
-    <CreateThemeContext.Provider value={theme}>
+    <ThemeContext.Provider value={theme}>
       {props.children}
-    </CreateThemeContext.Provider>
+    </ThemeContext.Provider>
   )
 }
 
-export default ThemeContext
+export default ThemeContextProvider
