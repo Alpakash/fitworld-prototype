@@ -3,6 +3,15 @@ import styled from 'styled-components';
 import Button from './Button'
 import Query from './query'
 import Mutation from './mutation'
+import Logo from '../fitworld-icon.svg'
+
+const FitWorldLogo = styled(Logo)`
+    margin-left: 10px;
+    width: 60px;
+    height: 70px;
+    display: flex;
+    align-items: center;
+    `
 
 const HeaderStyle = styled.div`
   min-height: calc(100vh - 25px);
@@ -17,8 +26,9 @@ const HeaderStyle = styled.div`
 
 const Header = () => {
   return (
-    <HeaderStyle>
-      Yo Fitworld!
+      <HeaderStyle>
+        <FitWorldLogo/>
+        Yo Fitworld!
       <Button>Hello!</Button>
       {/* Query and mutation via the Starwars API*/}
       <Query/>

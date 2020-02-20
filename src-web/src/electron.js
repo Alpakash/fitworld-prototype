@@ -18,7 +18,7 @@ const startUrl = "http://localhost:3000" || url.format({
 
 function createWindow() {
     // Create the browser window.
-    win = new BrowserWindow({show:false, frame: false});
+    win = new BrowserWindow();
     win.maximize();
     win.show();
     win.loadURL(startUrl);

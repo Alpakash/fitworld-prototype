@@ -17,7 +17,6 @@ function App() {
     <ApolloProvider client={client}>
         <div className="App">
           <header>
-            <Frame/>
             <Header/>
           </header>
           <Wrapper/>
