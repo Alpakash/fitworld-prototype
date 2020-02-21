@@ -1,0 +1,25 @@
+{
+  "name": "fitworld-common",
+  "version": "1.7.0",
+  "description": "fitworld-common",
+  "main": "./lib/index.js",
+  "typings": "./lib/index.d.ts",
+  "scripts": {
+    "build": "npm version minor && tsc && npm publish"
+  },
+  "files": [
+    "lib"
+  ],
+  "author": "Thomas-X&Alpakash",
+  "license": "MIT",
+  "devDependencies": {
+    "source-map-loader": "^0.2.4",
+    "typescript": "^3.8.2"
+  },
+  "dependencies": {
+    "apollo-boost": "^0.4.7",
+    "graphql": "^14.6.0",
+    "graphql-tag": "^2.10.3",
+    "semver": "^7.1.3"
+  }
+}
