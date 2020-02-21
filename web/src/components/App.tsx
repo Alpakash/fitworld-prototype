@@ -1,7 +1,7 @@
 import React, { useContext} from 'react'
 import { ThemeContext } from 'styled-components'
 import styled from "styled-components";
-import OverrideThemeProvider from './theming/OverrideThemeProvider'
+import { OverrideThemeProvider } from "fitworld-common";
 
 const Title = styled.h1`
   color: ${props => props.theme.brown.color}

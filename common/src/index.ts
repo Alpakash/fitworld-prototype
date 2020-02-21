@@ -1,6 +1,7 @@
 import UserQueries from './queries/UserQueries';
 import Styles from './styled/StyledComponents';
 import Themes from './theming/theme';
+import OverrideThemeProvider from './OverrideThemeProvider';
 
 const Queries = {
   ...UserQueries
@@ -18,9 +19,4 @@ const Theme = {
 const Mixins = {}
 const Mutations = {}
 
-
-export function sum(a: number, b: number) {
-  return a + b;
-}
-
-export { Queries, Mutations, StyledComponents, Theme, Mixins }
+export { Queries, Mutations, StyledComponents, Theme, Mixins, OverrideThemeProvider }
