@@ -1,39 +1,10 @@
-import React, { useContext} from 'react'
-import { ThemeContext } from 'styled-components'
-import styled from "styled-components";
-import { OverrideThemeProvider } from "fitworld-common";
-
-const Title = styled.h1`
-  color: ${props => props.theme.brown.color}
-`;
+import React from 'react'
+import { Link } from "react-router-dom";
 
 function App() {
-  const theme = useContext(ThemeContext);
-
   return (
-    <>
-      <OverrideThemeProvider overrideTheme={{
-        ...theme,
-        brown: {
-          color: "blue",
-          bg: "black"
-        },
-
-      }}>
-
-        <OverrideThemeProvider overrideTheme={{
-          ...theme,
-          brown: {
-            color: "red"
-          }
-        }}>
-          <div>
-            <Title>hello world</Title>
-
-          </div>
-        </OverrideThemeProvider>
-      </OverrideThemeProvider>
-    </>
+  <>
+  </>
   )
 }
 

@@ -5,7 +5,8 @@
     "declaration": true,
     "outDir": "./lib",
     "jsx": "react",
-    "esModuleInterop": true
+    "esModuleInterop": true,
+    "skipLibCheck": true
   },
   "exclude": [
     "node_modules"

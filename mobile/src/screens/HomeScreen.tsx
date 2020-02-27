@@ -1,20 +1,15 @@
 import React from 'react'
-import { SafeAreaView, ScrollView, StatusBar, Text, View } from 'react-native'
+import { StatusBar, Text, View } from 'react-native'
 
-
-const HomeScreen = ({ navigation }: any) => {
-    return (
-        <>
-            <StatusBar backgroundColor="orange"/>
-            <SafeAreaView>
-                <ScrollView contentInsetAdjustmentBehavior="automatic">
-                    <View>
-                        <Text>Hello world</Text>
-                    </View>
-                </ScrollView>
-            </SafeAreaView>
-        </>
-    )
+function HomeScreen() {
+  return (
+    <>
+      <StatusBar backgroundColor="orange"/>
+      <View style={ { flex: 1, alignItems: 'center', justifyContent: 'center' } }>
+        <Text>Home Screen</Text>
+      </View>
+    </>
+  )
 }
 
 export default HomeScreen

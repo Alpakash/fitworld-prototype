@@ -5,13 +5,18 @@
  * @format
  */
 
+const cp = require("child_process");
+
 module.exports = {
-  transformer: {
-    getTransformOptions: async () => ({
-      transform: {
-        experimentalImportSupport: false,
-        inlineRequires: false,
-      },
-    }),
-  },
+  serializer: {
+    getModulesRunBeforeMainModule: () => {
+      const tsc = cp.spawnSync('npm.cmd', ['run', 'tsc'], { encoding : 'utf8' });
+      console.log(tsc.stdout);
+
+      if (tsc.stderr) {
+        throw new Error("TYPESCRIPT TYPING ERROR");
+      }
+      return [];
+    }
+  }
 };
