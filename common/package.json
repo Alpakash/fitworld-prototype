@@ -1,6 +1,6 @@
 {
   "name": "fitworld-common",
-  "version": "1.69.0",
+  "version": "1.78.0",
   "description": "fitworld-common",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -12,12 +12,14 @@
   ],
   "author": "Thomas-X&Alpakash",
   "license": "MIT",
+  "peerDependencies": {
+    "react": "latest"
+  },
   "dependencies": {
     "apollo-boost": "^0.4.7",
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.3",
     "lodash": "^4.17.15",
-    "react": "latest",
     "styled-components": "^5.0.1"
   },
   "devDependencies": {

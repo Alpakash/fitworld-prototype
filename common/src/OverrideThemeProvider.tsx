@@ -4,7 +4,8 @@ import { omit } from "lodash";
 import { IDefaultProps } from "./interfaces/IDefaultProps";
 
 interface Props extends IDefaultProps {
-  overrideTheme: object
+  overrideTheme: object;
+  children: any;
 }
 
 function OverrideThemeProvider(props: Props){
