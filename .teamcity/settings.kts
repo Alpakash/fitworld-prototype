@@ -41,19 +41,19 @@ open class BaseBuild(val branchFilterValue: String, val environment: String, val
         // Web
         script {
             name = "[WEB] Compile source code"
-            scriptContent = "cd src-web " +
+            scriptContent = "cd web " +
                     "&& rm -rf build " +
                     "&& npm i " +
                     "&& npm run build"
         }
         script {
             name = "[WEB] Upload to S3 development bucket"
-            scriptContent = "cd src-web/build " +
+            scriptContent = "cd web/build " +
                     "&& AWS_PROFILE=${environment} aws s3 cp . s3://${DslContext.projectName}-${environment} --recursive"
         }
         script {
             name = "[WEB] Cleanup"
-            scriptContent = "rm -rf src-web/build"
+            scriptContent = "rm -rf web/build"
         }
 
         // MobileAndroid
