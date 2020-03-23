@@ -5,27 +5,52 @@ import * as serviceWorker from './serviceWorker'
 import { ThemeProvider } from 'styled-components'
 import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from '@apollo/react-hooks'
-import Routes from './routes/routes'
+import { InMemoryCache } from 'apollo-cache-inmemory'
+import { persistCache } from 'apollo-cache-persist'
+import {Storage} from './Storage'
 
-export const client = new ApolloClient({
-  uri: 'https://swapi.graph.cool/'
-})
-
-function Main() {
-  return (
-    <Routes>
+class Main extends React.Component {
+  render() {
+    return (
       <ThemeProvider theme={ {} }>
-        <ApolloProvider client={ client }>
+        <ApolloProvider client={ client.getClient() }>
           <App/>
         </ApolloProvider>
       </ThemeProvider>
-    </Routes>
-  )
+    )
+  }
 }
 
-ReactDOM.render(<Main/>, document.getElementById('root'))
+class GraphQLClient {
+  private client: any = undefined;
 
-// If you want your app to work offline and load faster, you can change
-// unregister() to register() below. Note this comes with some pitfalls.
-// Learn more about service workers: https://bit.ly/CRA-PWA
-serviceWorker.unregister()
+  setupClient = async () => {
+    const cache = new InMemoryCache();
+    await persistCache({
+      cache,
+      serialize: false,
+      storage: new Storage()
+    });
+    this.client = new ApolloClient({
+      uri: 'https://swapi.graph.cool/',
+      cache
+    })
+  };
+
+  getClient = (): ApolloClient<any> => {
+    return this.client
+  };
+}
+
+export const client = new GraphQLClient();
+
+(async () => {
+  await client.setupClient();
+  ReactDOM.render(
+    <Main/>, document.getElementById('root'));
+
+  // If you want your app to work offline and load faster, you can change
+  // unregister() to register() below. Note this comes with some pitfalls.
+  // Learn more about service workers: https://bit.ly/CRA-PWA
+  serviceWorker.unregister()
+})();

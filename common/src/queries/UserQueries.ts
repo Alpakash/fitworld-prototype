@@ -9,5 +9,15 @@ export default {
         title
       }
     }
+  `,
+  getPeople: gql`
+      query {
+          allPersons {
+              id
+              name
+              gender
+              height
+          }
+      }
   `
 }
