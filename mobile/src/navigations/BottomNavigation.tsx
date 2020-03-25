@@ -9,7 +9,7 @@ const BottomNavigation = () => {
   return (
     <Tab.Navigator>
       <Tab.Screen name={"Intro"} component={IntroScreen}/>
-      <Tab.Screen name={"Home"} component={HomeScreen}/>
+      <Tab.Screen name={"LoggedIn"} component={HomeScreen}/>
     </Tab.Navigator>
   )
 }

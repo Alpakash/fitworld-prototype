@@ -23,7 +23,7 @@ const IntroScreen = ({ navigation }: any) => {
           bg: 'black'
         }
       } }>
-          <H1 onPress={ () => navigation.navigate('Home') }>hello world { myString }</H1>
+          <H1 onPress={ () => navigation.navigate('LoggedIn') }>hello world { myString }</H1>
       </OverrideThemeProvider>
     </View>
   )
