@@ -5,7 +5,7 @@ import { useQuery } from '@apollo/react-hooks'
 
 const GET_TOKEN = gql`
     {
-        mySuperSecretToken @client
+        token @client
     }
 `;
 const Introduction = () => {
@@ -19,11 +19,11 @@ const Introduction = () => {
       <button style={{display: "block", marginTop: "20px"}} onClick={() => {
         client.writeData({
           data: {
-            mySuperSecretToken: "hello world"
+            token: "hello world"
           }
         })
       }}>
-        write {JSON.stringify(data.mySuperSecretToken, null, 4)} to cache
+        write {(data.token !== undefined) ? JSON.stringify(data.token, null, 4) : null} to cache
       </button>
       <h1>cached message is: {JSON.stringify(data, null, 4)}</h1>
     </div>

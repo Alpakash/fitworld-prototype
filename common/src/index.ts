@@ -2,8 +2,7 @@ import UserQueries from './queries/UserQueries'
 import Styles from './styled/StyledComponents'
 import Themes from './theming/theme'
 import OverrideThemeProvider from './OverrideThemeProvider'
-// import {StorageHandler} from './StorageHandler.ts'
-// import {StorageHandlerImplementations} from './StorageHandlerImplementations.ts'
+import {StorageHandler} from '../../web/src/StorageHandler'
 
 const Queries = {
   ...UserQueries
@@ -29,6 +28,5 @@ export {
   Theme,
   Mixins,
   OverrideThemeProvider,
-  // StorageHandler,
-  // StorageHandlerImplementations
+  StorageHandler,
 }

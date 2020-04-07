@@ -9,7 +9,6 @@ import ApolloClient from 'apollo-boost'
 import AsyncStorage, { AsyncStorageStatic } from '@react-native-community/async-storage'
 import { PersistedData, PersistentStorage } from 'apollo-cache-persist/types'
 import _ from 'lodash'
-import { StorageHandlerImplementations } from '../../common/src/StorageHandlerImplementations'
 
 class App extends React.Component<any, any> {
     state = {
