@@ -1,7 +1,7 @@
 import React from 'react'
 import { Link } from 'react-router-dom'
-import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
+import { useQuery } from '@apollo/react-hooks'
 
 const GET_TOKEN = gql`
     {
@@ -9,7 +9,7 @@ const GET_TOKEN = gql`
     }
 `;
 const Introduction = () => {
-  const { data, client } = useQuery(GET_TOKEN);
+  const {data, client} = useQuery(GET_TOKEN);
 
   return (
     <div>
@@ -19,7 +19,7 @@ const Introduction = () => {
       <button style={{display: "block", marginTop: "20px"}} onClick={() => {
         client.writeData({
           data: {
-            mySuperSecretToken: "helloworld"
+            mySuperSecretToken: "hello world"
           }
         })
       }}>
@@ -27,7 +27,7 @@ const Introduction = () => {
       </button>
       <h1>cached message is: {JSON.stringify(data, null, 4)}</h1>
     </div>
-  )
+  );
 }
 
 export default Introduction

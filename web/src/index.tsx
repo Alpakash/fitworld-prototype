@@ -7,7 +7,7 @@ import ApolloClient from 'apollo-boost'
 import { ApolloProvider } from '@apollo/react-hooks'
 import { InMemoryCache } from 'apollo-cache-inmemory'
 import { persistCache } from 'apollo-cache-persist'
-import {Storage} from './Storage'
+import { Storage } from 'fitworld-common/lib/Storage'
 
 class Main extends React.Component {
   render() {

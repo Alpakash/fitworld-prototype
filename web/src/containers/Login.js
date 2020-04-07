@@ -13,19 +13,19 @@ const Login = () => {
 
   const register = () => {
     login
-      ? axios.post('https://fitworld.io/auth/usrpwd/login', {
+      ? axios.post('https://api.fitworld.io/auth/usrpwd/login', {
         "email": email,
         "password": password
       })
         .then(r => console.log(r))
         .catch(err => console.log(err))
-
-      : axios.post('https://fitworld.io/auth/usrpwd/register', {
+      : axios.post('https://api.fitworld.io/auth/usrpwd/register', {
     "email": email,
     "password": password
   }, {
     headers: {
-      'Access-Control-Allow-Headers': '*'
+      'Access-Control-Allow-Headers': '*',
+      'Access-Control-Allow-Origin': '*'
     }
   })
     .then(r => console.log(r))

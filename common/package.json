@@ -1,6 +1,6 @@
 {
   "name": "fitworld-common",
-  "version": "1.90.0",
+  "version": "1.129.0",
   "description": "fitworld-common",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",
@@ -16,11 +16,14 @@
     "react": "latest"
   },
   "dependencies": {
+    "@react-native-community/async-storage": "^1.8.1",
     "apollo-boost": "^0.4.7",
+    "apollo-cache-persist": "^0.1.1",
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.3",
     "lodash": "^4.17.15",
-    "styled-components": "^5.0.1"
+    "styled-components": "^5.0.1",
+    "typescript": "^3.8.3"
   },
   "devDependencies": {
     "@types/lodash": "^4.14.149",
