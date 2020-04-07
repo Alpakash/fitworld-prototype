@@ -19,6 +19,7 @@ const IntroScreen = ({ navigation }: any) => {
   const myString: number = 575;
   const theme = useContext(ThemeContext);
 
+
   return (
     <>
       <View>
