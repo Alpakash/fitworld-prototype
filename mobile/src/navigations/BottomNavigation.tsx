@@ -10,9 +10,9 @@ const Tab = createBottomTabNavigator();
 const BottomNavigation = ({data}: any) => {
   return (
     <Tab.Navigator>
-      {(data.token !== undefined) ? <Tab.Screen name={"LoggedIn"} component={HomeScreen}/> : <Tab.Screen name={"Intro"} component={IntroScreen}/>}
-      {/*<Tab.Screen name={"Intro"} component={IntroScreen}/>*/}
-      {/*<Tab.Screen name={"LoggedIn"} component={HomeScreen}/>*/}
+      {/*{(data.token !== undefined) ? <Tab.Screen name={"LoggedIn"} component={HomeScreen}/> : <Tab.Screen name={"Intro"} component={IntroScreen}/>}*/}
+      <Tab.Screen name={"Intro"} component={IntroScreen}/>
+      <Tab.Screen name={"LoggedIn"} component={HomeScreen}/>
     </Tab.Navigator>
   )
 }
