@@ -1,6 +1,6 @@
 {
   "name": "fitworld-common",
-  "version": "1.132.0",
+  "version": "1.136.0",
   "description": "fitworld-common",
   "main": "./lib/index.js",
   "typings": "./lib/index.d.ts",

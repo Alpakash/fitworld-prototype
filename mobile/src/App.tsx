@@ -1,6 +1,4 @@
 import React from 'react'
-import { NavigationContainer } from '@react-navigation/native'
-import BottomNavigation from './navigations/BottomNavigation'
 import { ApolloProvider } from '@apollo/react-hooks'
 import { Text, View } from 'react-native'
 import { InMemoryCache } from 'apollo-cache-inmemory'
@@ -8,11 +6,15 @@ import { persistCache } from 'apollo-cache-persist'
 import ApolloClient from 'apollo-boost'
 import AsyncStorage from '@react-native-community/async-storage'
 import _ from 'lodash'
+import IntroNavigation from "./navigations/IntroNavigation";
+import BottomNavigation from "./navigations/BottomNavigation";
+import SplashScreen from "./screens/SplashScreen";
 
 class App extends React.Component<any, any> {
   state = {
-    cachePersisted: false
-  }
+    cachePersisted: false,
+    // isSignedOut: null
+  };
 
   componentDidMount(): void {
     Promise.all([
@@ -20,6 +22,10 @@ class App extends React.Component<any, any> {
       client.setupClient()
     ])
       .then(x => {
+        // let token = ""; // get out of cache/state, since at this point it is persisted
+        // axios.defaults.headers = {
+        //   Authorization: `Bearer ${token}`
+        // }
         this.setState({ cachePersisted: true })
       })
       .catch(err => console.log(err))
@@ -27,13 +33,11 @@ class App extends React.Component<any, any> {
 
   render() {
     if (!this.state.cachePersisted) {
-      return <View><Text>loading cache this should be some splash screen</Text></View>
+      return <SplashScreen/>
     } else {
       return (
         <ApolloProvider client={ client.getClient() }>
-          <NavigationContainer>
-            <BottomNavigation/>
-          </NavigationContainer>
+            <IntroNavigation/>
         </ApolloProvider>
       )
     }
@@ -55,19 +59,18 @@ class GraphQLClient {
         {
           ...AsyncStorage,
           getItem: async function(key: string, callback?: (error?: Error, result?: string) => void): Promise<string | null> {
-            const obj = JSON.parse((await AsyncStorage.getItem.apply(this, [key])) ?? '{}') as unknown as { ROOT_QUERY: object }
+            const obj = JSON.parse((await AsyncStorage.getItem(key)) ?? "{}") as unknown as { ROOT_QUERY: object }
             if (!obj) throw new Error('failed to get cache')
             const whitelistedObj = JSON.stringify({
               ROOT_QUERY: _.pick(obj.ROOT_QUERY, GraphQLClient.whitelist)
             })
             await AsyncStorage.setItem(key, whitelistedObj)
-            return whitelistedObj
+            return whitelistedObj;
           }
-        },
-      debug: true
+        }
     })
     this.client = new ApolloClient({
-      uri: 'https://swapi.graph.cool/',
+      uri: 'https://api.fitworld.io/graphql',
       cache,
       clientState: {
         resolvers: {}

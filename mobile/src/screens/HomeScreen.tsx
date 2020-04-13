@@ -1,32 +1,25 @@
-import React, { useEffect } from 'react'
-import { Button, StatusBar, Text, View } from 'react-native'
-import { client } from '../App'
+import React from 'react'
+import { Button, StatusBar, Text, ScrollView } from 'react-native'
 import { OverrideThemeProvider } from 'fitworld-common'
 import gql from 'graphql-tag'
-import {useQuery} from '@apollo/react-hooks'
+import { ApolloProvider, useQuery } from '@apollo/react-hooks'
+import AuthGet from '../AuthGet'
+import AsyncStorage from "@react-native-community/async-storage"
+import BottomNavigation from "../navigations/BottomNavigation";
 
-const GET_TOKEN = gql`{ token @client }`;
-const GET_PERSONS = gql`{
-    allPersons {
-        id
-        name
-        gender
-    }
-}`
+
+
 
 const HomeScreen = () => {
-  const {data} = useQuery(GET_TOKEN);
-  const { data: personData } = useQuery(GET_PERSONS)
-
   return (
     <>
       <StatusBar backgroundColor="orange"/>
-      <View style={ { flex: 1, alignItems: 'center', justifyContent: 'center' } }>
-        <Text>Home Screen</Text>
-        <Text>{data !== undefined ? data.token : null}</Text>
-        <Text>{JSON.stringify(personData, null , 4)}</Text>
-
-      </View>
+      <ScrollView>
+        <Button title={'clear the cache'} onPress={() => AsyncStorage.clear()}/>
+        <Text style={{fontSize: 40, textAlign: 'center'}}>Home Screen</Text>
+        <AuthGet/>
+          {/*<BottomNavigation/>*/}
+      </ScrollView>
     </>
   )
 }
