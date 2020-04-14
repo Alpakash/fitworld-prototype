@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import axios from 'axios'
 import { Text, View } from 'react-native'
-import _ from 'lodash'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 
