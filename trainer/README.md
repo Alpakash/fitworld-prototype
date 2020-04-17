@@ -274,7 +274,7 @@ body {
 ### `index.js`
 
 ```js
-import './main.scss'; // Tell Webpack to pick-up the styles from main.scss
+import './main.sass'; // Tell Webpack to pick-up the styles from main.sass
 ```
 
 ## Post-Processing CSS

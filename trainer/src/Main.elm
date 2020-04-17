@@ -1,10 +1,12 @@
-module Main exposing (main)
+port module Main exposing (main)
 
 import Browser exposing (UrlRequest(..))
 import Browser.Navigation as Nav
 import Html exposing (Html, a, br, button, div, h1, text)
 import Html.Attributes exposing (class, href)
 import Html.Events exposing (onClick)
+import Json.Decode as D exposing (field)
+import Json.Encode as E
 import List exposing (concat)
 import Url
 import Url.Parser as Url exposing ((</>), Parser)
@@ -41,16 +43,32 @@ urlParser =
         ]
 
 
+
+-- Model
+
+
 type alias Model =
     { navKey : Nav.Key
     , page : Page
+    , token : String
     }
 
 
-init : () -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
+
+-- Init
+
+
+init : E.Value -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
 init flags url key =
     ( { navKey = key
       , page = urlToPage url
+      , token =
+            case D.decodeValue decoder flags of
+                Ok token ->
+                    token
+
+                Err e ->
+                    D.errorToString e
       }
     , Cmd.none
     )
@@ -59,6 +77,11 @@ init flags url key =
 type Msg
     = LinkClicked UrlRequest
     | UrlChange Url.Url
+    | SetToken
+
+
+
+-- Update
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -81,39 +104,69 @@ update msg model =
             , Cmd.none
             )
 
+        SetToken ->
+            ( { model | token = "hello" }
+            , setToken "hello"
+            )
 
-view : Model -> Browser.Document Msg
+
+
+-- View
+
+
 view model =
-    { title = "Example app"
+    { title = "Hello app"
     , body =
-        [
-            div []
+        [ div []
             [ h1 [] [ text "Our awesome app" ]
-               , case model.page of
-                   Index ->
-                       text "Index!"
+            , case model.page of
+                Index ->
+                    text "Index!"
 
-                   Cats ->
-                       text "Cats!"
+                Cats ->
+                    text "Cats!"
 
-                   User userId ->
-                       text
-                       <| "User with id: " ++ String.fromInt userId
-               , br [] []
-               , viewLink "/cats" "cats"
-               , br [] []
-               , viewLink "/" "home"
+                User userId ->
+                    text <|
+                        "User with id: "
+                            ++ String.fromInt userId
+            , br [] []
+            , viewLink "/cats" "cats"
+            , br [] []
+            , viewLink "/" "home"
+            , button [ onClick SetToken ] [ text "hi" ]
             ]
-
         ]
-
     }
 
 
 viewLink link name =
-    a [href link, class "link"] [text (name)]
+    a [ href link, class "link" ] [ text name ]
 
-main : Program () Model Msg
+
+
+-- Json encode and decode
+
+
+encode model =
+    ( "token", E.string model.token )
+
+
+decoder =
+    field "token" D.string
+
+
+
+-- Ports
+
+
+port setToken : String -> Cmd msg
+
+
+
+-- Program
+
+
 main =
     Browser.application
         { init = init
