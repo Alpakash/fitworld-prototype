@@ -237,38 +237,40 @@ module.exports = {
 
       // "postcss" loader applies autoprefixer to our CSS.
       // "css" loader resolves paths in CSS and adds assets as dependencies.
-      // `MiniCSSExtractPlugin` extracts styles into CSS
-      // files. If you use code splitting, async bundles will have their own separate CSS chunk file.
+      // "style" loader turns CSS into JS modules that inject <style> tags.
+      // In production, we use a plugin to extract that CSS to a file, but
+      // in development "style" loader enables hot editing of CSS.
       // By default we support CSS Modules with the extension .module.css
       {
-        test: /\.css$/,
-        exclude: /\.module\.css$/,
+        test: /\.s[ac]ss$/i,
         use: [
-          MiniCssExtractPlugin.loader,
+          require.resolve('style-loader'),
           {
             loader: require.resolve('css-loader'),
             options: {
-              importLoaders: 1,
-              sourceMap: shouldUseSourceMap
+              importLoaders: 1
             }
           },
-          {
-            loader: require.resolve('postcss-loader'),
-            options: {
-              // Necessary for external CSS imports to work
-              // https://github.com/facebook/create-react-app/issues/2677
-              ident: 'postcss',
-              plugins: () => [
-                require('postcss-flexbugs-fixes'),
-                autoprefixer({
-                  flexbox: 'no-2009'
-                })
-              ]
-            }
-          }
+          require.resolve('sass-loader')
         ]
       },
-
+      {
+        exclude: [
+          /\.html$/,
+          /\.js$/,
+          /\.elm$/,
+          /\.css$/,
+          /\.scss$/,
+          /\.sass$/,
+          /\.json$/,
+          /\.svg$/
+        ],
+        loader: require.resolve('url-loader'),
+        options: {
+          limit: 10000,
+          name: 'static/media/[name].[hash:8].[ext]'
+        }
+      },
       {
         exclude: [
           /\.html$/,

@@ -9,6 +9,12 @@
   height: inherit;
 }
 
+$blue: lighten(#002fff, 20);
+
+.link {
+  color: $blue;
+}
+
 body {
   font-family: 'Source Sans Pro', 'Trebuchet MS', 'Lucida Grande', 'Bitstream Vera Sans', 'Helvetica Neue', sans-serif;
   margin: 0;
