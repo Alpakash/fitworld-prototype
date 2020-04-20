@@ -15,10 +15,8 @@ class App extends React.Component<any, any> {
   };
 
   componentDidMount(): void {
-    Promise.all([
-      // AsyncStorage.clear(),
+
       client.setupClient()
-    ])
       .then(x => {
         // let token = ""; // get out of cache/state, since at this point it is persisted
         // axios.defaults.headers = {
@@ -28,21 +26,6 @@ class App extends React.Component<any, any> {
       })
       .catch(err => console.log(err))
   }
-
-      /*
-          1. Component: IntroProcess
-               - Intro
-               - Init
-                   - Locatie toestemming
-                   - Maak account aan (token creation)
-                   - Accepted, let's go!
-                          - turn state IntroCompleted: true
-
-          2. Component: HomeScreen
-               - Load React-Router
-
-         3. In App.tsx, IntroCompleted: true -> show HomeScreen component
-      */
 
   render() {
     if (!this.state.cachePersisted) {
@@ -96,7 +79,6 @@ class GraphQLClient {
     return this.client
   }
 }
-
 
 export const client = new GraphQLClient();
 
