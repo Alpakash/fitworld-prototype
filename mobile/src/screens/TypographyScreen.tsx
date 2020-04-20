@@ -1,15 +1,49 @@
 import React from 'react';
 import {
-    H1, H1Bold, H1BoldItalic, H1Italic, H1Light, H1LightItalic,
+    BodyText,
+    ButtonText,
+    H1,
+    H1Bold,
+    H1BoldItalic,
+    H1Italic,
+    H1Light,
+    H1LightItalic,
     H1Subtitle,
-    H2, H2Bold, H2BoldItalic, H2Italic, H2Light, H2LightItalic,
+    H2,
+    H2Bold,
+    H2BoldItalic,
+    H2Italic,
+    H2Light,
+    H2LightItalic,
     H2Subtitle,
-    H3, H3Bold, H3BoldItalic, H3Italic, H3Light, H3LightItalic,
+    H3,
+    H3Bold,
+    H3BoldItalic,
+    H3Italic,
+    H3Light,
+    H3LightItalic,
     H3Subtitle,
-    H4, H4Bold, H4BoldItalic, H4Italic, H4Light, H4LightItalic,
+    H4,
+    H4Bold,
+    H4BoldItalic,
+    H4Italic,
+    H4Light,
+    H4LightItalic,
     H4Subtitle,
-    H5, H5Bold, H5BoldItalic, H5Italic, H5Light, H5LightItalic, H5Subtitle,
-    H6, H6Bold, H6BoldItalic, H6Italic, H6Light, H6LightItalic, H6Subtitle
+    H5,
+    H5Bold,
+    H5BoldItalic,
+    H5Italic,
+    H5Light,
+    H5LightItalic,
+    H5Subtitle,
+    H6,
+    H6Bold,
+    H6BoldItalic,
+    H6Italic,
+    H6Light,
+    H6LightItalic,
+    H6Subtitle,
 } from "../components/typography/Typography";
 import { ScrollView } from "react-native";
 
@@ -64,6 +98,9 @@ const TypographyScreen = () => {
             <H4LightItalic>H4LightItalic</H4LightItalic>
             <H5LightItalic>H5LightItalic</H5LightItalic>
             <H6LightItalic>H6LightItalic</H6LightItalic>
+
+            <ButtonText>Button</ButtonText>
+            <BodyText>Body text Body text Body text Body text Body text Body text Body text Body text </BodyText>
         </ScrollView>
     );
 };
