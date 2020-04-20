@@ -6,6 +6,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs'
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import SplashScreen from "../screens/SplashScreen";
+import TypographyScreen from "../screens/TypographyScreen";
 
 const Tab = createBottomTabNavigator();
 
@@ -32,6 +33,15 @@ const AppNavigation = () => {
                                                  tabBarLabel: "Splash",
                                                  tabBarIcon: ({color, size}) => (
                                                      <MaterialCommunityIcons name={"image-filter-vintage"} color={color} size={size}/>
+                                                 )
+                                             }}/> : null}
+
+                {authenticated ? <Tab.Screen name={"Typography"}
+                                             component={TypographyScreen}
+                                             options={{
+                                                 tabBarLabel: "Typography",
+                                                 tabBarIcon: ({color, size}) => (
+                                                     <MaterialCommunityIcons name={"pen"} color={color} size={size}/>
                                                  )
                                              }}/> : null}
               </Tab.Navigator>
