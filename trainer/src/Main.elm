@@ -12,39 +12,32 @@ import Url
 import Url.Parser as Url exposing ((</>), Parser)
 
 
+
+-- ROUTING
+
+
 type Page
     = Index
     | Cats
-    | User Int
 
 
 urlToPage : Url.Url -> Page
 urlToPage url =
-    -- We start with our URL
     url
-        -- Send it through our URL parser (located below)
         |> Url.parse urlParser
-        -- And if it didn't match any known pages, return Index
         |> Maybe.withDefault Index
 
 
 urlParser : Parser (Page -> a) a
 urlParser =
-    -- We try to match one of the following URLs
     Url.oneOf
-        -- Url.top matches root (i.e. there is nothing after 'https://example.com')
         [ Url.map Index Url.top
-
-        -- Url.s matches URLs ending with some string, in our case '/cats'
         , Url.map Cats (Url.s "cats")
-
-        -- Again, Url.s matches a string. </> matches a '/' in the URL, and Url.int matches any integer and "returns" it, so that the user page value gets the user ID
-        , Url.map User (Url.s "user" </> Url.int)
         ]
 
 
 
--- Model
+-- MODEL
 
 
 type alias Model =
@@ -55,7 +48,7 @@ type alias Model =
 
 
 
--- Init
+-- INIT
 
 
 init : E.Value -> Url.Url -> Nav.Key -> ( Model, Cmd Msg )
@@ -81,7 +74,7 @@ type Msg
 
 
 
--- Update
+-- UPDATE
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -111,41 +104,92 @@ update msg model =
 
 
 
--- View
+-- VIEW
+
+
+isAuthTokenSet : Model -> Bool
+isAuthTokenSet model =
+    String.length model.token > 0
 
 
 view model =
-    { title = "Hello app"
+    { title = "Fitworld - " ++ titleHandler model
     , body =
         [ div []
-            [ h1 [] [ text "Our awesome app" ]
-            , case model.page of
-                Index ->
-                    text "Index!"
-
-                Cats ->
-                    text "Cats!"
-
-                User userId ->
-                    text <|
-                        "User with id: "
-                            ++ String.fromInt userId
-            , br [] []
-            , viewLink "/cats" "cats"
-            , br [] []
-            , viewLink "/" "home"
-            , button [ onClick SetToken ] [ text "hi" ]
+            [ div [ class "nav-container" ]
+                [ viewNavLink "/cats" "cats"
+                , viewNavLink "/" "home"
+                ]
+            , div [ class "page-container" ] [ pageHandler model ]
+            , h1 [] [ text "Some footer thing here" ]
             ]
         ]
     }
 
 
-viewLink link name =
-    a [ href link, class "link" ] [ text name ]
+viewUnauthenticated =
+    text "You are unauthenticated for this page."
+
+
+viewPage page authenticated =
+    if authenticated then
+        page
+
+    else
+        viewUnauthenticated
+
+
+pageHandler model =
+    let
+        authentication =
+            isAuthTokenSet model
+
+        noAuthentication =
+            True
+    in
+    case model.page of
+        Index ->
+            viewPage (viewIndex model) authentication
+
+        Cats ->
+            viewPage (viewCats model) noAuthentication
 
 
 
--- Json encode and decode
+-- TITLE
+
+
+titleHandler model =
+    case model.page of
+        Index ->
+            "Home"
+
+        Cats ->
+            "Cats"
+
+
+
+-- RENDER PAGES
+
+
+viewIndex model =
+    text "Hi from index!"
+
+
+viewCats model =
+    text "Hi from cats!"
+
+
+
+-- HELPERS
+
+
+viewNavLink link name =
+    a [ href link, class "nav-link" ] [ text name ]
+
+
+
+-- JSON ENCODE/DECODE
 
 
 encode model =
@@ -157,14 +201,14 @@ decoder =
 
 
 
--- Ports
+-- PORTS
 
 
 port setToken : String -> Cmd msg
 
 
 
--- Program
+-- PROGRAM
 
 
 main =

@@ -6,10 +6,18 @@ const cacheKey = "fitworld-trainer-cache";
 
 const cache = {
   set: (val) => {
-    return localStorage.setItem(cacheKey, JSON.stringify(Object.assign({}, cache.get(), val)));
+    const obj = localStorage.setItem(cacheKey, JSON.stringify(Object.assign({}, cache.get(), val)));
+    if (!obj) return {
+      token: ""
+    };
+    return obj;
   },
   get: () => {
-    return JSON.parse(localStorage.getItem(cacheKey));
+    const obj = JSON.parse(localStorage.getItem(cacheKey));
+    if (!obj) return {
+      token: ""
+    };
+    return obj;
   }
 };
 
