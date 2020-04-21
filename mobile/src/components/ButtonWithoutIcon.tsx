@@ -1,20 +1,27 @@
 import React from 'react';
 import styled from 'styled-components';
-import { Button } from "react-native";
+import { GestureResponderEvent, TouchableHighlight } from "react-native";
+import { ButtonText } from "./typography/Typography";
 
-const StyledButton = styled(Button)`
-    color: yellow;
+const StyledButton = styled(TouchableHighlight)`
+    padding: 5px 0;
+    background-color: #212121;
+    border-radius: 5px;
+    align-items: center;
 `;
 
 interface IButtonProps {
-    title: string;
-    click: any;
+    color?: string;
+    click: (event: GestureResponderEvent) => void;
+    width: number;
 }
 
-const ButtonWithoutIcon: React.FC<IButtonProps> = (props: any) => {
+const ButtonWithoutIcon: React.FC<IButtonProps> = (props) => {
     return (
         <>
-            <StyledButton title={props.title} onPress={props.click}/>
+            <StyledButton style={{width: props.width}} onPress={props.click}>
+                <ButtonText>{props.children}</ButtonText>
+            </StyledButton>
         </>
     );
 };

@@ -1,11 +1,13 @@
 import React, { useContext, useState } from 'react'
-import { Button, Text, View } from 'react-native'
+import { Button, Text, TouchableHighlight, View } from 'react-native'
 import styled, { ThemeContext } from 'styled-components'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import { client } from '../App'
 import { magicString, postRequest } from '../AuthPost'
 import AppNavigation from "../navigations/AppNavigation";
+import ButtonWithoutIcon from "../components/ButtonWithoutIcon";
+import { ButtonText } from "../components/typography/Typography";
 
 const GET_TOKEN = gql`{ token @client }`;
 
@@ -41,8 +43,9 @@ const IntroScreen = ({ navigation }: any) => {
                 Ut suscipit molestie feugiat. Ut varius in ante at elementum. Donec et erat mollis, vulputate
                 odio a, tempus eros. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
                 posuere</Text>
-            <Button title={ 'continue to init page' }
-                    onPress={ () => setIntroSteps({ firstStepComplete: true }) }/>
+            <ButtonWithoutIcon width={ 125 } click={ () => setIntroSteps({ firstStepComplete: true }) }>
+                Continue
+            </ButtonWithoutIcon>
         </View>;
 
     const renderIntroSecondStep = () =>
@@ -50,11 +53,10 @@ const IntroScreen = ({ navigation }: any) => {
             <Text>- Initializing stuff</Text>
             <Text>- Creating account</Text>
             <Text>- Getting things ready</Text>
-            <Text/>
-            <Text>introFirstStep: { JSON.stringify(introSteps.firstStepComplete) }</Text>
-            <Text>introSecondStep: { JSON.stringify(introSteps.secondStepComplete) }</Text>
-            <Text>introComplete: { JSON.stringify(introSteps.introComplete) }</Text>
-            <Button title={ "Go to home screen" } onPress={ () => initializing() }/>
+
+            <ButtonWithoutIcon click={() => initializing()} width={200}>
+                <ButtonText>Go to home screen</ButtonText>
+            </ButtonWithoutIcon>
         </View>;
 
     const initializing = () => {
