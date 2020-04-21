@@ -1,5 +1,5 @@
 import React, { useContext, useState } from 'react'
-import { Button, Text, TouchableHighlight, View } from 'react-native'
+import { Text, View } from 'react-native'
 import styled, { ThemeContext } from 'styled-components'
 import { useQuery } from '@apollo/react-hooks'
 import gql from 'graphql-tag'
@@ -43,7 +43,8 @@ const IntroScreen = ({ navigation }: any) => {
                 Ut suscipit molestie feugiat. Ut varius in ante at elementum. Donec et erat mollis, vulputate
                 odio a, tempus eros. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices
                 posuere</Text>
-            <ButtonWithoutIcon width={ 125 } click={ () => setIntroSteps({ firstStepComplete: true }) }>
+            <ButtonWithoutIcon style={{alignSelf: 'flex-end', marginRight: 30, marginTop: 20}}
+                               click={ () => setIntroSteps({ firstStepComplete: true }) }>
                 Continue
             </ButtonWithoutIcon>
         </View>;
@@ -54,9 +55,10 @@ const IntroScreen = ({ navigation }: any) => {
             <Text>- Creating account</Text>
             <Text>- Getting things ready</Text>
 
-            <ButtonWithoutIcon click={() => initializing()} width={200}>
-                <ButtonText>Go to home screen</ButtonText>
-            </ButtonWithoutIcon>
+                <ButtonWithoutIcon click={ () => initializing() }
+                                   style={ { alignSelf: 'flex-start', marginLeft: 10, marginTop: 10}}>
+                    <ButtonText>Go to home screen</ButtonText>
+                </ButtonWithoutIcon>
         </View>;
 
     const initializing = () => {

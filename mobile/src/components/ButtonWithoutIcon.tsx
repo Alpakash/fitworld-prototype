@@ -4,7 +4,7 @@ import { GestureResponderEvent, TouchableHighlight } from "react-native";
 import { ButtonText } from "./typography/Typography";
 
 const StyledButton = styled(TouchableHighlight)`
-    padding: 5px 0;
+    padding: 5px 15px;
     background-color: #212121;
     border-radius: 5px;
     align-items: center;
@@ -13,13 +13,13 @@ const StyledButton = styled(TouchableHighlight)`
 interface IButtonProps {
     color?: string;
     click: (event: GestureResponderEvent) => void;
-    width: number;
+    style?: object;
 }
 
 const ButtonWithoutIcon: React.FC<IButtonProps> = (props) => {
     return (
         <>
-            <StyledButton style={{width: props.width}} onPress={props.click}>
+            <StyledButton style={{...props.style}} onPress={props.click}>
                 <ButtonText>{props.children}</ButtonText>
             </StyledButton>
         </>
