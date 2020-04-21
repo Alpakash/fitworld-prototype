@@ -2,8 +2,8 @@ port module Main exposing (main)
 
 import Browser exposing (UrlRequest(..))
 import Browser.Navigation as Nav
-import Html exposing (Html, a, br, button, div, h1, text)
-import Html.Attributes exposing (class, href)
+import Html exposing (Html, a, br, button, div, h1, input, label, text)
+import Html.Attributes exposing (class, href, placeholder, type_)
 import Html.Events exposing (onClick)
 import Json.Decode as D exposing (field)
 import Json.Encode as E
@@ -17,22 +17,23 @@ import Url.Parser as Url exposing ((</>), Parser)
 
 
 type Page
-    = Index
-    | Cats
+    = Login
+    | Dashboard
+    | NotFound
 
 
 urlToPage : Url.Url -> Page
 urlToPage url =
     url
         |> Url.parse urlParser
-        |> Maybe.withDefault Index
+        |> Maybe.withDefault NotFound
 
 
 urlParser : Parser (Page -> a) a
 urlParser =
     Url.oneOf
-        [ Url.map Index Url.top
-        , Url.map Cats (Url.s "cats")
+        [ Url.map Login Url.top
+        , Url.map Dashboard (Url.s "dashboard")
         ]
 
 
@@ -116,15 +117,17 @@ view model =
     { title = "Fitworld - " ++ titleHandler model
     , body =
         [ div []
-            [ div [ class "nav-container" ]
-                [ viewNavLink "/cats" "cats"
-                , viewNavLink "/" "home"
-                ]
-            , div [ class "page-container" ] [ pageHandler model ]
-            , h1 [] [ text "Some footer thing here" ]
+            [ viewNavigation
+            , pageHandler model
+
+            --, h1 [] [ text "Some footer thing here" ]
             ]
         ]
     }
+
+
+viewNavigation =
+    div [] []
 
 
 viewUnauthenticated =
@@ -148,11 +151,14 @@ pageHandler model =
             True
     in
     case model.page of
-        Index ->
-            viewPage (viewIndex model) authentication
+        Login ->
+            viewPage (viewLogin model) noAuthentication
 
-        Cats ->
-            viewPage (viewCats model) noAuthentication
+        Dashboard ->
+            viewPage (viewDashboard model) authentication
+
+        NotFound ->
+            viewPage (viewNotFound model) noAuthentication
 
 
 
@@ -161,23 +167,61 @@ pageHandler model =
 
 titleHandler model =
     case model.page of
-        Index ->
-            "Home"
+        Login ->
+            "Login"
 
-        Cats ->
-            "Cats"
+        Dashboard ->
+            "Dashboard"
+
+        NotFound ->
+            "Not Found"
 
 
 
 -- RENDER PAGES
 
 
-viewIndex model =
-    text "Hi from index!"
+viewLogin model =
+    div [ class "columns page-container is-vcentered is-centered" ]
+        [ div [ class "column is-two-fifths" ]
+            [ div [ class "has-background-light has-padding-1" ]
+                [ h1 [ class "title class-1" ] [ text "Login" ]
+                , renderTextInput "Email"
+                , renderPasswordInput "Password"
+                , button [ class "button is-primary " ] [ text "Login" ]
+                ]
+            ]
+        ]
 
 
-viewCats model =
-    text "Hi from cats!"
+renderTextInput labelText =
+    div [ class "field" ]
+        [ label [ class "label" ]
+            [ text labelText ]
+        , div [ class "control" ]
+            [ input [ class "input", placeholder ("Insert your " ++ labelText ++ ".."), type_ "text" ]
+                []
+            ]
+        ]
+
+
+renderPasswordInput labelText =
+    div [ class "field" ]
+        [ label [ class "label" ]
+            [ text labelText ]
+        , div [ class "control" ]
+            [ input [ class "input", placeholder ("Insert your " ++ labelText ++ ".."), type_ "password" ]
+                []
+            ]
+        ]
+
+
+viewDashboard model =
+    text "Hi from dashboard!"
+
+
+viewNotFound model =
+    text "404 Not found"
 
 
 
