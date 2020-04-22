@@ -23,7 +23,7 @@ export interface IIntroSteps {
     introComplete?: boolean;
 }
 
-const IntroScreen = ({ navigation }: any) => {
+const IntroScreen = () => {
     const { data: tokenData } = useQuery(GET_TOKEN);
     const theme = useContext(ThemeContext);
     const authenticated = (tokenData !== undefined);
