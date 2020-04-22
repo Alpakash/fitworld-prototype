@@ -11,6 +11,8 @@ const HomeScreen = () => {
             <Button title={ 'clear the cache' } onPress={ () => AsyncStorage.clear() }/>
             <AuthGet/>
             <Toggle/>
+
+
         </ScrollView>
     )
 };

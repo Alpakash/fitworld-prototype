@@ -1,9 +1,9 @@
-import React, { useRef, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Animated, Dimensions, PanResponder, Platform, View } from 'react-native'
 import styled from 'styled-components';
+const { width } = Dimensions.get("window");
 import Button from "./Button";
 
-const width = Math.round(Dimensions.get('window').width);
 
 const Metrics = {
     containerWidth: width - 30,
@@ -39,9 +39,9 @@ width: ${ Metrics.switchWidth }px;
 const Toggle = (props: { parentScrollDisabled?: boolean, disableScroll?: boolean }) => {
     const [disableParentScroll, setDisableParentScroll] = useState(false);
     const [disablePanScroll, setDisablePanScroll] = useState(false);
-    const thresholdDistance = width - 8 - width / 2.4;
     const [selectedPosition, setSelectedPosition] = useState(0);
     const [posValue, setPosValue] = useState(0);
+    const thresholdDistance = width - 8 - width / 2.4;
     const position = useRef(new Animated.Value(0)).current;
 
 
@@ -73,7 +73,7 @@ const Toggle = (props: { parentScrollDisabled?: boolean, disableScroll?: boolean
             // Called when user releases all touches
             onPanResponderRelease: (evt, gestureState) => {
                 let finalValue = gestureState.dx + posValue;
-                setDisableParentScroll(true);
+                setDisableParentScroll(false);
                 setDisablePanScroll(true);
 
                 if (gestureState.dx > 0) {
@@ -114,7 +114,6 @@ const Toggle = (props: { parentScrollDisabled?: boolean, disableScroll?: boolean
             setPosValue(Platform.OS === "ios" ? -2 : 0);
         }, 100);
         setSelectedPosition(0);
-
     };
 
     const homeSelected = () => {
@@ -158,11 +157,15 @@ const Toggle = (props: { parentScrollDisabled?: boolean, disableScroll?: boolean
         }
     };
 
+    useEffect(() => {
+        setPosValue(posValue);
+    }, [posValue]);
+
     return (
         <Container>
-            <Button type="rocket"/>
-            <Button type="home"/>
-            <Button type="apple"/>
+            <Button type="rocket" onPress={() => rocketSelected()} />
+            <Button type="home" onPress={() => homeSelected()}/>
+            <Button type="apple" onPress={() => appleSelected()}/>
             <MultiSwitch
                 {...panResponder.panHandlers}
                 style={ {
