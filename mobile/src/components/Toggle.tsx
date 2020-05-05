@@ -1,184 +1,121 @@
-import React, { useEffect, useRef, useState } from 'react';
-import { Animated, Dimensions, PanResponder, Platform, View } from 'react-native'
-import styled from 'styled-components';
+import React, { Component } from 'react';
+import styled from "styled-components";
+import { Animated, Dimensions, Easing, TouchableOpacity, View } from "react-native";
+
 const { width } = Dimensions.get("window");
-import Button from "./Button";
-
-
-const Metrics = {
-    containerWidth: width - 30,
-    switchWidth: width / 2.7
-};
 
 const Container = styled(View)`
-width: ${ Metrics.containerWidth }px;
-height: 55px;
-flex-direction: row;
+width: ${ width}px;
+min-height: 50px;
+margin-top: 20px;
 background-color: lightgrey;
-border-color: lightgrey;
-align-items: center;
-justify-content: center;
-border-width: 1px;
-border-radius: 27.5px;
-`;
-
-const MultiSwitch = styled(Animated.View)`
+border-radius: 26px;
 flex-direction: row;
-position: absolute;
-top: 0;
-left: 0;
-background-color: white;
-border-radius: 28px;
-height: 53px;
-align-items: center;
-justify-content: center;
-width: ${ Metrics.switchWidth }px;
+justify-content: space-between;
+align-content: space-between;
 `;
 
+const Switch = styled(Animated.View)`
+background-color: blue;
+position: absolute;
+opacity: 0.5;
+border-radius: 26px;
+`;
 
-const Toggle = (props: { parentScrollDisabled?: boolean, disableScroll?: boolean }) => {
-    const [disableParentScroll, setDisableParentScroll] = useState(false);
-    const [disablePanScroll, setDisablePanScroll] = useState(false);
-    const [selectedPosition, setSelectedPosition] = useState(0);
-    const [posValue, setPosValue] = useState(0);
-    const thresholdDistance = width - 8 - width / 2.4;
-    const position = useRef(new Animated.Value(0)).current;
+const StyledButton = styled(TouchableOpacity)`
+flex:auto;
+max-width: 150px;
+padding: 10px;
+align-items: center;
+justify-content: center;
+`;
 
+// 1. op basis van de reference width de animation
+// done;
 
-    const panResponder = useRef(
-        PanResponder.create({
-            // Ask to be the responder
-            onStartShouldSetPanResponder: (evt, gestureState) => true,
-            onStartShouldSetPanResponderCapture: (evt, gestureState) => true,
-            onMoveShouldSetPanResponder: (evt, gestureState) => true,
-            onMoveShouldSetPanResponderCapture: (evt, gestureState) => true,
+// 2. de width aanpassen op basis van component text
+// done;
 
-            // Called when gesture starts
-            onPanResponderGrant: (evt, gestureState) => {
-                if (!disableParentScroll) {
-                    setDisablePanScroll(false);
-                    setDisableParentScroll(true);
-                }
-            },
-            // Called when the user is dragging
-            onPanResponderMove: (evt, gestureState) => {
-                let finalValue = gestureState.dx + posValue;
-                if (
-                    finalValue >= 0 &&
-                    finalValue <= thresholdDistance
-                )
-                    position.setValue(posValue + gestureState.dx);
-            },
-            onPanResponderTerminationRequest: (evt, gestureState) => true,
-            // Called when user releases all touches
-            onPanResponderRelease: (evt, gestureState) => {
-                let finalValue = gestureState.dx + posValue;
-                setDisableParentScroll(false);
-                setDisablePanScroll(true);
+// 3. de Animated.view shape en kleur veranderen op basis van reference animation
+//
 
-                if (gestureState.dx > 0) {
-                    if (finalValue >= 0 && finalValue <= 30) {
-                        rocketSelected();
-                    } else if (finalValue >= 30 && finalValue <= 121) {
-                        homeSelected();
-                    } else if (finalValue >= 121 && finalValue <= 280) {
-                        if (gestureState.dx > 0) {
-                            appleSelected();
-                        } else {
-                            homeSelected();
-                        }
-                    }
-                } else {
-                    if (finalValue >= 78 && finalValue <= 175) {
-                        homeSelected();
-                    } else if (finalValue >= -100 && finalValue <= 78) {
-                        rocketSelected();
-                    } else {
-                        appleSelected();
-                    }
-                }
-            },
-            onPanResponderTerminate: (evt, gestureState) => {},
-            onShouldBlockNativeResponder: (evt, gestureState) => {
-                return true;
-            },
-        }),
-    ).current;
+// 4. de Toggle ook 2D maken, gebruik de Y-as; example:
+// o o x o
+// o o
+// o x
 
-    const rocketSelected = () => {
-        Animated.timing(position, {
-            toValue: Platform.OS === "ios" ? -2 : 0,
-            duration: 100
-        }).start();
-        setTimeout(() => {
-            setPosValue(Platform.OS === "ios" ? -2 : 0);
-        }, 100);
-        setSelectedPosition(0);
+class Toggle extends Component {
+    references: any[] = [];
+    private widths: number[] = [];
+    private heights: number[] = [];
+
+    state = {
+        scrollAnim: new Animated.Value(0),
+        widthAnim: new Animated.Value(0),
+        heightAnim: new Animated.Value(0)
     };
 
-    const homeSelected = () => {
-        Animated.timing(position, {
-            toValue: Metrics.containerWidth / 2 - Metrics.switchWidth / 2,
-            duration: 100
-        }).start();
-
+    componentDidMount(): void {
         setTimeout(() => {
-            setPosValue(Metrics.containerWidth / 2 - Metrics.switchWidth / 2);
-        }, 100);
-        setSelectedPosition(1);
-    };
+            for (const ref of this.references) {
+                ref.measure((x: number, y: number, width: number, height: number) => {
+                    this.widths.push(width);
+                    this.heights.push(height);
+                    console.log(this.widths);
 
-    const appleSelected = () => {
-        Animated.timing(position, {
-            toValue:
-                Platform.OS === "ios"
-                    ? Metrics.containerWidth - Metrics.switchWidth
-                    : Metrics.containerWidth - Metrics.switchWidth - 2,
-            duration: 100
-        }).start();
-        setTimeout(() => {
-            setPosValue(Platform.OS === "ios"
-                ? Metrics.containerWidth - Metrics.switchWidth
-                : Metrics.containerWidth - Metrics.switchWidth - 2);
-        }, 100);
-        setSelectedPosition(2);
-    };
+                    this.setState({
+                       widthAnim: new Animated.Value(this.widths[0]),
+                       heightAnim: new Animated.Value(this.heights[0])
+                    });
+                });
+            }
+        }, 50);
+    }
 
-    const getStatus = () => {
-        switch (selectedPosition) {
-            case 0:
-                return "rocket";
-            case 1:
-                return "home";
-            case 2:
-                return "apple";
-            default:
-                return "question"
+
+
+    scroll = (index: number) => {
+        let sum = 0;
+
+        for (let i = 0; i < index; i++) {
+            sum += this.widths[i];
         }
+
+        Animated.timing(this.state.scrollAnim, {
+            toValue: sum,
+            duration: 200 * (index === 0 ? 1 : index),
+        }).start();
+
+        Animated.timing(this.state.widthAnim, {
+            toValue: this.widths[index],
+            easing: Easing.out(Easing.exp)
+        }).start();
     };
 
-    useEffect(() => {
-        setPosValue(posValue);
-    }, [posValue]);
+    render() {
+        if (!Array.isArray(this.props.children)) {
+            throw new Error('You need to pass 2 or more children in the Toggle component.');
+        }
 
-    return (
-        <Container>
-            <Button type="rocket" onPress={() => rocketSelected()} />
-            <Button type="home" onPress={() => homeSelected()}/>
-            <Button type="apple" onPress={() => appleSelected()}/>
-            <MultiSwitch
-                {...panResponder.panHandlers}
-                style={ {
-                    elevation: 4,
-                    shadowOpacity: 0.31,
-                    shadowRadius: 10,
-                    shadowColor: 'grey',
-                    transform: [{ translateX: position }]
-                } }>
-                <Button type={`${getStatus()}`} active={true} />
-            </MultiSwitch>
-        </Container>
-    );
-};
+        return (
+            <>
+                <Container>
+                    {
+                        this.props.children.map((x, index) =>
+                            <StyledButton ref={ (ref: any) => {
+                                this.references.push(ref);
+                            } } onPress={ () => this.scroll(index) } key={index}>
+                                { x }
+                            </StyledButton>)
+                    }
+                    <Switch style={ {
+                        transform: [{ translateX: this.state.scrollAnim }],
+                        width: this.state.widthAnim,
+                        height: this.state.heightAnim } }/>
+                </Container>
+            </>
+        );
+    }
+}
 
 export default Toggle;
