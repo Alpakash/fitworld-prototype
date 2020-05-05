@@ -6,7 +6,7 @@
     "android": "react-native run-android",
     "ios": "react-native run-ios",
     "tsc": "npx tsc",
-    "start": "cd ../common && npm run build && cd ../mobile && npm i fitworld-common@latest",
+    "start": "cd ../common && npm i && cd ../web && npm i && cd ../common && npm run build && cd ../mobile && npm i fitworld-common@latest",
     "poststart": "react-native run-android"
   },
   "dependencies": {
@@ -25,7 +25,7 @@
     "@types/styled-components": "^5.0.1",
     "apollo-cache-persist": "^0.1.1",
     "axios": "^0.19.2",
-    "fitworld-common": "^1.137.0",
+    "fitworld-common": "^1.140.0",
     "lodash": "^4.17.15",
     "metro-config": "latest",
     "react": "latest",
