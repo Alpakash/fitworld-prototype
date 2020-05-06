@@ -4,6 +4,7 @@ import AuthGet from '../AuthGet'
 import AsyncStorage from '@react-native-community/async-storage'
 import Toggle from '../components/Toggle'
 import styled from 'styled-components'
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const ToggleText = styled(Text)`
 color: ${ props => props.active ? 'white' : 'grey' };
@@ -23,9 +24,8 @@ const HomeScreen = () => {
 
             return [
               (myIndex: number) => <ToggleText
-                active={ myIndex === firstIndexActive}>Hiiiiiiiiii</ToggleText>,
-              (myIndex: number) => <ToggleText
-                active={ myIndex === obj.currentIndex.index }>Hey</ToggleText>
+                active={ myIndex === firstIndexActive}><MaterialCommunityIcons name={"view-stream"} size={30}/></ToggleText>,
+              (myIndex: number) => <ToggleText active={ myIndex === obj.currentIndex.index }><MaterialCommunityIcons name={"view-sequential"} size={30}/></ToggleText>
             ]
           }
         }

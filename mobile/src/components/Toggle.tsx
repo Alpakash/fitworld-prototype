@@ -12,6 +12,7 @@ margin-top: 20px;
 background-color: lightgrey;
 border-radius: 26px;
 flex-direction: row;
+box-shadow: 100px 2px 5px rgba(33, 33, 33, 0.15);
 `
 
 const Switch = styled(Animated.View)`
@@ -21,7 +22,7 @@ border-radius: 26px;
 `
 
 const StyledButton = styled(TouchableOpacity)`
-padding: 10px;
+padding: 0 20px;
 align-items: center;
 justify-content: center;
 z-index: 1;
