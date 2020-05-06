@@ -20,7 +20,6 @@ border-radius: 26px;
 `
 
 const StyledButton = styled(TouchableOpacity)`
-flex:auto;
 padding: 10px;
 align-items: center;
 justify-content: center;
@@ -51,6 +50,7 @@ class Toggle extends Component {
         ref.measure((x: number, y: number, width: number, height: number) => {
           this.widths.push(width)
           this.heights.push(height)
+
           // calculate the total sum of this.widths
           this.containerWidth = _.sum(this.widths)
 
@@ -97,7 +97,7 @@ class Toggle extends Component {
 
    return (
       <>
-        <Container>
+        <Container style={{width: this.containerWidth}}>
           {
             children
               .map((x: any, index: number) =>

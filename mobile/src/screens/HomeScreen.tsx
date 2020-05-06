@@ -23,7 +23,7 @@ const HomeScreen = () => {
 
             return [
               (myIndex: number) => <ToggleText
-                active={ myIndex === firstIndexActive}>Hi</ToggleText>,
+                active={ myIndex === firstIndexActive}>Hiiiiiiiiii</ToggleText>,
               (myIndex: number) => <ToggleText
                 active={ myIndex === obj.currentIndex.index }>Hey</ToggleText>
             ]
