@@ -1,10 +1,10 @@
 import React from 'react';
-import styled from 'styled-components';
-import { GestureResponderEvent, TouchableHighlight } from "react-native";
-import { ButtonText } from "./typography/Typography";
+import styled from 'styled-components/native';
+import {GestureResponderEvent, TouchableHighlight} from "react-native";
+import {ButtonText} from "../typography/Typography";
 
 const StyledButton = styled(TouchableHighlight)`
-    padding: 5px 15px;
+    padding: 10px 24px;
     background-color: #212121;
     border-radius: 5px;
     align-items: center;

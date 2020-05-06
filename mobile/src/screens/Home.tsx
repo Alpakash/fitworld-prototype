@@ -1,14 +1,14 @@
 import React from 'react'
-import { Button, ScrollView, StatusBar,Text } from 'react-native'
+import {Button, ScrollView, StatusBar, Text} from 'react-native'
 import AuthGet from '../AuthGet'
 import AsyncStorage from "@react-native-community/async-storage"
-import Toggle from "../components/Toggle";
+import Toggle from "../components/buttons/Toggle";
 
-const HomeScreen = () => {
+const Home = () => {
     return (
         <ScrollView>
             <StatusBar backgroundColor="orange"/>
-            <Button title={ 'clear the cache' } onPress={ () => AsyncStorage.clear() }/>
+            <Button title={'clear the cache'} onPress={() => AsyncStorage.clear()}/>
             <AuthGet/>
             <Toggle>
                 <Text>hiiiii</Text>
@@ -21,4 +21,4 @@ const HomeScreen = () => {
     )
 };
 
-export default HomeScreen
+export default Home

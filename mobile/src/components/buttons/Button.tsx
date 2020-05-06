@@ -1,6 +1,6 @@
 import React from 'react';
-import styled from "styled-components";
-import { Dimensions, GestureResponderEvent, TouchableOpacity, View } from "react-native";
+import styled from "styled-components/native";
+import {Dimensions, GestureResponderEvent, TouchableOpacity, View} from "react-native";
 import Icon from 'react-native-vector-icons/FontAwesome';
 
 const width = Math.round(Dimensions.get('window').width);
@@ -14,7 +14,7 @@ justify-content: center;
 align-items: center;
 `;
 
-const Button = (props: {type: string, active?: boolean, onPress?: (event: GestureResponderEvent) => void}) => {
+const Button = (props: { type: string, active?: boolean, onPress?: (event: GestureResponderEvent) => void }) => {
     return (
         <View>
             <ButtonStyle onPress={props.onPress}>

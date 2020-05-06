@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import styled from "styled-components";
-import { Animated, Dimensions, Easing, TouchableOpacity, View } from "react-native";
+import React, {Component} from 'react';
+import styled from "styled-components/native";
+import {Animated, Dimensions, Easing, TouchableOpacity, View} from "react-native";
 
-const { width } = Dimensions.get("window");
+const {width} = Dimensions.get("window");
 
 const Container = styled(View)`
-width: ${ width}px;
+width: ${width}px;
 min-height: 50px;
 margin-top: 20px;
 background-color: lightgrey;
@@ -46,14 +46,13 @@ justify-content: center;
 
 class Toggle extends Component {
     references: any[] = [];
-    private widths: number[] = [];
-    private heights: number[] = [];
-
     state = {
         scrollAnim: new Animated.Value(0),
         widthAnim: new Animated.Value(0),
         heightAnim: new Animated.Value(0)
     };
+    private widths: number[] = [];
+    private heights: number[] = [];
 
     componentDidMount(): void {
         setTimeout(() => {
@@ -64,14 +63,13 @@ class Toggle extends Component {
                     console.log(this.widths);
 
                     this.setState({
-                       widthAnim: new Animated.Value(this.widths[0]),
-                       heightAnim: new Animated.Value(this.heights[0])
+                        widthAnim: new Animated.Value(this.widths[0]),
+                        heightAnim: new Animated.Value(this.heights[0])
                     });
                 });
             }
         }, 50);
     }
-
 
 
     scroll = (index: number) => {
@@ -102,16 +100,17 @@ class Toggle extends Component {
                 <Container>
                     {
                         this.props.children.map((x, index) =>
-                            <StyledButton ref={ (ref: any) => {
+                            <StyledButton ref={(ref: any) => {
                                 this.references.push(ref);
-                            } } onPress={ () => this.scroll(index) } key={index}>
-                                { x }
+                            }} onPress={() => this.scroll(index)} key={index}>
+                                {x}
                             </StyledButton>)
                     }
-                    <Switch style={ {
-                        transform: [{ translateX: this.state.scrollAnim }],
+                    <Switch style={{
+                        transform: [{translateX: this.state.scrollAnim}],
                         width: this.state.widthAnim,
-                        height: this.state.heightAnim } }/>
+                        height: this.state.heightAnim
+                    }}/>
                 </Container>
             </>
         );
