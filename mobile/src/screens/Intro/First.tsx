@@ -9,6 +9,9 @@ import {BaseContainer} from "../../components/BaseContainer";
 import {Logo} from "../../components/Logo";
 import {H6Bold} from "../../components/typography/Typography";
 import {Divider} from "../../components/Divider";
+import LottieView from "lottie-react-native";
+import AnimatedLottieView from "lottie-react-native";
+import {BackgroundAnimation} from "./BackgroundAnimation";
 
 interface Props {
     setIntroSteps: (step: IIntroSteps) => void
@@ -30,6 +33,7 @@ class First extends Component<Props, {}> {
             <Container>
                 <Background width="100%" height="100%"/>
                 <View style={{alignSelf: "center"}}>
+                    {/*<BackgroundAnimation/>*/}
                     <Logo style={{alignSelf: "center"}}/>
                     <Paper elevation={4}>
                         <H6Bold>
