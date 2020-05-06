@@ -9,75 +9,74 @@ import SplashScreen from "./screens/SplashScreen";
 import IntroScreen from "./screens/IntroScreen";
 
 class App extends React.Component<any, any> {
-  state = {
-    cachePersisted: false,
-    // isSignedOut: null
-  };
+    state = {
+        cachePersisted: false,
+        // isSignedOut: null
+    };
 
-  componentDidMount(): void {
-
-      client.setupClient()
-      .then(x => {
-        // let token = ""; // get out of cache/state, since at this point it is persisted
-        // axios.defaults.headers = {
-        //   Authorization: `Bearer ${token}`
-        // }
-        this.setState({ cachePersisted: true })
-      })
-      .catch(err => console.log(err))
-  }
-
-  render() {
-    if (!this.state.cachePersisted) {
-      return <SplashScreen/>
-    } else {
-      return (
-        <ApolloProvider client={ client.getClient() }>
-          <IntroScreen/>
-        </ApolloProvider>
-      )
+    componentDidMount(): void {
+        client.setupClient()
+            .then(x => {
+                // let token = ""; // get out of cache/state, since at this point it is persisted
+                // axios.defaults.headers = {
+                //   Authorization: `Bearer ${token}`
+                // }
+                this.setState({ cachePersisted: true })
+            })
+            .catch(err => console.log(err))
     }
-  }
+
+    render() {
+        if (!this.state.cachePersisted) {
+            return <SplashScreen/>
+        } else {
+            return (
+                <ApolloProvider client={ client.getClient() }>
+                    <IntroScreen/>
+                </ApolloProvider>
+            )
+        }
+    }
 }
 
 export default App
 
 class GraphQLClient {
-  static whitelist = ['token'];
-  public client: any = undefined;
+    static whitelist = ['token'];
+    public client: any = undefined;
 
-  setupClient = async () => {
-    const cache = new InMemoryCache();
-    await persistCache({
-      cache,
-      //@ts-ignore
-      storage:
-        {
-          ...AsyncStorage,
-          getItem: async function(key: string, callback?: (error?: Error, result?: string) => void): Promise<string | null> {
-            const obj = JSON.parse((await AsyncStorage.getItem(key)) ?? "{}") as unknown as { ROOT_QUERY: object };
-            if (!obj) throw new Error('failed to get cache');
-            const whitelistedObj = JSON.stringify({
-              ROOT_QUERY: _.pick(obj.ROOT_QUERY, GraphQLClient.whitelist)
-            });
-            await AsyncStorage.setItem(key, whitelistedObj);
-            return whitelistedObj;
-          }
-        }
-    });
+    setupClient = async () => {
+        const cache = new InMemoryCache();
+        await persistCache({
+            cache,
+            //@ts-ignore
+            storage:
+                {
+                    ...AsyncStorage,
+                    getItem: async function (key: string, callback?: (error?: Error, result?: string) => void): Promise<string | null> {
+                        const obj = JSON.parse((await AsyncStorage.getItem(key)) ?? "{}") as unknown as { ROOT_QUERY: object };
+                        if (!obj) throw new Error('failed to get cache');
+                        const whitelistedObj = JSON.stringify({
+                            ROOT_QUERY: _.pick(obj.ROOT_QUERY, GraphQLClient.whitelist)
+                        });
+                        await AsyncStorage.setItem(key, whitelistedObj);
+                        return whitelistedObj;
+                    }
+                }
+        });
 
-    this.client = new ApolloClient({
-      uri: 'https://api.fitworld.io/graphql',
-      cache,
-      clientState: {
-        resolvers: {}
-      }
-    })
-  };
+        this.client = new ApolloClient({
+            uri: 'https://api.fitworld.io/graphql',
+            cache,
+            clientState: {
+                resolvers: {}
+            }
+        })
+    };
 
-  getClient = (): ApolloClient<any> => {
-    return this.client
-  }
+    getClient = (): ApolloClient<any> => {
+        return this.client
+    }
 }
 
 export const client = new GraphQLClient();

@@ -51,9 +51,9 @@ const IntroScreen = () => {
 
     const renderIntroSecondStep = () =>
         <View>
-            <Text>- Initializing stuff</Text>
-            <Text>- Creating account</Text>
-            <Text>- Getting things ready</Text>
+            <Text>1. Initializing stuff</Text>
+            <Text>2. Creating account</Text>
+            <Text>3. Getting things ready</Text>
 
                 <ButtonWithoutIcon click={ () => initializing() }
                                    style={ { alignSelf: 'flex-start', marginLeft: 10, marginTop: 10}}>
