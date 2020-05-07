@@ -30,6 +30,8 @@ z-index: 1;
 // o o
 // o x
 
+// Testing trigger TeamCity
+
 class Toggle extends Component<{ style?: object, elevation?: number, margin?: number}, {}> {
     state = {
         scrollAnim: new Animated.Value(0),
