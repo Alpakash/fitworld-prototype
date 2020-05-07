@@ -1,16 +1,14 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { Animated, Dimensions, Easing, ScrollView, Text, TouchableOpacity, View } from 'react-native'
+import { Animated, Dimensions, Easing, TouchableOpacity, View } from 'react-native'
 import _ from 'lodash'
 
 const { width } = Dimensions.get('window')
 
-const Container = styled(View)<{width: number}>`
+const Container = styled(View)<{ width: number }>`
+background-color: ${ ({ theme }) => theme.background.white };
 width: ${ props => props.width }px;
-min-height: 50px;
-margin-top: 20px;
-background-color: lightgrey;
-border-radius: 26px;
+border-radius: 25px;
 flex-direction: row;
 `
 
@@ -21,7 +19,7 @@ border-radius: 26px;
 `
 
 const StyledButton = styled(TouchableOpacity)`
-padding: 0 20px;
+padding: 5px 20px;
 align-items: center;
 justify-content: center;
 z-index: 1;
@@ -32,7 +30,7 @@ z-index: 1;
 // o o
 // o x
 
-class Toggle extends Component {
+class Toggle extends Component<{ style?: object, elevation?: number, margin?: number}, {}> {
     state = {
         scrollAnim: new Animated.Value(0),
         widthAnim: new Animated.Value(0),
@@ -93,7 +91,12 @@ class Toggle extends Component {
 
         return (
             <>
-                <Container width={ this.containerWidth }>
+                <Container width={ this.containerWidth }
+                           style={ {
+                               ...this.props.style,
+                               elevation: this.props.elevation ?? 4,
+                               margin: this.props.margin ?? 10
+                           } }>
                     {
                         children
                             .map((x: any, index: number) =>
