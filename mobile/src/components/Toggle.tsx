@@ -25,13 +25,7 @@ justify-content: center;
 z-index: 1;
 `
 
-// De Toggle ook 2D maken, gebruik de Y-as; example:
-// o o x o
-// o o
-// o x
-
-// Testing trigger TeamCity
-
+// De Toggle Component ook 2D maken met een Y-as
 class Toggle extends Component<{ style?: object, elevation?: number, margin?: number}, {}> {
     state = {
         scrollAnim: new Animated.Value(0),
@@ -71,15 +65,19 @@ class Toggle extends Component<{ style?: object, elevation?: number, margin?: nu
             currentIndex: { index }
         })
 
+        // calculate the total width of the components before the clicked components
         for (let i = 0; i < index; i++) {
             sum += this.widths[i]
         }
 
+        // set the value to the calculated width in const sum
+        // the switch component will scroll to this position
         Animated.timing(this.state.scrollAnim, {
             toValue: sum,
             duration: 200 * (index === 0 ? 1 : index)
         }).start()
 
+        // set value the width of the clicked component
         Animated.timing(this.state.widthAnim, {
             toValue: this.widths[index],
             easing: Easing.out(Easing.ease),
@@ -89,6 +87,7 @@ class Toggle extends Component<{ style?: object, elevation?: number, margin?: nu
 
     render() {
         if (typeof this.props.children !== 'function') throw new Error('children should be function')
+        // if (false) throw new Error('Toggle should have an array with 2 children');
         const children = this.props.children({ currentIndex: this.state.currentIndex })
 
         return (
@@ -114,6 +113,7 @@ class Toggle extends Component<{ style?: object, elevation?: number, margin?: nu
                     }
 
                     <Switch style={ {
+                        // the Switch Component gets animated on the X-as with an animated value
                         transform: [{ translateX: this.state.scrollAnim }],
                         width: this.state.widthAnim,
                         height: this.state.heightAnim
