@@ -1,39 +1,42 @@
 import React from 'react'
-import { ApolloProvider } from '@apollo/react-hooks'
-import { InMemoryCache } from 'apollo-cache-inmemory'
-import { persistCache } from 'apollo-cache-persist'
-import ApolloClient from 'apollo-boost'
-import AsyncStorage from '@react-native-community/async-storage'
-import _ from 'lodash'
-import SplashScreen from "./screens/SplashScreen";
-import IntroScreen from "./screens/IntroScreen";
+import {ApolloProvider} from '@apollo/react-hooks'
+import Splash from "./screens/Splash";
+import Intro from "./screens/Intro/Intro";
+import {client} from "./GraphQLClient";
+import {Net} from "./util/Net";
+import axios from "axios";
+import {ThemeProvider} from "styled-components/native";
+import theme from "fitworld-common/lib/common/src/theming/theme";
 
 class App extends React.Component<any, any> {
     state = {
         cachePersisted: false,
-        // isSignedOut: null
     };
 
     componentDidMount(): void {
         client.setupClient()
-            .then(x => {
-                // let token = ""; // get out of cache/state, since at this point it is persisted
-                // axios.defaults.headers = {
-                //   Authorization: `Bearer ${token}`
-                // }
-                this.setState({ cachePersisted: true })
+            .then(stored => {
+                Net.http = axios.create({
+                    ...Net.baseConf,
+                    headers: {
+                        Authorization: `Bearer ${stored.token}`
+                    }
+                });
+                this.setState({cachePersisted: true})
             })
             .catch(err => console.log(err))
     }
 
     render() {
         if (!this.state.cachePersisted) {
-            return <SplashScreen/>
+            return <Splash/>
         } else {
             return (
-                <ApolloProvider client={ client.getClient() }>
-                    <IntroScreen/>
-                </ApolloProvider>
+                <ThemeProvider theme={theme}>
+                    <ApolloProvider client={client.getClient()}>
+                        <Intro/>
+                    </ApolloProvider>
+                </ThemeProvider>
             )
         }
     }
