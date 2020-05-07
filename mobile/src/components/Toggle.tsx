@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { Animated, Dimensions, Easing, TouchableOpacity, View } from 'react-native'
+import { Animated, Dimensions, Easing, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import _ from 'lodash'
 
 const { width } = Dimensions.get('window')
@@ -12,7 +12,6 @@ margin-top: 20px;
 background-color: lightgrey;
 border-radius: 26px;
 flex-direction: row;
-box-shadow: 100px 2px 5px rgba(33, 33, 33, 0.15);
 `
 
 const Switch = styled(Animated.View)`
@@ -90,10 +89,7 @@ class Toggle extends Component {
 
     render() {
         if (typeof this.props.children !== 'function') throw new Error('children should be function')
-        const children = this.props.children({
-            context: 'something that would indicate X item is active and thus should change its styling',
-            currentIndex: this.state.currentIndex
-        })
+        const children = this.props.children({ currentIndex: this.state.currentIndex })
 
         return (
             <>
@@ -118,6 +114,25 @@ class Toggle extends Component {
                         height: this.state.heightAnim
                     } }/>
                 </Container>
+
+                {/* box-shadow does not work, yelp plz */}
+                <ScrollView style={{
+                    backgroundColor: 'red',
+                    elevation:4,
+                    shadowOffset: { width: 5, height: 5 },
+                    shadowColor: "grey",
+                    shadowOpacity: 0.5,
+                    shadowRadius: 10,
+                }}>
+                    <Text style={{
+                        backgroundColor: 'red',
+                        elevation:4,
+                        shadowOffset: { width: 5, height: 5 },
+                        shadowColor: "grey",
+                        shadowOpacity: 0.5,
+                        shadowRadius: 10,
+                    }}>Hello</Text>
+                </ScrollView>
             </>
         )
     }

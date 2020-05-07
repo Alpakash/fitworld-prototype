@@ -11,27 +11,32 @@ color: ${ props => props.active ? 'white' : 'grey' };
 `
 
 const HomeScreen = () => {
-  return (
-    <ScrollView>
-      <StatusBar backgroundColor="orange"/>
-      <Button title={ 'clear the cache' } onPress={ () => AsyncStorage.clear() }/>
-      <AuthGet/>
-      <Toggle>
-        {
-          (obj: { currentIndex: any }) => {
-            // If currentIndex is an object when onPress (scroll method is not clicked yet) load the currentIndex state
-            const firstIndexActive = (typeof obj.currentIndex === 'number') ? obj.currentIndex : obj.currentIndex.index;
+    return (
+        <ScrollView>
+            <StatusBar backgroundColor="orange"/>
+            <Button title={ 'clear the cache' } onPress={ () => AsyncStorage.clear() }/>
+            <AuthGet/>
+            <Toggle>
+                {
+                    (obj: { currentIndex: any }) => {
+                        // on ComponentDidMount the currentIndex got a default number from state
+                        // when clicked the object changes and gets a nested index inside currentIndex
+                        const firstIndexActiveOnLoad = (typeof obj.currentIndex === 'number') ? obj.currentIndex : obj.currentIndex.index;
 
-            return [
-              (myIndex: number) => <ToggleText
-                active={ myIndex === firstIndexActive}><MaterialCommunityIcons name={"view-stream"} size={30}/></ToggleText>,
-              (myIndex: number) => <ToggleText active={ myIndex === obj.currentIndex.index }><MaterialCommunityIcons name={"view-sequential"} size={30}/></ToggleText>
-            ]
-          }
-        }
-      </Toggle>
-    </ScrollView>
-  )
+                        return [
+                            (myIndex: number) => <ToggleText
+                                active={ myIndex === firstIndexActiveOnLoad }><MaterialCommunityIcons
+                                name={ "view-sequential" } size={ 30 }/></ToggleText>,
+                            (myIndex: number) => <ToggleText
+                                active={ myIndex === obj.currentIndex.index }><MaterialCommunityIcons
+                                name={ "view-stream" }
+                                size={ 30 }/></ToggleText>
+                        ]
+                    }
+                }
+            </Toggle>
+        </ScrollView>
+    )
 }
 
 export default HomeScreen
