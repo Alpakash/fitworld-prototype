@@ -5,7 +5,7 @@ import _ from 'lodash'
 
 const { width } = Dimensions.get('window')
 
-const Container = styled(View)`
+const Container = styled(View)<{width: number}>`
 width: ${ props => props.width }px;
 min-height: 50px;
 margin-top: 20px;
@@ -114,25 +114,6 @@ class Toggle extends Component {
                         height: this.state.heightAnim
                     } }/>
                 </Container>
-
-                {/* box-shadow does not work, yelp plz */}
-                <ScrollView style={{
-                    backgroundColor: 'red',
-                    elevation:4,
-                    shadowOffset: { width: 5, height: 5 },
-                    shadowColor: "grey",
-                    shadowOpacity: 0.5,
-                    shadowRadius: 10,
-                }}>
-                    <Text style={{
-                        backgroundColor: 'red',
-                        elevation:4,
-                        shadowOffset: { width: 5, height: 5 },
-                        shadowColor: "grey",
-                        shadowOpacity: 0.5,
-                        shadowRadius: 10,
-                    }}>Hello</Text>
-                </ScrollView>
             </>
         )
     }

@@ -6,8 +6,8 @@ import Toggle from '../components/Toggle'
 import styled from 'styled-components'
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-const ToggleText = styled(Text)`
-color: ${ props => props.active ? 'white' : 'grey' };
+const ToggleText = styled(Text)<{ active: boolean }>`
+  color: ${ props => props.active ? 'white' : 'grey' };
 `
 
 const HomeScreen = () => {
@@ -40,10 +40,3 @@ const HomeScreen = () => {
 }
 
 export default HomeScreen
-
-
-// const activeChecker = (Elem: any, ElemProps: any) => (myIndex: any, currentIndex: any) => {
-//   const active = myIndex === currentIndex
-//   return React.createElement(Elem, {...ElemProps, active}, {});
-// }
-// activeChecker(Text, { style: { backgroundColor: 'black' }, children: <><Text>awdawds</Text></> }),
