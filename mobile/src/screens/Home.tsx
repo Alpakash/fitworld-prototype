@@ -5,24 +5,18 @@ import AsyncStorage from '@react-native-community/async-storage'
 import Toggle from '../components/Toggle'
 import styled from 'styled-components'
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+import InputWithIcon from "../components/InputWithIcon";
 
 const ToggleText = styled(Text)<{ active: boolean }>`
   color: ${ props => props.active ? 'white' : 'grey' };
 `
 
 const Home = () => {
-    const [value, onChangeText] = React.useState('Useless Placeholder');
-
     return (
         <ScrollView>
             <StatusBar backgroundColor="orange"/>
             <Button title={ 'clear the cache' } onPress={ () => AsyncStorage.clear() }/>
             <AuthGet/>
-            <TextInput
-                style={{ backgroundColor: 'white', width: 250, height: 40, borderColor: 'gray', borderRadius: 20, elevation: 7 }}
-                onChangeText={text => onChangeText(text)}
-                value={value}
-            />
             <Toggle>
                 {
                     (obj: { currentIndex: any}) => {
@@ -44,6 +38,8 @@ const Home = () => {
                     }
                 }
             </Toggle>
+
+            <InputWithIcon/>
         </ScrollView>
     )
 }
