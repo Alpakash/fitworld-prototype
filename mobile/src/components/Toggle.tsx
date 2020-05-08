@@ -87,8 +87,8 @@ class Toggle extends Component<{ style?: object, elevation?: number, margin?: nu
 
     render() {
         if (typeof this.props.children !== 'function') throw new Error('children should be function')
-        // if (false) throw new Error('Toggle should have an array with 2 children');
         const children = this.props.children({ currentIndex: this.state.currentIndex })
+        if (children.length < 2) throw new Error('Toggle should have an array with 2 children');
 
         return (
             <>

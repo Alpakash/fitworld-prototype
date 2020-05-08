@@ -35,8 +35,7 @@ const Home = () => {
                                 <ToggleText
                                     active={ myIndex === firstIndexActiveOnLoad }>
                                     <MaterialCommunityIcons
-                                    name={ "view-sequential" } size={ 30 }/></ToggleText>
-                                ,
+                                    name={ "view-sequential" } size={ 30 }/></ToggleText>,
                             (myIndex: number) => <ToggleText
                                 active={ myIndex === obj.currentIndex.index }><MaterialCommunityIcons
                                 name={ "view-stream" }
