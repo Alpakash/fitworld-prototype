@@ -11,6 +11,7 @@ enum FontFamily {
 }
 
 enum FontSizes {
+    Hero = 36,
     H1 = 28,
     H2 = 24,
     H3 = 22,
@@ -46,6 +47,11 @@ class FontTypography {
 
     isBlack = () => {
         this.style.color = "#000";
+        return this;
+    };
+
+    isHeroSize = () => {
+        this.style.fontSize = FontSizes.Hero;
         return this;
     };
 
@@ -149,11 +155,12 @@ class FontTypography {
         return this;
     };
 
-    r = (props: { children: any }) => {
+    r = (props: { children: any, style?: object }) => {
         return React.createElement(Text, {
             ...props,
             style: {
-                ...this.style
+                ...this.style,
+                ...props.style ?? {}
             },
         }, props.children);
     }
@@ -163,10 +170,24 @@ const t = (cb: (e: FontTypography) => FontTypography) => {
     return cb(new FontTypography()).r;
 };
 
+// Hero
+export const HeroWhite = t(e => e
+    .isRegular()
+    .isHeroSize()
+    .isWhite()
+);
+
+export const HeroBoldWhite = t(e => e
+    .isBold()
+    .isHeroSize()
+    .isWhite()
+);
+
 // H1 Typography
 export const H1 = t(e => e
     .isRegular()
     .isH1Size());
+
 
 export const H1Subtitle = t(e => e
     .isH1SubtitleSize());
@@ -174,6 +195,13 @@ export const H1Subtitle = t(e => e
 export const H1Bold = t(e => e
     .isH1Size()
     .isBold());
+
+export const H1BoldWhite = t(e => e
+    .isBold()
+    .isH1Size()
+    .isWhite()
+);
+
 
 export const H1BoldItalic = t(e => e
     .isH1Size()

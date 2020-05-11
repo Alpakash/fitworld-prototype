@@ -28,7 +28,7 @@ export class BackgroundAnimation extends Component {
                 speed={reverse ? -0.8 : 0.8}
                 ref={bgAnimation1 => this.bgAnimation1 = bgAnimation1 ?? undefined}
                 loop={false}
-                source={require('../../assets/lottie/shape_1_orange.json')}
+                source={require('../../assets/lottie/background_effect_1.json')}
                 onAnimationFinish={() => {
                     this.setState({
                         reverse: !reverse
