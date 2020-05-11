@@ -340,6 +340,3 @@ export const ButtonText = t(e => e
 
 export const BodyText = t(e => e
     .isBodySize());
-
-
-

@@ -96,7 +96,8 @@ class Toggle extends Component<{ style?: object, elevation?: number, margin?: nu
                            style={ {
                                ...this.props.style,
                                elevation: this.props.elevation ?? 4,
-                               margin: this.props.margin ?? 10
+                               marginTop: this.props.margin ?? 10,
+                               marginBottom: this.props.margin ?? 10
                            } }>
                     {
                         children

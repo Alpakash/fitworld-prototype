@@ -50,7 +50,6 @@ const Intro = () => {
                     });
 
                     setIntroSteps({
-                        firstStepComplete: false,
                         secondStepComplete: true,
                         introComplete: true
                     });
@@ -60,11 +59,7 @@ const Intro = () => {
 
     // If the firstStep is not complete, the introSteps are not complete and no tokenData
     if (!introSteps.firstStepComplete && !introSteps.introComplete && !authenticated) {
-        return (
-            <First
-                setIntroSteps={setIntroSteps}
-            />
-        );
+        return (<First setIntroSteps={setIntroSteps} />);
         // If the firstStep is complete, the introSteps are not complete and no tokenData
     } else if (introSteps.firstStepComplete && !introSteps.introComplete && !authenticated) {
         return renderIntroSecondStep();

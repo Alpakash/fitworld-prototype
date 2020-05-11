@@ -3,6 +3,7 @@ import { Dimensions, TextInput, View } from "react-native";
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
+// get the width of the screen window
 const { width } = Dimensions.get('window');
 
 const Container = styled(View)`
@@ -11,8 +12,6 @@ background-color: white;
 flex-direction: row;
 align-items: center;
 border-radius: 25px;
-margin: 10px ${width/10}px;
-width: 311px;
 `;
 
 const SearchInput = styled(TextInput)`
@@ -25,13 +24,17 @@ flex: 7;
 
 const InputWithIcon = () => {
     const [value, onChangeText] = React.useState('');
+    const [focusInput, setFocusInput] = React.useState(false);
 
     return (
         <Container style={ { elevation: 4 } }>
+            {/* something to fill up space */}
             <View style={ { flex: 1 } }/>
-            <Icon style={ { flex: 2 } } name="search" size={ 25 } color="lightgrey"/>
+            {focusInput ? null : <Icon style={ { flex: 2 } } name="search" size={ 25 } color="lightgrey"/> }
             <SearchInput
                 onChangeText={ text => onChangeText(text) }
+                onFocus={() => setFocusInput(true)}
+                onBlur={() => setFocusInput(false)}
                 placeholder={ 'Search here...' }
                 value={ value }
             />
