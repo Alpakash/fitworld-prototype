@@ -1,5 +1,5 @@
 import React from 'react'
-import { Button, ScrollView, StatusBar, Text } from 'react-native'
+import { Button, ScrollView, StatusBar, Text, View } from 'react-native'
 import AuthGet from '../AuthGet'
 import AsyncStorage from '@react-native-community/async-storage'
 import Toggle from '../components/Toggle'
@@ -34,8 +34,11 @@ const Home = () => {
     return (
         <ScrollView>
             <StatusBar backgroundColor="orange"/>
-            <Button title={ 'clear the cache' } onPress={ () => AsyncStorage.clear() }/>
+            <View style={ { marginBottom: 30 } }>
+                <Button title={ 'clear the cache' } onPress={ () => AsyncStorage.clear() }/>
             <AuthGet/>
+            </View>
+
             <Row>
                 <Col size={ 1 }/>
                 <Col size={ 10 }>
@@ -43,6 +46,7 @@ const Home = () => {
                 </Col>
                 <Col size={ 1 }/>
             </Row>
+
             <Row>
                 <Col size={ 1 }/>
                 <Col size={ 5 }>
@@ -50,16 +54,15 @@ const Home = () => {
                         { ToggleData }
                     </Toggle>
                 </Col>
-                <Col size={ 1 }/>
-                <Col size={ 4 }>
+
+                <Col size={ 5 }>
                     <Toggle>
-                        {/*Should turn into Filter Component*/}
+                        {/*Should turn into Filter Component*/ }
                         { ToggleData }
                     </Toggle>
                 </Col>
                 <Col size={ 1 }/>
             </Row>
-
         </ScrollView>
     )
 }

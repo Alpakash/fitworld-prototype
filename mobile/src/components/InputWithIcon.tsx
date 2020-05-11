@@ -1,13 +1,10 @@
 import React from 'react';
-import { Dimensions, TextInput, View } from "react-native";
+import { Text, TextInput, View } from "react-native";
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
-
-// get the width of the screen window
-const { width } = Dimensions.get('window');
+import Col from "./layout/Col";
 
 const Container = styled(View)`
-flex: 1;
 background-color: white;
 flex-direction: row;
 align-items: center;
@@ -19,7 +16,6 @@ background-color: white;
 border-color: gray;
 font-size: 20px;
 border-radius: 25px;
-flex: 7;
 `;
 
 const InputWithIcon = () => {
@@ -27,18 +23,25 @@ const InputWithIcon = () => {
     const [focusInput, setFocusInput] = React.useState(false);
 
     return (
-        <Container style={ { elevation: 4 } }>
-            {/* something to fill up space */}
-            <View style={ { flex: 1 } }/>
-            {focusInput ? null : <Icon style={ { flex: 2 } } name="search" size={ 25 } color="lightgrey"/> }
-            <SearchInput
-                onChangeText={ text => onChangeText(text) }
-                onFocus={() => setFocusInput(true)}
-                onBlur={() => setFocusInput(false)}
-                placeholder={ 'Search here...' }
-                value={ value }
-            />
-        </Container>
+        <>
+            <Container style={ { elevation: 4 } }>
+                {/* something to fill up space */ }
+                <Col size={ 1 }/>
+                { focusInput ? null : <Icon style={ { flex: 2 } } name="search" size={ 25 } color="lightgrey"/> }
+                <SearchInput
+                    onChangeText={ text => onChangeText(text) }
+                    onFocus={ () => setFocusInput(true) }
+                    onBlur={ () => setFocusInput(false) }
+                    placeholder={ 'Search here...' }
+                    value={ value }
+                />
+                <Col size={ 3 }/>
+            </Container>
+            <View style={{alignSelf: 'center', marginTop: 5, marginBottom: 10}}>
+                { value.includes("yo") ? <Text>You typed in "yo" somewhere!</Text> :
+                    <Text>String doesn't contain the word "yo"</Text> }
+            </View>
+        </>
     );
 };
 
