@@ -20,9 +20,9 @@ border-radius: 25px;
 
 const InputWithIcon = () => {
     const [value, onChangeText] = React.useState('');
-    const [focusInput, setFocusInput] = React.useState(false);
-    const iconOpacity = useRef(new Animated.Value(0)).current;
+    const iconOpacity = useRef(new Animated.Value(1)).current;
     const scrollAnim = useRef(new Animated.Value(0)).current;
+
     const fadeOut = () => {
         Animated.timing(iconOpacity, {
             toValue: 0,
@@ -53,9 +53,7 @@ const InputWithIcon = () => {
                 {/* something to fill up space */ }
                 <Col size={ 1 }/>
                 <Animated.View style={{opacity: iconOpacity, flex: 2}}>
-                    { focusInput ? null :
                         <Icon name="search" size={ 25 } color="lightgrey"/>
-                    }
                 </Animated.View>
 
                 <Animated.View style={{
