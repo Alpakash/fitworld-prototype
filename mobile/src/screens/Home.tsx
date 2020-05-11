@@ -56,10 +56,8 @@ const Home = () => {
                 </Col>
 
                 <Col size={ 5 }>
-                    <Toggle>
                         {/*Should turn into Filter Component*/ }
-                        { ToggleData }
-                    </Toggle>
+                        <Text>Filter Component</Text>
                 </Col>
                 <Col size={ 1 }/>
             </Row>
