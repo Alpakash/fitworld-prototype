@@ -155,7 +155,7 @@ class FontTypography {
         return this;
     };
 
-    r = (props: { children: any, style?: object }) => {
+    r = (props: { children?: any, style?: object }) => {
         return React.createElement(Text, {
             ...props,
             style: {

@@ -6,9 +6,9 @@ import Toggle from '../components/buttons/Toggle'
 import styled from 'styled-components'
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
-const ToggleText = styled(Text)`
-color: ${ props => props.active ? 'white' : 'grey' };
-`
+const ToggleText = styled(Text)<{active: boolean}>`
+  color: ${ props => props.active ? 'white' : 'grey' };
+`;
 
 const Home = () => {
     return (
@@ -37,7 +37,7 @@ const Home = () => {
             </Toggle>
         </ScrollView>
     )
-}
+};
 
 export default Home
 

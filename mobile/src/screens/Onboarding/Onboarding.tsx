@@ -148,7 +148,7 @@ class Onboarding extends Component<DefaultProps<{}>> {
                 }
             </Entry>
         );
-    }
+    };
 
     render() {
         return (
