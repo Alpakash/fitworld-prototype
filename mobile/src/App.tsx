@@ -25,6 +25,7 @@ class App extends React.Component<any, any> {
 
     render() {
         if (!this.state.cachePersisted) {
+            // splash screen on android-level covers us so no need to render anything
             return null;
         } else {
             return (
