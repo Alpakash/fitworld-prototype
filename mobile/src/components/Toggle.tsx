@@ -72,16 +72,14 @@ class Toggle extends Component<{ style?: object, elevation?: number, margin?: nu
 
         // set the value to the calculated width in const sum
         // the switch component will scroll to this position
-        Animated.timing(this.state.scrollAnim, {
-            toValue: sum,
-            duration: 200 * (index === 0 ? 1 : index)
+        Animated.spring(this.state.scrollAnim, {
+            toValue: sum
         }).start()
 
         // set value the width of the clicked component
-        Animated.timing(this.state.widthAnim, {
+        Animated.spring(this.state.widthAnim, {
             toValue: this.widths[index],
-            easing: Easing.out(Easing.ease),
-            duration: 200 * (index === 0 ? 1 : index)
+            damping: 15
         }).start()
     }
 

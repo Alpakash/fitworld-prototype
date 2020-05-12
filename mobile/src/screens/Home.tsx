@@ -42,7 +42,7 @@ const Home = () => {
             <Row>
                 <Col size={ 1 }/>
                 <Col size={ 10 }>
-                    <InputWithIcon/>
+                    <InputWithIcon icon={"search"} placeholder={"Search here..."}/>
                 </Col>
                 <Col size={ 1 }/>
             </Row>

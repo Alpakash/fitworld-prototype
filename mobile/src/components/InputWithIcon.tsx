@@ -18,44 +18,49 @@ font-size: 20px;
 border-radius: 25px;
 `;
 
-const InputWithIcon = () => {
+interface Props {
+    placeholder: string;
+    icon: string;
+}
+
+const InputWithIcon: React.FC<Props> = (props) => {
     const [value, onChangeText] = React.useState('');
     const iconOpacity = useRef(new Animated.Value(1)).current;
     const scrollAnim = useRef(new Animated.Value(0)).current;
 
+    // use spring based animation
     const fadeOut = () => {
-        Animated.timing(iconOpacity, {
-            toValue: 0,
-            duration: 300
+        Animated.spring(iconOpacity, {
+            toValue: 0
         }).start()
 
-        Animated.timing(scrollAnim, {
+        Animated.spring(scrollAnim, {
             toValue: -60,
-            duration: 300
+            bounciness: 13
         }).start()
     };
 
     const fadeIn = () => {
-        Animated.timing(iconOpacity, {
-            toValue: 1,
-            duration: 300
+        Animated.spring(iconOpacity, {
+            toValue: 1
         }).start()
 
-        Animated.timing(scrollAnim, {
+        Animated.spring(scrollAnim, {
             toValue: 0,
-            duration: 300
+            bounciness: 0
         }).start()
     };
 
     return (
         <>
             <Container style={ { elevation: 4 } }>
-                {/* something to fill up space */ }
-                <Col size={ 1 }/>
-                <Animated.View style={{opacity: iconOpacity, flex: 2}}>
-                        <Icon name="search" size={ 25 } color="lightgrey"/>
+                {/* Empty space before the icon */}
+                <Col size={ 2 }/>
+                <Animated.View style={{opacity: iconOpacity}}>
+                        <Icon name={ props.icon } size={ 25 } color="lightgrey"/>
                 </Animated.View>
-
+                {/* Empty space after the icon */}
+                <Col size={ 3 }/>
                 <Animated.View style={{
                     transform: [{ translateX: scrollAnim }],
                 }}>
@@ -63,12 +68,15 @@ const InputWithIcon = () => {
                     onChangeText={ text => onChangeText(text) }
                     onFocus={fadeOut}
                     onBlur={fadeIn}
-                    placeholder={ 'Search here...' }
+                    placeholder={props.placeholder}
                     value={ value }
                 />
                 </Animated.View>
-                <Col size={ 3 }/>
+                {/* Empty space after the placeholder text */}
+                <Col size={ 7 }/>
             </Container>
+
+            {/* Dummy check for a word on Input field */}
             <View style={ { alignSelf: 'center', marginTop: 5, marginBottom: 10 } }>
                 { value.includes("yo") ? <Text>You typed in "yo" somewhere!</Text> :
                     <Text>String doesn't contain the word "yo"</Text> }
