@@ -3,10 +3,10 @@ import styled from 'styled-components'
 import { Animated, Dimensions, Easing, ScrollView, Text, TouchableOpacity, View } from 'react-native'
 import _ from 'lodash'
 
-const { width } = Dimensions.get('window')
+const {width} = Dimensions.get('window')
 
 const Container = styled(View)`
-width: ${ props => props.width }px;
+width: ${props => props.width }px;
 min-height: 50px;
 margin-top: 20px;
 background-color: lightgrey;
@@ -63,7 +63,6 @@ class Toggle extends Component {
             }
         }, 500)
     }
-
     scroll = (index: number) => {
         let sum = 0;
 
@@ -108,11 +107,11 @@ class Toggle extends Component {
                             )
                     }
 
-                    <Switch style={ {
-                        transform: [{ translateX: this.state.scrollAnim }],
+                    <Switch style={{
+                        transform: [{translateX: this.state.scrollAnim}],
                         width: this.state.widthAnim,
                         height: this.state.heightAnim
-                    } }/>
+                    }}/>
                 </Container>
 
                 {/* box-shadow does not work, yelp plz */}

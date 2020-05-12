@@ -1,8 +1,8 @@
 import React from 'react'
-import { Button, ScrollView, StatusBar, Text } from 'react-native'
+import {Button, ScrollView, StatusBar, Text} from 'react-native'
 import AuthGet from '../AuthGet'
 import AsyncStorage from '@react-native-community/async-storage'
-import Toggle from '../components/Toggle'
+import Toggle from '../components/buttons/Toggle'
 import styled from 'styled-components'
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
@@ -10,11 +10,11 @@ const ToggleText = styled(Text)`
 color: ${ props => props.active ? 'white' : 'grey' };
 `
 
-const HomeScreen = () => {
+const Home = () => {
     return (
         <ScrollView>
             <StatusBar backgroundColor="orange"/>
-            <Button title={ 'clear the cache' } onPress={ () => AsyncStorage.clear() }/>
+            <Button title={'clear the cache'} onPress={() => AsyncStorage.clear()}/>
             <AuthGet/>
             <Toggle>
                 {
@@ -39,7 +39,7 @@ const HomeScreen = () => {
     )
 }
 
-export default HomeScreen
+export default Home
 
 
 // const activeChecker = (Elem: any, ElemProps: any) => (myIndex: any, currentIndex: any) => {

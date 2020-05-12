@@ -45,9 +45,9 @@ import {
     H6LightItalic,
     H6Subtitle,
 } from "../components/typography/Typography";
-import { ScrollView } from "react-native";
+import {ScrollView} from "react-native";
 
-const TypographyScreen = () => {
+const Typography = () => {
     return (
         <ScrollView>
             <H1>H1</H1>
@@ -105,4 +105,4 @@ const TypographyScreen = () => {
     );
 };
 
-export default TypographyScreen;
+export default Typography;

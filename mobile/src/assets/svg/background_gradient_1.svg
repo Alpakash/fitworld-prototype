@@ -1,0 +1,7 @@
+<svg width="100%" preserveAspectRatio="xMinYMin slice" height="517" viewBox="0 0 375 517" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M375 117C375 422.5 172.5 413 0 516.5V117V0H375V117Z" fill="url(#paint0_linear)"/>
+    <linearGradient id="paint0_linear" x1="187.5" y1="0" x2="187.5" y2="516.5" gradientUnits="userSpaceOnUse">
+        <stop stop-color="#6e5773"/>
+        <stop offset="1" stop-color="#d45079"/>
+    </linearGradient>
+</svg>
