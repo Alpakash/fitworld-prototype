@@ -384,6 +384,3 @@ export const BodyText = t(e => e
 export const BodyTextBold = t(e => e
     .isBold()
     .isBodySize());
-
-
-
