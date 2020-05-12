@@ -4,12 +4,16 @@ import AsyncStorage from "@react-native-community/async-storage";
 import _ from "lodash";
 import {ApolloClient, HttpLink} from "apollo-boost";
 
-export interface ICache {
-    token: string | undefined;
-}
-
 class GraphQLClient {
-    static whitelist = ['token'];
+    static whitelist = [
+        "token",
+        "onboardingComplete"
+    ];
+    public static readonly defaultData = {
+        token: "",
+        onboardingComplete: false
+    } as { [key: string]: any };
+
     public client: any = undefined;
     public static readonly cacheKey = "fitworld-mobile";
 
@@ -33,7 +37,11 @@ class GraphQLClient {
             //@ts-ignore
             storage,
         });
-        const stored = JSON.parse((await storage.getItem(GraphQLClient.cacheKey)) ?? "{}").ROOT_QUERY as ICache;
+        const stored = JSON.parse((await storage.getItem(GraphQLClient.cacheKey)) ?? "{}").ROOT_QUERY as {
+            [key: string]: any;
+            token: string | undefined;
+            onboardingComplete: boolean | undefined;
+        };
 
         this.client = new ApolloClient({
             link: new HttpLink({
@@ -45,6 +53,24 @@ class GraphQLClient {
             cache,
             resolvers: []
         });
+
+        let vals = Object.keys(GraphQLClient.defaultData)
+            .map(x => stored[x] ?? GraphQLClient.defaultData[x]
+            );
+        let obj = {} as { [key: string]: any };
+        let a = Object.keys(GraphQLClient.defaultData);
+        for (let i = 0; i < vals.length; i++) {
+            obj[a[i]] = vals[i]
+        }
+
+        cache.writeData({
+            data: {
+                ...(
+                    obj
+                ),
+            },
+        });
+
 
         return stored;
     };

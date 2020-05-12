@@ -231,6 +231,12 @@ export const H2Bold = t(e => e
     .isH2Size()
     .isBold());
 
+export const H2BoldWhite = t(e => e
+    .isH2Size()
+    .isBold()
+    .isWhite()
+);
+
 export const H2BoldItalic = t(e => e
     .isH2Size()
     .isBoldItalic());
@@ -251,6 +257,12 @@ export const H2LightItalic = t(e => e
 export const H3 = t(e => e
     .isRegular()
     .isH3Size());
+
+export const H3White = t(e => e
+    .isRegular()
+    .isH3Size()
+    .isWhite()
+);
 
 export const H3Subtitle = t(e => e
     .isH3SubtitleSize());
@@ -367,6 +379,10 @@ export const ButtonText = t(e => e
     .isUppercase());
 
 export const BodyText = t(e => e
+    .isBodySize());
+
+export const BodyTextBold = t(e => e
+    .isBold()
     .isBodySize());
 
 
