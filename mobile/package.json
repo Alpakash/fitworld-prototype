@@ -1,5 +1,5 @@
 {
-  "name": "mobile",
+  "name": "fitworld",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -40,6 +40,7 @@
     "react-native-safe-area-context": "^0.7.3",
     "react-native-screens": "^2.1.0",
     "react-native-snap-carousel": "3.9.0",
+    "react-native-splash-screen": "^3.2.0",
     "react-native-svg": "^12.1.0",
     "react-native-switch-selector": "^2.0.4",
     "react-native-vector-icons": "^6.6.0",

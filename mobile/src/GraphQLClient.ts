@@ -71,7 +71,6 @@ class GraphQLClient {
             },
         });
 
-
         return stored;
     };
 

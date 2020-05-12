@@ -7,7 +7,7 @@ import axios from "axios";
 import {ThemeProvider} from "styled-components/native";
 import theme from "fitworld-common/lib/common/src/theming/theme";
 import AppNavigation from "./navigations/AppNavigation";
-
+import SplashScreen from 'react-native-splash-screen'
 
 class App extends React.Component<any, any> {
     state = {
@@ -17,14 +17,15 @@ class App extends React.Component<any, any> {
     componentDidMount(): void {
         client.setupClient()
             .then(stored => {
-                this.setState({cachePersisted: true})
+                this.setState({cachePersisted: true});
+                SplashScreen.hide()
             })
             .catch(err => console.log(err))
     }
 
     render() {
         if (!this.state.cachePersisted) {
-            return <Splash/>
+            return null;
         } else {
             return (
                 <ThemeProvider theme={theme}>
