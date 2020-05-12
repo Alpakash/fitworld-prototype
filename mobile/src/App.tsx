@@ -7,6 +7,7 @@ import {Net} from "./util/Net";
 import axios from "axios";
 import {ThemeProvider} from "styled-components/native";
 import theme from "fitworld-common/lib/common/src/theming/theme";
+import Home from "./screens/Home";
 
 class App extends React.Component<any, any> {
     state = {
@@ -34,7 +35,7 @@ class App extends React.Component<any, any> {
             return (
                 <ThemeProvider theme={theme}>
                     <ApolloProvider client={client.getClient()}>
-                        <Intro/>
+                        <Home/>
                     </ApolloProvider>
                 </ThemeProvider>
             )
