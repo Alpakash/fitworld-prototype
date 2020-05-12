@@ -1,72 +1,100 @@
-import React, {useState} from 'react'
-import {Text, View} from 'react-native'
+import React, {useRef, useState} from 'react'
+import {Animated, View} from 'react-native'
 import {useQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
-import AppNavigation from "../../navigations/AppNavigation";
 import ButtonWithoutIcon from "../../components/buttons/ButtonWithoutIcon";
-import {ButtonText} from "../../components/typography/Typography";
-import {client} from "../../GraphQLClient";
-import {magicString} from "../../util/magicString";
-import {postRequest} from "../../AuthPost";
-import IntroBackground from "../../assets/svg/intro-background.svg";
-import First from "./First";
+import {HeroBoldWhite, HeroWhite} from "../../components/typography/Typography";
+import {withTheme} from "styled-components";
+import {compose} from "recompose";
+import styled from "styled-components/native";
+import {BaseContainer} from "../../components/BaseContainer";
+import {DefaultProps} from "../../typings/DefaultProps";
+import Zero from "./explainations/Zero";
 
 const GET_TOKEN = gql`{ token @client }`;
 
-export interface IIntroSteps {
-    firstStepComplete?: null | boolean;
-    secondStepComplete?: null | boolean;
-    introComplete?: boolean;
-}
+const Container = styled(BaseContainer)`
+  flex: 1;
+  background-color: ${({theme}) => theme.palette.primary.main}
+`;
 
-const Intro = () => {
+const ExplainContainer = styled(BaseContainer)`
+  flex: 1;
+  background-color: ${({theme}) => theme.palette.info.main};
+  border-radius: 10px;
+`;
+
+const CarouselContainer = styled(Animated.View)`
+  flex: 1;
+  margin: 10px;
+`;
+
+const Intro = (props: DefaultProps<{}>) => {
     const {data: tokenData} = useQuery(GET_TOKEN);
     const authenticated = (tokenData !== undefined);
-    const [introSteps, setIntroSteps] = useState<IIntroSteps>({
-        firstStepComplete: null,
-        secondStepComplete: null,
-        introComplete: false
-    });
+    const [index, setIndex] = useState<number>(0);
 
-    const renderIntroSecondStep = () =>
-        <View>
-            <Text>1. Initializing stuff</Text>
-            <Text>2. Creating account</Text>
-            <Text>3. Getting things ready</Text>
+    const offsetAnim = useRef(new Animated.Value(0)).current;
 
-            <ButtonWithoutIcon click={() => initializing()}
-                               style={{alignSelf: 'flex-start', marginLeft: 10, marginTop: 10}}>
-                <ButtonText>Go to home screen</ButtonText>
-            </ButtonWithoutIcon>
-        </View>;
 
-    const initializing = () => {
-        postRequest('https://api.fitworld.io/auth/anon', {"magicString": `${magicString()}`})
-            .then(data => {
-                    client.getClient().writeData({
-                        data: {
-                            token: `${data.token}`
-                        }
-                    });
+    // const initializing = () => {
+    //     postRequest('https://api.fitworld.io/auth/anon', {"magicString": `${magicString()}`})
+    //         .then(data => {
+    //                 client.getClient().writeData({
+    //                     data: {
+    //                         token: `${data.token}`
+    //                     }
+    //                 });
+    //
+    //                 setIntroSteps({
+    //                     firstStepComplete: false,
+    //                     secondStepComplete: true,
+    //                     introComplete: true
+    //                 });
+    //             }
+    //         );
+    // };
 
-                    setIntroSteps({
-                        secondStepComplete: true,
-                        introComplete: true
-                    });
-                }
-            );
-    };
 
-    // If the firstStep is not complete, the introSteps are not complete and no tokenData
-    if (!introSteps.firstStepComplete && !introSteps.introComplete && !authenticated) {
-        return (<First setIntroSteps={setIntroSteps} />);
-        // If the firstStep is complete, the introSteps are not complete and no tokenData
-    } else if (introSteps.firstStepComplete && !introSteps.introComplete && !authenticated) {
-        return renderIntroSecondStep();
-        // if the introSteps are complete or tokenData available
-    } else if (introSteps.introComplete || authenticated) {
-        return <AppNavigation/>
-    } else return null;
+    return (
+        <Container>
+            <View style={{alignSelf: "center", paddingTop: 50, paddingBottom: 10}}>
+                <HeroWhite style={{alignSelf: "center"}}>
+                    Welcome to
+                </HeroWhite>
+                <HeroBoldWhite style={{alignSelf: "center"}}>Fitworld</HeroBoldWhite>
+            </View>
+            <CarouselContainer style={[{
+                marginLeft: offsetAnim
+            }]}>
+                <ExplainContainer>
+                    <Zero/>
+                </ExplainContainer>
+            </CarouselContainer>
+            <View style={{
+                flexDirection: "row",
+                paddingTop: 10,
+                paddingBottom: 10,
+                paddingRight: 10,
+                paddingLeft: 10,
+                justifyContent: "flex-end",
+            }}>
+                <ButtonWithoutIcon style={{
+                    alignSelf: "flex-end",
+                    backgroundColor: props.theme?.palette.secondary.main
+                }}
+                                   click={() => {
+                                       Animated.spring(offsetAnim, {
+                                           toValue: 400
+                                       }).start()
+                                   }}>
+                    Next
+                </ButtonWithoutIcon>
+            </View>
+        </Container>
+    );
 };
 
-export default Intro;
+export default compose(
+    withTheme
+)(Intro);
