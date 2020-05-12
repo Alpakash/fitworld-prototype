@@ -3306,10 +3306,10 @@ find-up@^4.1.0:
     locate-path "^5.0.0"
     path-exists "^4.0.0"
 
-fitworld-common@^1.147.0:
-  version "1.147.0"
-  resolved "https://registry.yarnpkg.com/fitworld-common/-/fitworld-common-1.147.0.tgz#bde06d32ef4ebaec1e6deccae2f51d498111b16c"
-  integrity sha512-Q4InXay+mL2a2YsRI5+nS48+JyUyeSVT/Rq6kxfTeBvgVVR17e5MCKMD0IUNj6Pfl3UhgI+FzDEmormxZhTg8g==
+fitworld-common@^1.149.0:
+  version "1.149.0"
+  resolved "https://registry.yarnpkg.com/fitworld-common/-/fitworld-common-1.149.0.tgz#9530e2b7d05a1078b9ecc83f0c65418477dd8ccf"
+  integrity sha512-ACIu6R5Qs5zRMMtkYZABqWAm51cV/NYFRnEkZdNmfEvCZ2hY8Vv2BPYHbtmdZxWW0lFOFJyTisZQ+plkECSN8A==
   dependencies:
     "@react-native-community/async-storage" "^1.8.1"
     apollo-boost "^0.4.7"
