@@ -46,6 +46,11 @@ justify-content: center;
 
 class Toggle extends Component {
     references: any[] = [];
+    state = {
+        scrollAnim: new Animated.Value(0),
+        widthAnim: new Animated.Value(0),
+        heightAnim: new Animated.Value(0)
+    };
     private widths: number[] = [];
     private heights: number[] = [];
 
