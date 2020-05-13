@@ -19,7 +19,8 @@ enum FontSizes {
     H5 = 18,
     H6 = 16,
     Button = 14,
-    Body = 12
+    Body = 12,
+    Label = 8
 }
 
 enum SubtitleFontSizes {
@@ -87,6 +88,11 @@ class FontTypography {
 
     isButtonSize = () => {
         this.style.fontSize = FontSizes.Button;
+        return this;
+    };
+
+    isLabelSize = () => {
+        this.style.fontSize = FontSizes.Label;
         return this;
     };
 
@@ -375,6 +381,11 @@ export const H6LightItalic = t(e => e
 export const ButtonText = t(e => e
     .isButtonSize()
     .isWhite()
+    .isBold()
+    .isUppercase());
+
+export const LabelText = t(e => e
+    .isLabelSize()
     .isBold()
     .isUppercase());
 

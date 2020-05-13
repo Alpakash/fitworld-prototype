@@ -3,6 +3,7 @@ import {TouchableOpacity, View} from "react-native";
 import styled from "styled-components";
 import {useTheme} from "../util/useTheme";
 import Col from "../components/layout/Col";
+import {LabelText} from "../components/typography/Typography";
 
 interface OwnProps {
     state: any,
@@ -76,8 +77,10 @@ const TabBar: FunctionComponent<Props> = ({state, descriptors, navigation}) => {
                 onLongPress={onLongPress}
                 style={{flex: 12 / state.routes.length}}
             >
-
-                <Icon size={40} color={"#FFF"} style={{alignSelf: "center"}}/>
+                <Icon style={{alignSelf: "center"}} isFocused={isFocused}/>
+                {isFocused && <LabelText style={{alignSelf: "center", paddingTop: 5}}>
+                    {label}
+                </LabelText>}
             </IconContainer>
         );
     };
