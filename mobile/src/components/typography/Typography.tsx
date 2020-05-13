@@ -374,7 +374,6 @@ export const H6LightItalic = t(e => e
 // button and body typography
 export const ButtonText = t(e => e
     .isButtonSize()
-    .isWhite()
     .isBold()
     .isUppercase());
 

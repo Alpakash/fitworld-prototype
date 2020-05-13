@@ -74,12 +74,6 @@ const InputWithIcon: React.FC<Props> = (props) => {
                 {/* Empty space after the placeholder text */}
                 <Col size={ 7 }/>
             </Container>
-
-            {/* Dummy check for a word on Input field */}
-            <View style={ { alignSelf: 'center', marginTop: 5, marginBottom: 10 } }>
-                { value.includes("yo") ? <Text>You typed in "yo" somewhere!</Text> :
-                    <Text>String doesn't contain the word "yo"</Text> }
-            </View>
         </>
     );
 };
