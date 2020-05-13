@@ -17,8 +17,9 @@ class App extends React.Component<any, any> {
     componentDidMount(): void {
         client.setupClient()
             .then(stored => {
-                this.setState({cachePersisted: true});
-                SplashScreen.hide()
+                this.setState({cachePersisted: true}, () => {
+                    SplashScreen.hide();
+                });
             })
             .catch(err => console.log(err))
     }
