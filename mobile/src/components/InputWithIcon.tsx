@@ -28,15 +28,14 @@ const InputWithIcon: React.FC<Props> = (props) => {
     const iconOpacity = useRef(new Animated.Value(1)).current;
     const scrollAnim = useRef(new Animated.Value(0)).current;
 
-    // use spring based animation
+    // overflow: none; wanneer er text is niet animeren
     const fadeOut = () => {
         Animated.spring(iconOpacity, {
             toValue: 0
         }).start()
 
         Animated.spring(scrollAnim, {
-            toValue: -60,
-            bounciness: 13
+            toValue: -60
         }).start()
     };
 
