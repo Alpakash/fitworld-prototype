@@ -42,7 +42,6 @@ const Home = () => {
     return (
         <View>
             <BackgroundShape4 style={{position: "absolute"}}/>
-            <BackgroundShape5 style={{position: "absolute", transform: [{translateY: 500}]}}/>
             <ScrollView style={{paddingTop: 60}}>
                 <Row>
                     <Col size={1}/>
