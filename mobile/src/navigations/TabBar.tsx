@@ -12,13 +12,13 @@ interface OwnProps {
 
 type Props = OwnProps;
 
-const Container = styled(View)`
-  background-color: ${({theme}) => theme.palette.primary.main};
+const Container = styled(View)<{elevation: number}>`
+  background-color: ${({theme}) => theme.palette.common.white};
   flex-direction: row;
   z-index:2;
   justify-content: space-between;
   align-content: space-between;
-  margin: 10px 0;
+  padding: 10px 0;
   border-top-left-radius: 20px;
   border-top-right-radius: 20px;
 `;
@@ -90,10 +90,10 @@ const TabBar: FunctionComponent<Props> = ({state, descriptors, navigation}) => {
                 left: 0,
                 width: "100%",
                 height: "100%",
-                backgroundColor: "white",
+                backgroundColor: theme.background.ghostWhite,
                 zIndex: -1
             }}/>
-            <Container style={{
+            <Container elevation={20} style={{
                 // RN-only, cant use SC
                 // borderStyle: 'solid',
                 // borderTopWidth: 2,
