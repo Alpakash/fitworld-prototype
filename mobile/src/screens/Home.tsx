@@ -7,9 +7,8 @@ import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityI
 import InputWithIcon from "../components/InputWithIcon";
 import Col from "../components/layout/Col";
 import Row from "../components/layout/Row";
-import BackgroundShape4 from "../assets/svg/background_shape_4.svg"
-import BackgroundShape5 from "../assets/svg/background_shape_5.svg"
-import {H1} from "../components/typography/Typography";
+import BackgroundShape6 from "../assets/svg/background_shape_6.svg"
+import {H1, H1BoldWhite, H3White} from "../components/typography/Typography";
 
 const ToggleText = styled(Text)<{ active: boolean }>`
   color: ${props => props.active ? 'white' : 'grey'};
@@ -37,19 +36,42 @@ const CacheButton = styled(Button)`
 `;
 
 const Home = () => {
-    // @ts-ignore
-    // @ts-ignore
     return (
         <View>
-            <BackgroundShape4 style={{position: "absolute"}}/>
-            <ScrollView style={{paddingTop: 60}}>
-                <Row>
-                    <Col size={1}/>
-                    <Col size={10}>
-                        <InputWithIcon icon={"search"} placeholder={"Search here..."}/>
-                    </Col>
-                    <Col size={1}/>
-                </Row>
+            {/* SVG is always 205 height */}
+            <View
+                style={{height: 205, flexDirection: "column", justifyContent: "space-between", alignContent: "center"}}>
+                <BackgroundShape6 style={{position: "absolute"}}/>
+                <View style={{
+                    justifyContent: "center",
+                    alignContent: "center",
+                    alignSelf: "center",
+                    flex: 1
+                }}>
+                        <H3White style={{alignSelf: "center"}}>
+                            Have a wonderful
+                        </H3White>
+                        <H1BoldWhite style={{alignSelf: "center"}}>
+                            Afternoon
+                        </H1BoldWhite>
+                </View>
+                <View style={{
+                    justifyContent: "center",
+                    alignContent: "center",
+                    alignSelf: "center",
+                    paddingBottom: 30
+                }}>
+                    <Row style={{alignSelf: "center"}}>
+                        <Col size={1}/>
+                        <Col size={10}>
+                            <InputWithIcon icon={"search"} placeholder={"Search here..."}/>
+                        </Col>
+                        <Col size={1}/>
+                    </Row>
+                </View>
+            </View>
+
+            <ScrollView style={{paddingTop: 20}}>
 
                 <Row>
                     <Col size={1}/>
@@ -68,15 +90,21 @@ const Home = () => {
 
                 {Array(20)
                     .fill(null)
-                    .map(x => <Row>
-                    <Col size={1}/>
-                    <Col elevation={4} size={10} style={{backgroundColor: "white", marginTop: 5, marginBottom: 5, padding: 10, borderRadius: 10}}>
-                        <H1>
-                            hi
-                        </H1>
-                    </Col>
-                    <Col size={1}/>
-                </Row>)
+                    .map((x, i) => <Row key={`how-${i}`}>
+                        <Col size={1}/>
+                        <Col elevation={4} size={10} style={{
+                            backgroundColor: "white",
+                            marginTop: 5,
+                            marginBottom: 5,
+                            padding: 10,
+                            borderRadius: 10
+                        }}>
+                            <H1>
+                                hi
+                            </H1>
+                        </Col>
+                        <Col size={1}/>
+                    </Row>)
                 }
 
                 <View style={{margin: 30, flexDirection: "row"}}>

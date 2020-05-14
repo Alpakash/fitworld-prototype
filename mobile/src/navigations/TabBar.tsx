@@ -4,6 +4,7 @@ import styled from "styled-components";
 import {useTheme} from "../util/useTheme";
 import Col from "../components/layout/Col";
 import {LabelText} from "../components/typography/Typography";
+import DividerVertical from "../assets/svg/tabBar/divider_vertical.svg";
 
 interface OwnProps {
     state: any,
@@ -80,7 +81,18 @@ const TabBar: FunctionComponent<Props> = ({state, descriptors, navigation}) => {
                 <Icon style={{alignSelf: "center"}} isFocused={isFocused}/>
                 {isFocused && <LabelText style={{alignSelf: "center", paddingTop: 5}}>
                     {label}
-                </LabelText>}
+                </LabelText>
+                }
+                {
+                    index !== state.routes.length - 1 && (
+                        <DividerVertical
+                            style={{
+                                position: "absolute",
+                                left: "100%"
+                            }}
+                        />
+                    )
+                }
             </IconContainer>
         );
     };
@@ -102,9 +114,7 @@ const TabBar: FunctionComponent<Props> = ({state, descriptors, navigation}) => {
                 // borderTopWidth: 2,
                 // borderTopColor: theme.palette.primary.main,
             }}>
-                <Col size={1}/>
                 {state.routes.map(routeRenderer)}
-                <Col size={1}/>
             </Container>
         </>
     );

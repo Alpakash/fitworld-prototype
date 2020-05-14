@@ -165,6 +165,8 @@ class FontTypography {
         return React.createElement(Text, {
             ...props,
             style: {
+                margin: 0,
+                padding: 0,
                 ...this.style,
                 ...props.style ?? {}
             },
@@ -191,6 +193,11 @@ export const HeroBoldWhite = t(e => e
 
 // H1 Typography
 export const H1 = t(e => e
+    .isRegular()
+    .isH1Size());
+
+export const H1White = t(e => e
+    .isWhite()
     .isRegular()
     .isH1Size());
 
@@ -227,6 +234,11 @@ export const H1LightItalic = t(e => e
 
 // H2 Typography
 export const H2 = t(e => e
+    .isRegular()
+    .isH2Size());
+
+export const H2White = t(e => e
+    .isWhite()
     .isRegular()
     .isH2Size());
 
