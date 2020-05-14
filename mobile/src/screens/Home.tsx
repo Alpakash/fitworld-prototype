@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { Button, ScrollView, Text, View } from 'react-native'
 import AuthGet from '../AuthGet'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -13,36 +13,42 @@ import { ButtonText, H1 } from "../components/typography/Typography";
 import Toggle from "../components/Toggle";
 
 const ToggleText = styled(Text)<{ active: boolean }>`
-  color: ${ props => props.active ? 'white' : 'grey' };
+  color: ${ props => props.active ? 'white' : 'lightgrey' };
 `
-const ToggleData = (obj: { currentIndex: any }) => {
-    // on ComponentDidMount the currentIndex got a default number from state
-    // when clicked the object changes and gets a nested index inside currentIndex
-    const firstIndexActiveOnLoad = (typeof obj.currentIndex === 'number') ? obj.currentIndex : obj.currentIndex.index;
-
-    return [
-        (myIndex: number) =>
-            <ToggleText
-                active={ myIndex === firstIndexActiveOnLoad }>
-                <MaterialCommunityIcons
-                    name={ "view-sequential" } size={ 30 }/></ToggleText>,
-        (myIndex: number) => <ToggleText
-            active={ myIndex === obj.currentIndex.index }><MaterialCommunityIcons
-            name={ "view-stream" }
-            size={ 30 }/></ToggleText>
-    ]
-};
-
-const toggleFilter = () => {
-    console.log('hi')
-};
-
 
 const CacheButton = styled(Button)`
   align-self:flex-start;
 `;
 
 const Home = () => {
+    const [showFilter, setShowFilter] = useState(false);
+    const [listView, setListView] = useState({});
+
+    const toggleListView = (ListView: string) => {
+        setListView(ListView);
+    };
+
+    const ToggleData = (obj: { currentIndex: any }) => {
+        // on ComponentDidMount the currentIndex got a default number from state
+        // when clicked the object changes and gets a nested index inside currentIndex
+        const firstIndexActiveOnLoad = (typeof obj.currentIndex === 'number') ? obj.currentIndex : obj.currentIndex.index;
+
+        return [
+            (myIndex: number) =>
+                <ToggleText
+                    // onPress={ () => toggleListView("expanded") }
+                    active={ myIndex === firstIndexActiveOnLoad }>
+                    <MaterialCommunityIcons
+                        name={ "view-sequential" } size={ 30 }/></ToggleText>,
+            (myIndex: number) => <ToggleText
+                // onPress={ () => toggleListView("simple") }
+                active={ myIndex === obj.currentIndex.index }><MaterialCommunityIcons
+                name={ "view-stream" }
+                size={ 30 }/></ToggleText>
+        ]
+    };
+
+
     return (
         <View>
             <BackgroundShape4 style={ { position: "absolute" } }/>
@@ -67,8 +73,8 @@ const Home = () => {
                         {/*Should turn into Filter Component*/ }
                         <ButtonWithIcon
                             icon="filter-outline"
-                            click={ () => toggleFilter() }>
-                            <ButtonText style={{paddingTop: 3}}>Filter Options</ButtonText>
+                            click={ () => setShowFilter(!showFilter) }>
+                            <ButtonText style={ { paddingTop: 3 } }>Filter Options</ButtonText>
                         </ButtonWithIcon>
                     </Col>
                     <Col size={ 1 }/>
@@ -102,6 +108,9 @@ const Home = () => {
                 <View>
                     <AuthGet/>
                 </View>
+                {/*{ listView === "simple" ? <Text>Simple</Text> : <Text>Expanded</Text> }*/}
+                { showFilter ? <Text>Hello Filter!</Text> : <Text>Filter hidden</Text> }
+
             </ScrollView>
         </View>
     )
