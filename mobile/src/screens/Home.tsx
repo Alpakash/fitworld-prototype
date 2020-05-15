@@ -108,7 +108,6 @@ const Home = () => {
                 <View>
                     <AuthGet/>
                 </View>
-                {/*{ listView === "simple" ? <Text>Simple</Text> : <Text>Expanded</Text> }*/}
                 { showFilter ? <Text>Hello Filter!</Text> : <Text>Filter hidden</Text> }
 
             </ScrollView>

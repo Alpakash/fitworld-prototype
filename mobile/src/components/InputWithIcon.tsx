@@ -28,7 +28,6 @@ const InputWithIcon: React.FC<Props> = (props) => {
     const iconOpacity = useRef(new Animated.Value(1)).current;
     const scrollAnim = useRef(new Animated.Value(0)).current;
 
-    // overflow: none; wanneer er text is niet animeren
     const fadeOut = () => {
         Animated.spring(iconOpacity, {
             toValue: 0
