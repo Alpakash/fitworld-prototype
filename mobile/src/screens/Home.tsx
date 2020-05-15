@@ -70,7 +70,6 @@ const Home = () => {
                     </Col>
 
                     <Col size={ 5 }>
-                        {/*Should turn into Filter Component*/ }
                         <ButtonWithIcon
                             icon="filter-outline"
                             click={ () => setShowFilter(!showFilter) }>
