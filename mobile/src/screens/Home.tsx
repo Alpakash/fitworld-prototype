@@ -72,6 +72,7 @@ const Home = () => {
                     <Col size={ 5 }>
                         <ButtonWithIcon
                             icon="filter-outline"
+                            size={35}
                             click={ () => setShowFilter(!showFilter) }>
                             <ButtonText style={ { paddingTop: 3 } }>Filter Options</ButtonText>
                         </ButtonWithIcon>

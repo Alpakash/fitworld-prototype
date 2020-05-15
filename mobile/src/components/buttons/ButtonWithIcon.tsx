@@ -19,6 +19,7 @@ interface IButtonProps {
     style?: object;
     border?: string;
     icon: string;
+    size: number;
 }
 
 const ButtonWithIcon: React.FC<IButtonProps> = (props) => {
@@ -27,7 +28,7 @@ const ButtonWithIcon: React.FC<IButtonProps> = (props) => {
             <TouchableWithoutFeedback onPress={ props.click }>
                 <StyledButton style={ { ...props.style } } border={ props.border ?? undefined }>
                     <Row style={{alignItems: 'center'}}>
-                        <MaterialIcon name={ props.icon } size={ 35 }/>
+                        <MaterialIcon name={ props.icon } size={ props.size }/>
                         { props.children }
                     </Row>
                 </StyledButton>
