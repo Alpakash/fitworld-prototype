@@ -10,8 +10,8 @@ const ListDivider: React.FC<IDefaultProps> = (props) => {
     return (
         <Row>
             <Col size={ 1 }/>
-            <View style={ { flex: 3 } }><H1Bold>{ props.children }</H1Bold></View>
-            <View style={ { flex: 9, justifyContent: "center" } }><Divider/></View>
+            <View style={ { flex: 4 } }><H1Bold>{ props.children }</H1Bold></View>
+            <View style={ { flex: 8, justifyContent: "center" } }><Divider/></View>
             <Col size={ 1 }/>
         </Row>
     );
