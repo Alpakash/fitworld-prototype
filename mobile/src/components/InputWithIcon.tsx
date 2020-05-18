@@ -31,7 +31,7 @@ const InputWithIcon: React.FC<Props> = (props) => {
     const fadeOut = () => {
         Animated.spring(iconOpacity, {
             toValue: 0
-        }).start()
+        }).start();
 
         Animated.spring(scrollAnim, {
             toValue: -60
@@ -41,7 +41,7 @@ const InputWithIcon: React.FC<Props> = (props) => {
     const fadeIn = () => {
         Animated.spring(iconOpacity, {
             toValue: 1
-        }).start()
+        }).start();
 
         Animated.spring(scrollAnim, {
             toValue: 0,

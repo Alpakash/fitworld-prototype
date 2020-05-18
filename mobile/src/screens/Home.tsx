@@ -9,12 +9,13 @@ import ButtonWithIcon from "../components/buttons/ButtonWithIcon";
 import Col from "../components/layout/Col";
 import Row from "../components/layout/Row";
 import BackgroundShape6 from "../assets/svg/background_shape_6.svg"
-import {H1, H1BoldWhite, H3White} from "../components/typography/Typography";
+import {ButtonText, H1, H1BoldWhite, H3White} from "../components/typography/Typography";
 import {getPeriodOfDay} from "../util/getPeriodOfDay";
+import Toggle from "../components/Toggle";
 
 const ToggleText = styled(Text)<{ active: boolean }>`
   color: ${ props => props.active ? 'white' : 'lightgrey' };
-`
+`;
 
 const CacheButton = styled(Button)`
   align-self:flex-start;
@@ -49,7 +50,6 @@ const Home = () => {
     };
 
 
-const Home = () => {
     return (
         <View>
             {/* SVG is always 205 height */}
@@ -73,7 +73,7 @@ const Home = () => {
                     alignContent: "center",
                     alignSelf: "center",
                     paddingBottom: 30 } }>
-                <Rowstyle={{alignSelf: "center"}}>
+                <Row style={{alignSelf: "center"}}>
                     <Col size={ 1 }/>
                     <Col size={ 10 }>
                         <InputWithIcon icon={ "search" } placeholder={ "Search here..." }/>
@@ -138,4 +138,4 @@ const Home = () => {
     )
 };
 
-export default Home
+export default Home;
