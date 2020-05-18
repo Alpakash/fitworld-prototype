@@ -9,6 +9,7 @@ import Col from "../components/layout/Col";
 import Row from "../components/layout/Row";
 import BackgroundShape6 from "../assets/svg/background_shape_6.svg"
 import {H1, H1BoldWhite, H3White} from "../components/typography/Typography";
+import {getPeriodOfDay} from "../util/getPeriodOfDay";
 
 const ToggleText = styled(Text)<{ active: boolean }>`
   color: ${props => props.active ? 'white' : 'grey'};
@@ -52,7 +53,7 @@ const Home = () => {
                             Have a wonderful
                         </H3White>
                         <H1BoldWhite style={{alignSelf: "center"}}>
-                            Afternoon
+                            {getPeriodOfDay()}
                         </H1BoldWhite>
                 </View>
                 <View style={{
