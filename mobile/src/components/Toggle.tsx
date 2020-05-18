@@ -10,6 +10,7 @@ background-color: ${ ({ theme }) => theme.background.white };
 width: ${ props => props.width }px;
 border-radius: 25px;
 flex-direction: row;
+margin: 13px 0;
 `
 
 const Switch = styled(Animated.View)`
@@ -93,9 +94,7 @@ class Toggle extends Component<{ style?: object, elevation?: number, margin?: nu
                 <Container width={ this.containerWidth }
                            style={ {
                                ...this.props.style,
-                               elevation: this.props.elevation ?? 4,
-                               marginTop: this.props.margin ?? 10,
-                               marginBottom: this.props.margin ?? 10
+                               elevation: this.props.elevation ?? 4
                            } }>
                     {
                         children

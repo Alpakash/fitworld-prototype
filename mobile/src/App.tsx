@@ -3,7 +3,6 @@ import {ApolloProvider} from '@apollo/react-hooks'
 import Splash from "./screens/Splash";
 import {client} from "./GraphQLClient";
 import {Net} from "./util/Net";
-import axios from "axios";
 import {ThemeProvider} from "styled-components/native";
 import theme from "fitworld-common/lib/common/src/theming/theme";
 import AppNavigation from "./navigations/AppNavigation";

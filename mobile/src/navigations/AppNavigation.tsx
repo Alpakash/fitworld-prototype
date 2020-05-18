@@ -9,6 +9,7 @@ import Splash from "../screens/Splash";
 import Typography from "../screens/Typography";
 import {createStackNavigator} from "@react-navigation/stack";
 import Onboarding from "../screens/Onboarding/Onboarding";
+import TabBar from "./TabBar";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -34,6 +35,7 @@ const AppNavigation = () => {
 
             {onboardingComplete && (
                 <Tab.Navigator
+                    tabBar={props => <TabBar {...props}/>}
                     backBehavior={"none"}
                     tabBarOptions={{"showIcon": true}}
                 >
@@ -42,8 +44,8 @@ const AppNavigation = () => {
                         component={Home}
                         options={{
                             tabBarLabel: "Homie",
-                            tabBarIcon: ({color, size}) => (
-                                <MaterialCommunityIcons name={"home"} color={color} size={size}/>
+                            tabBarIcon: ({color, size, style}: any) => (
+                                <MaterialCommunityIcons name={"home"} color={color} size={size} style={style}/>
                             )
                         }}/>
                     <Tab.Screen
@@ -51,8 +53,9 @@ const AppNavigation = () => {
                         component={Splash}
                         options={{
                             tabBarLabel: "Splash",
-                            tabBarIcon: ({color, size}) => (
+                            tabBarIcon: ({color, size, style}: any) => (
                                 <MaterialCommunityIcons name={"image-filter-vintage"} color={color}
+                                                        style={style}
                                                         size={size}/>
                             )
                         }}/>
@@ -62,8 +65,8 @@ const AppNavigation = () => {
                         component={Typography}
                         options={{
                             tabBarLabel: "Typography",
-                            tabBarIcon: ({color, size}) => (
-                                <MaterialCommunityIcons name={"pen"} color={color} size={size}/>
+                            tabBarIcon: ({color, size, style}: any) => (
+                                <MaterialCommunityIcons name={"pen"} color={color} style={style} size={size}/>
                             )
                         }}/>
                 </Tab.Navigator>
