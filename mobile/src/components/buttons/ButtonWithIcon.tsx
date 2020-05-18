@@ -12,6 +12,11 @@ const StyledButton = styled(View)<{ border: string | undefined }>`
     margin: 10px 0;
 `;
 
+const ButtonRow = styled(Row)<{right?: boolean}>`
+align-items: center;
+flex-direction: ${(props) => props.right ? "row-reverse" : "row"};
+`;
+
 interface IButtonProps {
     textColor?: string;
     click: (event: GestureResponderEvent) => void;
@@ -19,16 +24,18 @@ interface IButtonProps {
     border?: string;
     icon: string;
     size: number;
+    right?: boolean;
 }
 
 const ButtonWithIcon: React.FC<IButtonProps> = (props) => {
     return (
             <TouchableWithoutFeedback onPress={ props.click }>
                 <StyledButton style={ { ...props.style } } border={ props.border ?? undefined }>
-                    <Row style={{alignItems: 'center'}}>
+                    {/* if right is true, icon will appear on the right side */}
+                    <ButtonRow right={props.right}>
                         <MaterialIcon name={ props.icon } size={ props.size }/>
                         { props.children }
-                    </Row>
+                    </ButtonRow>
                 </StyledButton>
             </TouchableWithoutFeedback>
     );
