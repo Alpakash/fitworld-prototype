@@ -8,9 +8,9 @@ import InputWithIcon from "../components/InputWithIcon";
 import ButtonWithIcon from "../components/buttons/ButtonWithIcon";
 import Col from "../components/layout/Col";
 import Row from "../components/layout/Row";
-import BackgroundShape4 from "../assets/svg/background_shape_4.svg"
-import { ButtonText, H1 } from "../components/typography/Typography";
-import Toggle from "../components/Toggle";
+import BackgroundShape6 from "../assets/svg/background_shape_6.svg"
+import {H1, H1BoldWhite, H3White} from "../components/typography/Typography";
+import {getPeriodOfDay} from "../util/getPeriodOfDay";
 
 const ToggleText = styled(Text)<{ active: boolean }>`
   color: ${ props => props.active ? 'white' : 'lightgrey' };
@@ -49,17 +49,40 @@ const Home = () => {
     };
 
 
+const Home = () => {
     return (
         <View>
-            <BackgroundShape4 style={ { position: "absolute" } }/>
-            <ScrollView style={ { paddingTop: 60 } }>
-                <Row>
+            {/* SVG is always 205 height */}
+            <View
+                style={{height: 205, flexDirection: "column", justifyContent: "space-between", alignContent: "center"}}>
+                <BackgroundShape6 style={ { position: "absolute" } }/>
+            <View style={ { justifyContent: "center",
+                    alignContent: "center",
+                    alignSelf: "center",
+                    flex: 1
+                }}>
+                        <H3White style={{alignSelf: "center"}}>
+                            Have a wonderful
+                        </H3White>
+                        <H1BoldWhite style={{alignSelf: "center"}}>
+                            {getPeriodOfDay()}
+                        </H1BoldWhite>
+                </View>
+                <View style={{
+                    justifyContent: "center",
+                    alignContent: "center",
+                    alignSelf: "center",
+                    paddingBottom: 30 } }>
+                <Rowstyle={{alignSelf: "center"}}>
                     <Col size={ 1 }/>
                     <Col size={ 10 }>
                         <InputWithIcon icon={ "search" } placeholder={ "Search here..." }/>
                     </Col>
                     <Col size={ 1 }/>
-                </Row>
+                </Row></View>
+            </View>
+
+            <ScrollView style={{paddingTop: 20}}>
 
                 <Row>
                     <Col size={ 1 }/>

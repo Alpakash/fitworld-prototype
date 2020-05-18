@@ -19,7 +19,8 @@ enum FontSizes {
     H5 = 18,
     H6 = 16,
     Button = 14,
-    Body = 12
+    Body = 12,
+    Label = 8
 }
 
 enum SubtitleFontSizes {
@@ -87,6 +88,11 @@ class FontTypography {
 
     isButtonSize = () => {
         this.style.fontSize = FontSizes.Button;
+        return this;
+    };
+
+    isLabelSize = () => {
+        this.style.fontSize = FontSizes.Label;
         return this;
     };
 
@@ -159,6 +165,8 @@ class FontTypography {
         return React.createElement(Text, {
             ...props,
             style: {
+                margin: 0,
+                padding: 0,
                 ...this.style,
                 ...props.style ?? {}
             },
@@ -185,6 +193,11 @@ export const HeroBoldWhite = t(e => e
 
 // H1 Typography
 export const H1 = t(e => e
+    .isRegular()
+    .isH1Size());
+
+export const H1White = t(e => e
+    .isWhite()
     .isRegular()
     .isH1Size());
 
@@ -221,6 +234,11 @@ export const H1LightItalic = t(e => e
 
 // H2 Typography
 export const H2 = t(e => e
+    .isRegular()
+    .isH2Size());
+
+export const H2White = t(e => e
+    .isWhite()
     .isRegular()
     .isH2Size());
 
@@ -374,6 +392,11 @@ export const H6LightItalic = t(e => e
 // button and body typography
 export const ButtonText = t(e => e
     .isButtonSize()
+    .isBold()
+    .isUppercase());
+
+export const LabelText = t(e => e
+    .isLabelSize()
     .isBold()
     .isUppercase());
 
