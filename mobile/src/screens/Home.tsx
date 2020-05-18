@@ -8,8 +8,7 @@ import InputWithIcon from "../components/InputWithIcon";
 import Col from "../components/layout/Col";
 import Row from "../components/layout/Row";
 import BackgroundShape4 from "../assets/svg/background_shape_4.svg"
-import BackgroundShape5 from "../assets/svg/background_shape_5.svg"
-import {H1} from "../components/typography/Typography";
+import SimpleList from "../components/lists/SimpleList";
 
 const ToggleText = styled(Text)<{ active: boolean }>`
   color: ${props => props.active ? 'white' : 'grey'};
@@ -66,18 +65,7 @@ const Home = () => {
                     <Col size={1}/>
                 </Row>
 
-                {Array(20)
-                    .fill(null)
-                    .map(x => <Row>
-                    <Col size={1}/>
-                    <Col elevation={4} size={10} style={{backgroundColor: "white", marginTop: 5, marginBottom: 5, padding: 10, borderRadius: 10}}>
-                        <H1>
-                            hi
-                        </H1>
-                    </Col>
-                    <Col size={1}/>
-                </Row>)
-                }
+                <SimpleList/>
 
                 <View style={{margin: 30, flexDirection: "row"}}>
                     <CacheButton title={'clear the cache'}
