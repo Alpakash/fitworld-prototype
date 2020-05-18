@@ -1,5 +1,5 @@
 import React, { useRef } from 'react';
-import { Animated, TextInput, View, Text } from "react-native";
+import { Animated, TextInput, View } from "react-native";
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
@@ -26,6 +26,7 @@ const InputWithIcon: React.FC<Props> = (props) => {
     const [value, onChangeText] = React.useState('');
     const iconOpacity = useRef(new Animated.Value(1)).current;
     const flexAnim = useRef(new Animated.Value(1)).current;
+    const paddingAnimation = useRef(new Animated.Value(0)).current;
 
     const onSelect = () => {
         // use animations if the input value is filled
@@ -34,8 +35,12 @@ const InputWithIcon: React.FC<Props> = (props) => {
                 toValue: 0
             }).start()
 
+            Animated.spring(paddingAnimation, {
+                toValue: 30
+            }).start()
+
             Animated.spring(flexAnim, {
-                toValue: 0.1,
+                toValue: 0,
             }).start()
         }
     };
@@ -54,25 +59,30 @@ const InputWithIcon: React.FC<Props> = (props) => {
         }
     };
 
+
     return (
         <>
-            <Container style={{elevation: 4}}>
-                {/* Animated opacity for icon*/}
-                <Animated.View style={{position: "absolute", top: 10, left: 20, opacity: iconOpacity}}>
+            <Container style={ { elevation: 4 } }>
+                {/* Animated opacity for icon*/ }
+                <Animated.View style={ {
+                    position: "absolute",
+                    left: 20,
+                    opacity: iconOpacity
+                } }>
                     <Icon name={ props.icon } size={ 25 } color="lightgrey"/>
                 </Animated.View>
-                {/* Animated flex for input field*/}
-                <Animated.View style={{flex: flexAnim}}/>
-                    <View style={{flex: 1.5 }}>
-                        <SearchInput
-                            onChangeText={ text => onChangeText(text) }
-                            placeholder={ props.placeholder }
-                            onFocus={onSelect}
-                            onBlur={onDeselect}
-                            value={ value }
-                        />
-                    </View>
-                <Animated.View style={{flex: flexAnim}}/>
+                {/* Animated flex for input field*/ }
+                <Animated.View style={ { flex: flexAnim } }/>
+                <Animated.View style={ { flex: 1, flexBasis: 50, paddingLeft: paddingAnimation } }>
+                    <SearchInput
+                        onChangeText={ text => onChangeText(text) }
+                        placeholder={ props.placeholder }
+                        onFocus={ onSelect }
+                        onBlur={ onDeselect }
+                        value={ value }
+                    />
+                </Animated.View>
+                <Animated.View style={ { flex: flexAnim } }/>
             </Container>
         </>
     );
