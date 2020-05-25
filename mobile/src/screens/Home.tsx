@@ -37,7 +37,6 @@ const CacheButton = styled(Button)`
 
 const Home = () => {
     // @ts-ignore
-    // @ts-ignore
     return (
         <View>
             <BackgroundShape4 style={{position: "absolute"}}/>

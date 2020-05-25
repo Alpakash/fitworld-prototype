@@ -51,6 +51,7 @@ class Toggle extends Component {
         widthAnim: new Animated.Value(0),
         heightAnim: new Animated.Value(0)
     };
+
     private widths: number[] = [];
     private heights: number[] = [];
 
@@ -60,7 +61,6 @@ class Toggle extends Component {
                 ref.measure((x: number, y: number, width: number, height: number) => {
                     this.widths.push(width);
                     this.heights.push(height);
-                    console.log(this.widths);
 
                     this.setState({
                         widthAnim: new Animated.Value(this.widths[0]),

@@ -34,22 +34,6 @@ const trainingTimes = [
     new Date(1989, 6, 10)
 ]
 
-
-// {
-//     new Date().30 min: [
-//     wdaw
-//     wadawd
-//     awd
-// ],
-//     new Date().60: [
-//     awdaw
-//     dwa
-//     da
-//     w
-// ]
-// }
-
-
 const sortedDates = {
 
 }
