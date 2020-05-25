@@ -9,6 +9,8 @@ import Col from "../components/layout/Col";
 import Row from "../components/layout/Row";
 import BackgroundShape4 from "../assets/svg/background_shape_4.svg"
 import SimpleList from "../components/lists/SimpleList";
+import ListDivider from "../components/lists/ListDivider";
+import { format } from "date-fns";
 
 const ToggleText = styled(Text)<{ active: boolean }>`
   color: ${props => props.active ? 'white' : 'grey'};
@@ -64,7 +66,12 @@ const Home = () => {
                     <Col size={1}/>
                 </Row>
 
+                <View style={{marginTop: 100}}/>
+                <Text style={{textAlign: 'center'}}>Time: {format(new Date(), "HH:mm")}</Text>
                 <SimpleList/>
+                <ListDivider>{format(new Date().getTime() + 30 * 60 * 1000, "HH:mm")}</ListDivider>
+                <ListDivider>{format(new Date().getTime() + 60 * 60 * 1000, "HH:mm")}</ListDivider>
+                <ListDivider>{format(new Date().getTime() + 90 * 60 * 1000, "HH:mm")}</ListDivider>
 
                 <View style={{margin: 30, flexDirection: "row"}}>
                     <CacheButton title={'clear the cache'}

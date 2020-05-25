@@ -3,12 +3,11 @@ import Row from "../layout/Row";
 import Col from "../layout/Col";
 import { H1, H3Bold, H6 } from "../typography/Typography";
 import styled from "styled-components";
-import { View, Text } from "react-native";
+import { View } from "react-native";
 import Distance from "../../assets/svg/distance_sign.svg";
 import Pin from "../../assets/svg/location_pin.svg";
-import { Divider } from "../Divider";
 import ListDivider from "./ListDivider";
-import { compareDesc, format, formatDistance } from 'date-fns';
+import { format } from 'date-fns';
 
 const Container = styled(View)`
 background-color: ${ ({ theme }) => theme.background.ghostWhite };
@@ -27,52 +26,103 @@ align-items: flex-end;
 justify-content: center;
 `;
 
-const trainingTimes = [
-    new Date(),
-    new Date(1995, 6, 2),
-    new Date(1987, 1, 11),
-    new Date(1989, 6, 10)
-]
+const trainings = [
+    {
+        date: new Date(2020, 4, 25, 23, 45),
+        name: "Swimming",
+        distance: 25.4,
+        location: "Dolfinarium"
+    }, {
+        date: new Date(2020, 4, 25, 23, 50),
+        name: "Kickboxing",
+        distance: 23.2,
+        location: "Colosseum"
+    }, {
+        date: new Date(2020, 4,25,23,50),
+        name: "Boxing",
+        distance: 5,
+        location: "The Ring"
+    }, {
+        date: new Date(2020, 4, 25, 23, 55),
+        name: "Yoga",
+        distance: 1000,
+        location: "Nirvana Station"
+    },
+    {
+        date: new Date(2020, 4, 25, 24, 30),
+        name: "Hallo",
+        distance: 20,
+        location: "Next"
+    },
+    {
+        date: new Date(2020, 4, 25, 24, 20),
+        name: "Yo",
+        distance: 20,
+        location: "Next"
+    },
+];
 
-const sortedDates = {
+const sorted = trainings.slice().sort((a: any, b: any) => a.date - b.date);
 
-}
+const sortedTrainings: { [key: string]: any } = {
+    thirty: [],
+    sixty: []
+};
 
-console.log(trainingTimes.sort(compareDesc));
+// loop through training array, through object elements and scan date prop
+// do while loop: if there are classes in the upcoming 30 minutes don't stop and put them in the 30 minute box
+// if in the next thirty minutes there are classes, push the dates in the array Trainings.
 
-console.log(
-    formatDistance(
-        new Date(1986, 3, 4, 11, 32, 0),
-        new Date(1986, 3, 4, 9, 32, 0),
-        { addSuffix: true }
-    )
-)
+// check for upcoming classes from this hour
+// console.log(`${ trainings.map(x => JSON.stringify(x)) }`)
+
+// console.log(dateNow)
+// console.log(trainings[2].date)
+// console.log(thirty);
+// console.log(new Date(2020, 4, 25, 22, 41));
+// console.log(new Date(Date.UTC(2020, 5, 25, 22, 33)));
+// console.log(new Date().setUTCMinutes(30));
+
+let i = 0;
+let c = 1;
+do {
+    const count = new Date(Date.now() + (30 * c) * 60 * 1000);
+    const dateNow = new Date();
+
+    if (sorted[i].date > dateNow && sorted[i].date < count) {
+        sortedTrainings.thirty.push(sorted[i]);
+    }
+
+    i++;
+} while (i < sorted.length);
+
+console.log(sortedTrainings);
 
 const SimpleList = () => {
     return (
         <>
-            <View style={{marginTop: 100}}/>
-            <ListDivider>{JSON.stringify(format(new Date().setMinutes(30), 'HH:mm'))}</ListDivider>
-            <Text>{JSON.stringify(new Date().toTimeString())}</Text>
-            <Text>{JSON.stringify(format(new Date().setMinutes(60), "HH:mm"))}</Text>
-            <Text>{JSON.stringify(format(new Date().setMinutes(90), "HH:mm"))}</Text>
-            <Text>{JSON.stringify(format(new Date().setMinutes(120), "HH:mm"))}</Text>
-
-            <Row>
-                <Col size={ 1 }/>
-                <Container style={{elevation: 4}}>
-                        <View style={{flex: 1}}>
-                            <H3Bold>Swimming</H3Bold>
-                            <H6><Distance/> 12,5 KM</H6>
-                            <H6><Pin/> Het Dolfinarium</H6>
+            <ListDivider>{ format(new Date().getTime(), "HH:mm") }</ListDivider>
+            { sortedTrainings.thirty.map((x: any, idx: number) =>
+                <Row key={ idx }>
+                    <Col size={ 1 }/>
+                    <Container style={ { elevation: 4 } }>
+                        <View style={ { flex: 2 } }>
+                            <Row>
+                                <H6 style={ { marginTop: 5, marginRight: 10 } }>{ format(x.date, "HH:mm") }</H6>
+                                <H3Bold>{ x.name } </H3Bold>
+                            </Row>
+                            <H6><Distance/> { x.distance } KM</H6>
+                            <H6><Pin/> { x.location }</H6>
                         </View>
                         <Price>
-                            <H1>€7,00</H1>
+                            <H1>€0,00</H1>
                         </Price>
-                </Container>
-                <Col size={ 1 }/>
-            </Row>
-            </>
+                    </Container>
+
+                    <Col size={ 1 }/>
+                </Row>
+            ) }
+        </>
     );
 };
 
