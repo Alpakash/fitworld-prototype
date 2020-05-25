@@ -8,6 +8,8 @@ const colorHelper = (light: string, main: string, dark: string, contrastText: st
 const fontHelper = (fontFamily: any, fontSize: number, letterSpacing?: string | undefined, lineHeight?: number | undefined) =>
     ({fontFamily, fontSize, letterSpacing, lineHeight});
 
+
+// TODO for an extension of the colours you can use https://material-ui.com/customization/color/ in the mobile project.
 export default {
     // appTheming and customTheming for individual components
     theme: {
@@ -32,8 +34,9 @@ export default {
             black: "#000",
             white: "#FFF",
         },
-        primary: colorHelper("#2D475A", "#012031", "#00000A", "#FFF"),
-        secondary: colorHelper("#FFBC44", "#F58B00", "#F58B00", "#FFF"),
+        primary: colorHelper("#A16BFF", "#251D34", "#36186B", "#FFF"),
+        secondary: colorHelper("#F4976C", "#E94057", "#E6AB3E", "#FFF"),
+        tertiary: colorHelper("#8A2387", "#F27121", "#F27121", "#FFF"),
         error: colorHelper("#FF867C", "#EF5350", "#B61827", "#FFF"),
         warning: colorHelper("#FFFF73", "#FFEE58", "#EBDB1E", "#212121"),
         info: colorHelper("#A16BFF", "#673AB7", "#36186B", "#FFFFFF"),
