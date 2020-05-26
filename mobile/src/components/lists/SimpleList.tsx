@@ -3,7 +3,7 @@ import Row from "../layout/Row";
 import Col from "../layout/Col";
 import { H1, H3Bold, H6 } from "../typography/Typography";
 import styled from "styled-components";
-import { Text, View } from "react-native";
+import { View } from "react-native";
 import Distance from "../../assets/svg/distance_sign.svg";
 import Pin from "../../assets/svg/location_pin.svg";
 import ListDivider from "./ListDivider";
@@ -26,51 +26,6 @@ align-items: flex-end;
 justify-content: center;
 `;
 
-const trainings = [
-    {
-        date: new Date(2020, 4, 26, 9, 45),
-        name: "Swimming",
-        distance: 25.4,
-        location: "Dolfinarium"
-    }, {
-        date: new Date(2020, 4, 26, 9, 50),
-        name: "Kickboxing",
-        distance: 23.2,
-        location: "Colosseum"
-    }, {
-        date: new Date(2020, 4, 26, 9, 10),
-        name: "Boxing",
-        distance: 5,
-        location: "The Ring"
-    }, {
-        date: new Date(2020, 4, 26, 9, 25),
-        name: "Yoga",
-        distance: 1000,
-        location: "Nirvana Station"
-    },
-    {
-        date: new Date(2020, 4, 26, 9, 31),
-        name: "Hallo",
-        distance: 20,
-        location: "Next"
-    },
-    {
-        date: new Date(2020, 4, 26, 9, 21),
-        name: "Yo",
-        distance: 20,
-        location: "Next"
-    },
-];
-
-const sorted = trainings.slice().sort((a: any, b: any) => a.date - b.date);
-
-
-const sortedTrainings: { [key: string]: any } = {
-    thirty: [],
-    sixty: [],
-    ninety: []
-};
-
 // loop through training array, through object elements and scan date prop
 // do while loop: if there are classes in the upcoming 30 minutes don't stop and put them in the 30 minute box
 // if in the next thirty minutes there are classes, push the dates in the array Trainings.
@@ -84,7 +39,6 @@ const sortedTrainings: { [key: string]: any } = {
 // console.log(new Date(2020, 4, 25, 22, 41));
 // console.log(new Date(Date.UTC(2020, 5, 25, 22, 33)));
 // console.log(new Date().setUTCMinutes(30));
-
 
 // const trainings = {
 // 30min: [
@@ -103,18 +57,35 @@ const sortedTrainings: { [key: string]: any } = {
 // {name, date, location, distance},
 // ]}
 
+const trainings = [
+    {
+        date: new Date(2020, 4, 26, 12, 22),
+        name: "Swimming",
+        distance: 25.4,
+        location: "Dolfinarium"
+    }, {
+        date: new Date(2020, 4, 26, 12, 20),
+        name: "Kickboxing",
+        distance: 23.2,
+        location: "Colosseum"
+    }, {
+        date: new Date(2020, 4, 26, 12,20 ),
+        name: "Boxing",
+        distance: 5,
+        location: "The Ring"
+    },
+    {
+        date: new Date(2020, 4, 26, 12, 50),
+        name: "YO",
+        distance: 5,
+        location: "Groet plaats"
+    },
+];
 
-const pushedDates: { [key: string]: Array<object> } = {
-hello: []
-}
+const sorted = trainings.slice().sort((a: any, b: any) => a.date - b.date);
 
-let index = 0;
-do {
-    pushedDates["hello"].push({name: "yo"})
-    index++;
-} while (index < 2);
-
-console.log(pushedDates.hello);
+const pushedDates: { [key: string]: Array<object> } = {};
+const arrayThirty = [];
 
 let i = 0;
 let c = 1;
@@ -122,48 +93,47 @@ do {
     const startDate = new Date(Date.now());
     const endDate = new Date(Date.now() + (30 * c) * 60 * 1000);
 
+    console.log(`${c}: endDate ${endDate}`)
+    console.log(`${i}: startDate: ${new Date(Date.now() + 30 * i * 60 * 1000)}`);
+
     if (sorted[i].date > startDate && sorted[i].date < endDate) {
-        sortedTrainings.thirty.push(sorted[i]);
-    }
-    if (sorted[i].date > endDate) {
-        c++;
-        if (sorted[i].date < endDate) {
-            sortedTrainings.sixty.push(sorted[i]);
+        arrayThirty.push(sorted[i]);
+
+        if (sorted[i].date > endDate) {
+            c++;
         }
     }
+
     i++;
 } while (i < sorted.length);
 
-console.log(sortedTrainings);
-console.log(Object.keys(sortedTrainings));
+pushedDates["hello"] = arrayThirty;
 
 const SimpleList = () => {
-
     return (
         <>
             <ListDivider>{ format(new Date().getTime(), "HH:mm") }</ListDivider>
-                    {sortedTrainings.thirty.map((x: any, idx: number) =>
-                    <Row key={ idx }>
-                        <Col size={ 1 }/>
-                        <Container style={ { elevation: 4 } }>
-                            <View style={ { flex: 2 } }>
-                                <Row>
-                                    <H6 style={ { marginTop: 5, marginRight: 10 } }>
-                                        { format(x.date,"HH:mm") }
-                                    </H6>
-                                    <H3Bold>{ x.name } </H3Bold>
-                                </Row>
-                                <H6><Distance/> { x.distance } KM</H6>
-                                <H6><Pin/> { x.location }</H6>
-                            </View>
-                            <Price>
-                                <H1>€0,00</H1>
-                            </Price>
-                        </Container>
-                        <Col size={ 1 }/>
-                    </Row>
-
-                    )}
+            { pushedDates.hello.map((x: any, idx: number) =>
+                <Row key={ idx }>
+                    <Col size={ 1 }/>
+                    <Container style={ { elevation: 4 } }>
+                        <View style={ { flex: 2 } }>
+                            <Row>
+                                <H6 style={ { marginTop: 5, marginRight: 10 } }>
+                                    { format(x.date, "HH:mm") }
+                                </H6>
+                                <H3Bold>{ x.name } </H3Bold>
+                            </Row>
+                            <H6><Distance/> { x.distance } KM</H6>
+                            <H6><Pin/> { x.location }</H6>
+                        </View>
+                        <Price>
+                            <H1>€0,00</H1>
+                        </Price>
+                    </Container>
+                    <Col size={ 1 }/>
+                </Row>
+            ) }
         </>
     );
 };
