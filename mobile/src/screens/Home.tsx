@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import {Button, ScrollView, Text, View} from 'react-native'
 import AuthGet from '../AuthGet'
 import AsyncStorage from '@react-native-community/async-storage'
@@ -16,29 +16,34 @@ import Toggle from '../components/Toggle';
 const ToggleText = styled(Text)<{ active: boolean }>`
   color: ${props => props.active ? 'white' : 'grey'};
 `
-const ToggleData = (obj: { currentIndex: any }) => {
-    // on ComponentDidMount the currentIndex got a default number from state
-    // when clicked the object changes and gets a nested index inside currentIndex
-    const firstIndexActiveOnLoad = (typeof obj.currentIndex === 'number') ? obj.currentIndex : obj.currentIndex.index;
-
-    return [
-        (myIndex: number) =>
-            <ToggleText
-                active={myIndex === firstIndexActiveOnLoad}>
-                <MaterialCommunityIcons
-                    name={"view-sequential"} size={30}/></ToggleText>,
-        (myIndex: number) => <ToggleText
-            active={myIndex === obj.currentIndex.index}><MaterialCommunityIcons
-            name={"view-stream"}
-            size={30}/></ToggleText>
-    ]
-};
 
 const CacheButton = styled(Button)`
   align-self:flex-start;
 `;
 
 const Home = () => {
+    const [expandedList, setExpandedList] = useState("");
+
+    const ToggleData = (obj: { currentIndex: any }) => {
+        // on ComponentDidMount the currentIndex got a default number from state
+        // when clicked the object changes and gets a nested index inside currentIndex
+        const firstIndexActiveOnLoad = (typeof obj.currentIndex === 'number') ? obj.currentIndex : obj.currentIndex.index;
+
+        return [
+            (myIndex: number) =>
+                <ToggleText
+                    active={myIndex === firstIndexActiveOnLoad}
+                    onPress={() => {setExpandedList("simple")}}>
+                    <MaterialCommunityIcons
+                        name={"view-sequential"} size={30}/></ToggleText>,
+            (myIndex: number) => <ToggleText
+                onPress={() => {setExpandedList("expanded")}}
+                active={myIndex === obj.currentIndex.index}><MaterialCommunityIcons
+                name={"view-stream"}
+                size={30}/></ToggleText>
+        ]
+    };
+
     // @ts-ignore
     return (
         <View>
@@ -69,7 +74,7 @@ const Home = () => {
 
                 <View style={{marginTop: 100}}/>
                 <Text style={{textAlign: 'center'}}>Time: {format(new Date(), "HH:mm")}</Text>
-                <SimpleList/>
+                <SimpleList expandedList={expandedList}/>
                 <ListDivider>{format(new Date().getTime() + 30 * 60 * 1000, "HH:mm")}</ListDivider>
                 <ListDivider>{format(new Date().getTime() + 60 * 60 * 1000, "HH:mm")}</ListDivider>
                 <ListDivider>{format(new Date().getTime() + 90 * 60 * 1000, "HH:mm")}</ListDivider>

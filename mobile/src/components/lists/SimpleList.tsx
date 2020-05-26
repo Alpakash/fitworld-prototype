@@ -1,9 +1,9 @@
 import React from 'react';
 import Row from "../layout/Row";
 import Col from "../layout/Col";
-import { H1, H3Bold, H6 } from "../typography/Typography";
+import { H2, H3Bold, H6 } from "../typography/Typography";
 import styled from "styled-components";
-import { View } from "react-native";
+import { Image, View } from "react-native";
 import Distance from "../../assets/svg/distance_sign.svg";
 import Pin from "../../assets/svg/location_pin.svg";
 import ListDivider from "./ListDivider";
@@ -59,23 +59,23 @@ justify-content: center;
 
 const trainings = [
     {
-        date: new Date(2020, 4, 26, 12, 22),
+        date: new Date(2020, 4, 26, 13, 55),
         name: "Swimming",
         distance: 25.4,
         location: "Dolfinarium"
     }, {
-        date: new Date(2020, 4, 26, 12, 20),
+        date: new Date(2020, 4, 26, 13, 0),
         name: "Kickboxing",
         distance: 23.2,
         location: "Colosseum"
     }, {
-        date: new Date(2020, 4, 26, 12,20 ),
+        date: new Date(2020, 4, 26, 13, 20),
         name: "Boxing",
         distance: 5,
         location: "The Ring"
     },
     {
-        date: new Date(2020, 4, 26, 12, 50),
+        date: new Date(2020, 4, 26, 13, 50),
         name: "YO",
         distance: 5,
         location: "Groet plaats"
@@ -93,8 +93,8 @@ do {
     const startDate = new Date(Date.now());
     const endDate = new Date(Date.now() + (30 * c) * 60 * 1000);
 
-    console.log(`${c}: endDate ${endDate}`)
-    console.log(`${i}: startDate: ${new Date(Date.now() + 30 * i * 60 * 1000)}`);
+    console.log(`${ c }: endDate ${ endDate }`)
+    console.log(`${ i }: startDate: ${ new Date(Date.now() + 30 * i * 60 * 1000) }`);
 
     if (sorted[i].date > startDate && sorted[i].date < endDate) {
         arrayThirty.push(sorted[i]);
@@ -109,7 +109,8 @@ do {
 
 pushedDates["hello"] = arrayThirty;
 
-const SimpleList = () => {
+const SimpleList = (props: { expandedList: string }) => {
+
     return (
         <>
             <ListDivider>{ format(new Date().getTime(), "HH:mm") }</ListDivider>
@@ -128,9 +129,15 @@ const SimpleList = () => {
                             <H6><Pin/> { x.location }</H6>
                         </View>
                         <Price>
-                            <H1>€0,00</H1>
+                            <H2>€0,00</H2>
                         </Price>
                     </Container>
+                    {
+                        props.expandedList == "expanded" ?
+                            <Col size={ 4 }>
+                                    <Image source={{uri: "https://reactnative.dev/img/tiny_logo.png"}}/>
+                            </Col> : null
+                    }
                     <Col size={ 1 }/>
                 </Row>
             ) }
