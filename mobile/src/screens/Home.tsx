@@ -11,6 +11,7 @@ import BackgroundShape4 from "../assets/svg/background_shape_4.svg"
 import SimpleList from "../components/lists/SimpleList";
 import ListDivider from "../components/lists/ListDivider";
 import { format } from "date-fns";
+import Toggle from '../components/Toggle';
 
 const ToggleText = styled(Text)<{ active: boolean }>`
   color: ${props => props.active ? 'white' : 'grey'};
@@ -54,9 +55,9 @@ const Home = () => {
                 <Row>
                     <Col size={1}/>
                     <Col size={5}>
-                        {/*<Toggle>*/}
-                        {/*    { ToggleData }*/}
-                        {/*</Toggle>*/}
+                        <Toggle>
+                            { ToggleData }
+                        </Toggle>
                     </Col>
 
                     <Col size={5}>

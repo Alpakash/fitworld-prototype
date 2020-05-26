@@ -3,7 +3,7 @@ import Row from "../layout/Row";
 import Col from "../layout/Col";
 import { H1, H3Bold, H6 } from "../typography/Typography";
 import styled from "styled-components";
-import { View } from "react-native";
+import { Text, View } from "react-native";
 import Distance from "../../assets/svg/distance_sign.svg";
 import Pin from "../../assets/svg/location_pin.svg";
 import ListDivider from "./ListDivider";
@@ -28,34 +28,34 @@ justify-content: center;
 
 const trainings = [
     {
-        date: new Date(2020, 4, 25, 23, 45),
+        date: new Date(2020, 4, 26, 9, 45),
         name: "Swimming",
         distance: 25.4,
         location: "Dolfinarium"
     }, {
-        date: new Date(2020, 4, 25, 23, 50),
+        date: new Date(2020, 4, 26, 9, 50),
         name: "Kickboxing",
         distance: 23.2,
         location: "Colosseum"
     }, {
-        date: new Date(2020, 4,25,23,50),
+        date: new Date(2020, 4, 26, 9, 10),
         name: "Boxing",
         distance: 5,
         location: "The Ring"
     }, {
-        date: new Date(2020, 4, 25, 23, 55),
+        date: new Date(2020, 4, 26, 9, 25),
         name: "Yoga",
         distance: 1000,
         location: "Nirvana Station"
     },
     {
-        date: new Date(2020, 4, 25, 24, 30),
+        date: new Date(2020, 4, 26, 9, 31),
         name: "Hallo",
         distance: 20,
         location: "Next"
     },
     {
-        date: new Date(2020, 4, 25, 24, 20),
+        date: new Date(2020, 4, 26, 9, 21),
         name: "Yo",
         distance: 20,
         location: "Next"
@@ -64,9 +64,11 @@ const trainings = [
 
 const sorted = trainings.slice().sort((a: any, b: any) => a.date - b.date);
 
+
 const sortedTrainings: { [key: string]: any } = {
     thirty: [],
-    sixty: []
+    sixty: [],
+    ninety: []
 };
 
 // loop through training array, through object elements and scan date prop
@@ -83,45 +85,85 @@ const sortedTrainings: { [key: string]: any } = {
 // console.log(new Date(Date.UTC(2020, 5, 25, 22, 33)));
 // console.log(new Date().setUTCMinutes(30));
 
+
+// const trainings = {
+// 30min: [
+// {name, date, location, distance},
+// {name, date, location, distance},
+// {name, date, location, distance},
+// ],
+// 60min: [
+// {name, date, location, distance},
+// {name, date, location, distance},
+// {name, date, location, distance},
+// ],
+// 90min: [
+// {name, date, location, distance},
+// {name, date, location, distance},
+// {name, date, location, distance},
+// ]}
+
+
+const pushedDates: { [key: string]: Array<object> } = {
+hello: []
+}
+
+let index = 0;
+do {
+    pushedDates["hello"].push({name: "yo"})
+    index++;
+} while (index < 2);
+
+console.log(pushedDates.hello);
+
 let i = 0;
 let c = 1;
 do {
-    const count = new Date(Date.now() + (30 * c) * 60 * 1000);
-    const dateNow = new Date();
+    const startDate = new Date(Date.now());
+    const endDate = new Date(Date.now() + (30 * c) * 60 * 1000);
 
-    if (sorted[i].date > dateNow && sorted[i].date < count) {
+    if (sorted[i].date > startDate && sorted[i].date < endDate) {
         sortedTrainings.thirty.push(sorted[i]);
     }
-
+    if (sorted[i].date > endDate) {
+        c++;
+        if (sorted[i].date < endDate) {
+            sortedTrainings.sixty.push(sorted[i]);
+        }
+    }
     i++;
 } while (i < sorted.length);
 
 console.log(sortedTrainings);
+console.log(Object.keys(sortedTrainings));
 
 const SimpleList = () => {
+
     return (
         <>
             <ListDivider>{ format(new Date().getTime(), "HH:mm") }</ListDivider>
-            { sortedTrainings.thirty.map((x: any, idx: number) =>
-                <Row key={ idx }>
-                    <Col size={ 1 }/>
-                    <Container style={ { elevation: 4 } }>
-                        <View style={ { flex: 2 } }>
-                            <Row>
-                                <H6 style={ { marginTop: 5, marginRight: 10 } }>{ format(x.date, "HH:mm") }</H6>
-                                <H3Bold>{ x.name } </H3Bold>
-                            </Row>
-                            <H6><Distance/> { x.distance } KM</H6>
-                            <H6><Pin/> { x.location }</H6>
-                        </View>
-                        <Price>
-                            <H1>€0,00</H1>
-                        </Price>
-                    </Container>
+                    {sortedTrainings.thirty.map((x: any, idx: number) =>
+                    <Row key={ idx }>
+                        <Col size={ 1 }/>
+                        <Container style={ { elevation: 4 } }>
+                            <View style={ { flex: 2 } }>
+                                <Row>
+                                    <H6 style={ { marginTop: 5, marginRight: 10 } }>
+                                        { format(x.date,"HH:mm") }
+                                    </H6>
+                                    <H3Bold>{ x.name } </H3Bold>
+                                </Row>
+                                <H6><Distance/> { x.distance } KM</H6>
+                                <H6><Pin/> { x.location }</H6>
+                            </View>
+                            <Price>
+                                <H1>€0,00</H1>
+                            </Price>
+                        </Container>
+                        <Col size={ 1 }/>
+                    </Row>
 
-                    <Col size={ 1 }/>
-                </Row>
-            ) }
+                    )}
         </>
     );
 };
