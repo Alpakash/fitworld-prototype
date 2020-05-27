@@ -1,5 +1,5 @@
-import React, { useState } from 'react'
-import { Button, ScrollView, Text, View } from 'react-native'
+import React, {useState} from 'react'
+import {Button, ScrollView, Text, View} from 'react-native'
 import AuthGet from '../AuthGet'
 import AsyncStorage from '@react-native-community/async-storage'
 import styled from 'styled-components'
@@ -9,12 +9,11 @@ import ButtonWithIcon from "../components/buttons/ButtonWithIcon";
 import Col from "../components/layout/Col";
 import Row from "../components/layout/Row";
 import BackgroundShape6 from "../assets/svg/background_shape_6.svg"
-import {ButtonText, H1, H1BoldWhite, H3White} from "../components/typography/Typography";
-import {getPeriodOfDay} from "../util/getPeriodOfDay";
+import {ButtonText, H1, H2BoldWhite} from "../components/typography/Typography";
 import Toggle from "../components/Toggle";
 
 const ToggleText = styled(Text)<{ active: boolean }>`
-  color: ${ props => props.active ? 'white' : 'lightgrey' };
+  color: ${props => props.active ? 'white' : 'lightgrey'};
 `;
 
 const CacheButton = styled(Button)`
@@ -38,14 +37,14 @@ const Home = () => {
             (myIndex: number) =>
                 <ToggleText
                     // onPress={ () => toggleListView("expanded") }
-                    active={ myIndex === firstIndexActiveOnLoad }>
+                    active={myIndex === firstIndexActiveOnLoad}>
                     <MaterialCommunityIcons
-                        name={ "view-sequential" } size={ 30 }/></ToggleText>,
+                        name={"view-sequential"} size={30}/></ToggleText>,
             (myIndex: number) => <ToggleText
                 // onPress={ () => toggleListView("simple") }
-                active={ myIndex === obj.currentIndex.index }><MaterialCommunityIcons
-                name={ "view-stream" }
-                size={ 30 }/></ToggleText>
+                active={myIndex === obj.currentIndex.index}><MaterialCommunityIcons
+                name={"view-stream"}
+                size={30}/></ToggleText>
         ]
     };
 
@@ -54,84 +53,88 @@ const Home = () => {
         <View>
             {/* SVG is always 205 height */}
             <View
-                style={{height: 205, flexDirection: "column", justifyContent: "space-between", alignContent: "center"}}>
-                <BackgroundShape6 style={ { position: "absolute" } }/>
-            <View style={ { justifyContent: "center",
-                    alignContent: "center",
-                    alignSelf: "center",
-                    flex: 1
-                }}>
-                        <H3White style={{alignSelf: "center"}}>
-                            Have a wonderful
-                        </H3White>
-                        <H1BoldWhite style={{alignSelf: "center"}}>
-                            {getPeriodOfDay()}
-                        </H1BoldWhite>
-                </View>
+                style={{height: 215, flexDirection: "column", alignContent: "center"}}>
+                <BackgroundShape6 style={{position: "absolute"}}/>
                 <View style={{
                     justifyContent: "center",
                     alignContent: "center",
                     alignSelf: "center",
-                    paddingBottom: 30 } }>
-                <Row style={{alignSelf: "center"}}>
-                    <Col size={ 1 }/>
-                    <Col size={ 10 }>
-                        <InputWithIcon icon={ "search" } placeholder={ "Search here..." }/>
-                    </Col>
-                    <Col size={ 1 }/>
-                </Row></View>
+                    paddingTop: 25,
+                    paddingBottom: 25,
+                }}>
+                    <H2BoldWhite style={{alignSelf: "center"}}>
+                        What's on the agenda today?
+                    </H2BoldWhite>
+                </View>
+
+                <View style={{flex:1}}>
+                    <View style={{
+                        justifyContent: "center",
+                        alignContent: "center",
+                        alignSelf: "center",
+                        paddingBottom: 5,
+                    }}>
+                        <Row style={{alignSelf: "center"}}>
+                            <Col size={1}/>
+                            <Col size={10}>
+                                <InputWithIcon icon={"search"} placeholder={"Search here..."}/>
+                            </Col>
+                            <Col size={1}/>
+                        </Row>
+                    </View>
+                    <Row
+                    >
+                        <Col size={1}/>
+                        <Col size={5}>
+                            <Toggle>
+                                {ToggleData}
+                            </Toggle>
+                        </Col>
+
+                        <Col size={5}>
+                            <ButtonWithIcon
+                                icon="filter-outline"
+                                size={35}
+                                click={() => setShowFilter(!showFilter)}>
+                                <ButtonText style={{paddingTop: 3}}>Filter Options</ButtonText>
+                            </ButtonWithIcon>
+                        </Col>
+                        <Col size={1}/>
+                    </Row>
+                </View>
             </View>
 
             <ScrollView style={{paddingTop: 20}}>
 
-                <Row>
-                    <Col size={ 1 }/>
-                    <Col size={ 5 }>
-                        <Toggle>
-                            { ToggleData }
-                        </Toggle>
-                    </Col>
-
-                    <Col size={ 5 }>
-                        <ButtonWithIcon
-                            icon="filter-outline"
-                            size={35}
-                            click={ () => setShowFilter(!showFilter) }>
-                            <ButtonText style={ { paddingTop: 3 } }>Filter Options</ButtonText>
-                        </ButtonWithIcon>
-                    </Col>
-                    <Col size={ 1 }/>
-                </Row>
-
-                { Array(4)
+                {Array(4)
                     .fill(null)
-                    .map((x, index) => <Row key={ `i${ index }` }>
-                        <Col size={ 1 }/>
-                        <Col elevation={ 4 }
-                             size={ 10 }
-                             style={ {
+                    .map((x, index) => <Row key={`i${index}`}>
+                        <Col size={1}/>
+                        <Col elevation={4}
+                             size={10}
+                             style={{
                                  backgroundColor: "white",
                                  marginTop: 5,
                                  marginBottom: 5,
                                  padding: 10,
                                  borderRadius: 10
-                             } }>
+                             }}>
                             <H1>
                                 hi
                             </H1>
                         </Col>
-                        <Col size={ 1 }/>
+                        <Col size={1}/>
                     </Row>)
                 }
 
-                <View style={ { margin: 30, flexDirection: "row" } }>
-                    <CacheButton title={ 'clear the cache' }
-                                 onPress={ () => AsyncStorage.clear() }/>
+                <View style={{margin: 30, flexDirection: "row"}}>
+                    <CacheButton title={'clear the cache'}
+                                 onPress={() => AsyncStorage.clear()}/>
                 </View>
                 <View>
                     <AuthGet/>
                 </View>
-                { showFilter ? <Text>Hello Filter!</Text> : <Text>Filter hidden</Text> }
+                {showFilter ? <Text>Hello Filter!</Text> : <Text>Filter hidden</Text>}
 
             </ScrollView>
         </View>

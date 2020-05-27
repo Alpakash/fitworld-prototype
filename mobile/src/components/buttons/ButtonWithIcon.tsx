@@ -1,6 +1,6 @@
 import React from 'react';
 import styled from 'styled-components/native';
-import { GestureResponderEvent, TouchableWithoutFeedback, View } from "react-native";
+import {GestureResponderEvent, TouchableOpacity, TouchableWithoutFeedback, View} from "react-native";
 import MaterialIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import Row from "../layout/Row";
 
@@ -29,7 +29,7 @@ interface IButtonProps {
 
 const ButtonWithIcon: React.FC<IButtonProps> = (props) => {
     return (
-            <TouchableWithoutFeedback onPress={ props.click }>
+            <TouchableOpacity onPress={ props.click } activeOpacity={0.8}>
                 <StyledButton style={ { ...props.style } } border={ props.border ?? undefined }>
                     {/* if right is true, icon will appear on the right side */}
                     <ButtonRow right={props.right}>
@@ -37,7 +37,7 @@ const ButtonWithIcon: React.FC<IButtonProps> = (props) => {
                         { props.children }
                     </ButtonRow>
                 </StyledButton>
-            </TouchableWithoutFeedback>
+            </TouchableOpacity>
     );
 };
 
