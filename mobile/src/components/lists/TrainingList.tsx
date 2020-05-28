@@ -1,10 +1,13 @@
 import React from 'react';
 import Row from "../layout/Row";
 import Col from "../layout/Col";
-import { BodyText, H1Bold } from "../typography/Typography";
+import { BodyText, H2, H3Bold, H6 } from "../typography/Typography";
 import styled from "styled-components";
-import { View } from "react-native";
-import { isSameDay, isSameHour } from 'date-fns';
+import { Image, Text, View } from "react-native";
+import { format, isSameHour } from 'date-fns';
+import Distance from '../../assets/svg/distance_sign.svg';
+import Pin from '../../assets/svg/location_pin.svg';
+import ListDivider from "./ListDivider";
 
 const Container = styled(View)`
 background-color: ${ ({ theme }) => theme.background.ghostWhite };
@@ -32,129 +35,121 @@ type Training = {
 
 const trainings: Training[] = [
     {
-        date: new Date(2020, 4, 27, 8, 59),
+        date: new Date(2020, 4, 28, 8, 35),
         name: "Swimming",
         distance: 25.4,
         location: "Dolfinarium"
     }, {
-        date: new Date(2020, 4, 27, 8, 0),
+        date: new Date(2020, 4, 28, 8, 59),
         name: "Kickboxing",
         distance: 23.2,
         location: "Colosseum"
     }, {
-        date: new Date(2020, 4, 27, 9, 0),
+        date: new Date(2020, 4, 28, 9, 22),
         name: "Boxing",
         distance: 5,
         location: "The Ring"
     },
     {
-        date: new Date(2020, 4, 27, 9, 59),
+        date: new Date(2020, 4, 28, 9, 21),
+        name: "YO",
+        distance: 5,
+        location: "Groet plaats"
+    },
+    {
+        date: new Date(2020, 4, 28, 10, 50),
         name: "YO",
         distance: 5,
         location: "Groet plaats"
     },
 ];
 
-function getRandomInt(min: number, max: number) {
-    min = Math.ceil(min);
-    max = Math.floor(max);
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-}
-
 const splittedDates: any = {};
+const sortedTrainings = trainings.sort((a: any, b: any) => a.date - b.date)
 const now = new Date();
-let last: Date | undefined = undefined;
-Array(24 * 2)
-    .fill(undefined)
-    .map((x, i) => {
-        if (i === 0) {
-            last = new Date(now.getFullYear(), now.getMonth(), now.getDate(), 0, 0, 0)
-            //@ts-ignore
-            return splittedDates[last] = [];
-        } else if (!!last) {
-            if (last.getMinutes() === 30) {
-                last.setHours(last.getHours() + 1)
-                last.setMinutes(0, 0, 0);
-            } else if (last.getMinutes() === 0) {
-                last.setMinutes(30, 0, 0);
-            }
-            //@ts-ignore
-            return splittedDates[last] = [];
+
+sortedTrainings.map(({ date }, i) => {
+    if (!Object.keys(splittedDates).includes(`${ new Date(now.getFullYear(), now.getMonth(), now.getDate(), date.getHours()) }`)) {
+        let dateKey: Date = date;
+        if (date.getMinutes() >= 0 && date.getMinutes() <= 30) {
+            dateKey = new Date(now.getFullYear(), now.getMonth(), now.getDate(), date.getHours(), 0)
+        } else if (date.getMinutes() <= 59 && date.getMinutes() > 30) {
+            dateKey = new Date(now.getFullYear(), now.getMonth(), now.getDate(), date.getHours(), 30)
         }
-    })
+        // @ts-ignore
+        return splittedDates[dateKey] = [];
+    }
+});
 
 let arr = Object.keys(splittedDates)
 for (let i = 0; i < arr.length; i++) {
     const val = arr[i];
+
     splittedDates[val] =
-        trainings.filter(({ date, name }, i2) => {
-                if (isSameDay(new Date(val), date)) {
-                    if (isSameHour(new Date(val), date)) {
-                        if (i === arr.length - 1) {
-                            // since it's the end of the day, we're assured a date won't end up in the next day or something
-                            return date.getMinutes() >= new Date(val).getMinutes()
-                        } else {
-                            let next = new Date(arr[i + 1]).getMinutes();
-                            return date.getMinutes() >= new Date(val).getMinutes() && (next === 0 ? 59 : next - 1) >= date.getMinutes()
-                        }
-                    }
+        trainings.filter(({ date }) => {
+            if(isSameHour(new Date(val).getHours(), date.getHours())) {
+                if (date.getMinutes() >= 0 && date.getMinutes() < 30) {
+                    return date.getMinutes() >= new Date(val).getMinutes()
+                } else if (date.getMinutes() >= 30 && date.getMinutes() <= 59) {
+                    let next = new Date(arr[i + 1]).getMinutes();
+                    return date.getMinutes() >= new Date(val).getMinutes() && (next === 0 ? 59 : next - 1) >= date.getMinutes()
                 }
             }
+        }
         )
 }
+
+console.log(arr[0]);
+console.log(JSON.stringify(splittedDates, null, 4))
+
 
 const TrainingList = (props: { expandedList: string }) => {
     return (
         <>
-
             {
                 Object.entries(splittedDates)
-                    .map((x) => {
+                    .map((x, idx) => {
                         const [key, value] = x as unknown as [string, Training[]];
-                        return <Row key={ `bla-${ key }` }>
-                            <Col size={ 2 }/>
-                            <Col size={ 10 }>
-                                <H1Bold>
-                                    { key }
-                                </H1Bold>
-                                { value.map(y => <BodyText>{ JSON.stringify(y.date) }\n</BodyText>) }
-                            </Col>
-                            <Col size={ 2 }/>
-                        </Row>
+                        return <>
+                            <ListDivider>{ format(Date.parse(key), "HH:mm") }</ListDivider>
+                            { value.map(y =>
+                                <Row key={ idx }>
+                                    <Col size={ 1 }/>
+                                    <Container style={ { elevation: 4 } }>
+                                        <View style={ { flex: 2 } }>
+                                            <Row>
+                                                <H6 style={ { marginTop: 5, marginRight: 10 } }>
+                                                    <Text>{ format(y.date, "HH:mm") }</Text>
+                                                </H6>
+                                                <H3Bold>
+                                                    { y.name }
+                                                </H3Bold>
+                                            </Row>
+                                            <H6><Distance/> { <BodyText>{ y.distance }</BodyText> } KM</H6>
+                                            <H6><Pin/> { <BodyText>{ y.location }</BodyText> }</H6>
+                                        </View>
+                                        <Price>
+                                            <H2>€0,00</H2>
+                                        </Price>
+                                    </Container>
+                                    {
+                                        props.expandedList == "expanded" ?
+                                            <Col size={ 4 }>
+                                                <Image
+                                                    style={ { marginLeft: 5, borderRadius: 10 } }
+                                                    source={ {
+                                                        uri: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png",
+                                                        width: 80,
+                                                        height: 99
+                                                    } }/>
+                                            </Col> : null
+                                    }
+                                    <Col size={ 1 }/>
+                                </Row>
+                            ) }
+                        </>
                     })
             }
-
-            {/*{ Object.entries(splittedDates).map((x: [string, unknown], idx: any) =>*/ }
-            {/*    <Row key={ idx }>*/ }
-            {/*        <Col size={ 1 }/>*/ }
-            {/*        <Container style={ { elevation: 4 } }>*/ }
-            {/*            <View style={ { flex: 2 } }>*/ }
-            {/*                <Row>*/ }
-            {/*                    <H6 style={ { marginTop: 5, marginRight: 10 } }>*/ }
-            {/*                        { JSON.stringify(x) }*/ }
-            {/*                    </H6>*/ }
-            {/*                </Row>*/ }
-            {/*            </View>*/ }
-            {/*            <Price>*/ }
-            {/*                <H2>€0,00</H2>*/ }
-            {/*            </Price>*/ }
-
-            {/*        </Container>*/ }
-            {/*        {*/ }
-            {/*            props.expandedList == "expanded" ?*/ }
-            {/*                <Col size={ 4 } style={ { elevation: 4 } }>*/ }
-            {/*                    <Image*/ }
-            {/*                        style={ { marginTop: 3, marginLeft: 5, borderRadius: 10 } }*/ }
-            {/*                        source={ {*/ }
-            {/*                            uri: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png",*/ }
-            {/*                            width: 89,*/ }
-            {/*                            height: 100*/ }
-            {/*                        } }/>*/ }
-            {/*                </Col> : null*/ }
-            {/*        }*/ }
-            {/*        <Col size={ 1 }/>*/ }
-            {/*    </Row>*/ }
-            {/*) }*/ }
         </>
     );
 };
