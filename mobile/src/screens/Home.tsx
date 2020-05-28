@@ -8,7 +8,7 @@ import InputWithIcon from "../components/InputWithIcon";
 import Col from "../components/layout/Col";
 import Row from "../components/layout/Row";
 import BackgroundShape4 from "../assets/svg/background_shape_4.svg"
-import SimpleList from "../components/lists/SimpleList";
+import TrainingList from "../components/lists/TrainingList";
 import ListDivider from "../components/lists/ListDivider";
 import { format } from "date-fns";
 import Toggle from '../components/Toggle';
@@ -73,11 +73,7 @@ const Home = () => {
                 </Row>
 
                 <View style={{marginTop: 100}}/>
-                <Text style={{textAlign: 'center'}}>Time: {format(new Date(), "HH:mm")}</Text>
-                <SimpleList expandedList={expandedList}/>
-                <ListDivider>{format(new Date().getTime() + 30 * 60 * 1000, "HH:mm")}</ListDivider>
-                <ListDivider>{format(new Date().getTime() + 60 * 60 * 1000, "HH:mm")}</ListDivider>
-                <ListDivider>{format(new Date().getTime() + 90 * 60 * 1000, "HH:mm")}</ListDivider>
+                <TrainingList expandedList={expandedList}/>
 
                 <View style={{margin: 30, flexDirection: "row"}}>
                     <CacheButton title={'clear the cache'}

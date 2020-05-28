@@ -8,7 +8,8 @@ const StyledButton = styled(TouchableHighlight)<{border: string | undefined}>`
     background-color: #212121;
     border-radius: 5px;
     align-items: center;
-    ${({border}) => !!border ? `border: ${border}` : ""}
+    ${({border}) => 
+    !!border ? `border: ${border}` : ""}
 `;
 
 interface IButtonProps {

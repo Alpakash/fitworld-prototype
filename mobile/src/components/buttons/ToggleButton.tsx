@@ -14,7 +14,7 @@ justify-content: center;
 align-items: center;
 `;
 
-const Button = (props: { type: string, active?: boolean, onPress?: (event: GestureResponderEvent) => void }) => {
+const ToggleButton = (props: { type: string, active?: boolean, onPress?: (event: GestureResponderEvent) => void }) => {
     return (
         <View>
             <ButtonStyle onPress={props.onPress}>
@@ -25,4 +25,4 @@ const Button = (props: { type: string, active?: boolean, onPress?: (event: Gestu
 };
 
 
-export default Button;
+export default ToggleButton;

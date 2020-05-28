@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import styled from 'styled-components'
-import { Animated, Dimensions, Easing, TouchableOpacity, View } from 'react-native'
+import { Animated, Dimensions, TouchableOpacity, View } from 'react-native'
 import _ from 'lodash'
 
 const { width } = Dimensions.get('window')
@@ -13,7 +13,7 @@ flex-direction: row;
 `
 
 const Switch = styled(Animated.View)`
-background-color: black;
+background-color: ${ ({ theme }) => theme.palette.common.black };
 position: absolute;
 border-radius: 26px;
 `
@@ -26,7 +26,7 @@ z-index: 1;
 `
 
 // De Toggle Component ook 2D maken met een Y-as
-class Toggle extends Component<{ style?: object, elevation?: number, margin?: number}, {}> {
+class Toggle extends Component<{ style?: object, elevation?: number, margin?: number }, {}> {
     state = {
         scrollAnim: new Animated.Value(0),
         widthAnim: new Animated.Value(0),
