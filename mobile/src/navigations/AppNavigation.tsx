@@ -1,5 +1,5 @@
 import React from 'react'
-import Home from '../screens/Home'
+import Home from '../screens/Home/Home'
 import {useQuery} from '@apollo/react-hooks'
 import gql from 'graphql-tag'
 import {NavigationContainer} from "@react-navigation/native";

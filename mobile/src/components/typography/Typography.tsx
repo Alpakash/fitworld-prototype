@@ -395,6 +395,12 @@ export const ButtonText = t(e => e
     .isBold()
     .isUppercase());
 
+export const ButtonTextWhite = t(e => e
+    .isButtonSize()
+    .isBold()
+    .isWhite()
+    .isUppercase());
+
 export const LabelText = t(e => e
     .isLabelSize()
     .isBold()
