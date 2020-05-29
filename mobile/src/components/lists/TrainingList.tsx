@@ -57,7 +57,7 @@ const trainings: Training[] = [
         location: "Groet plaats"
     },
     {
-        date: new Date(2020, 4, 28, 10, 50),
+        date: new Date(2020, 4, 28, 11, 50),
         name: "YO",
         distance: 5,
         location: "Groet plaats"
@@ -87,19 +87,14 @@ for (let i = 0; i < arr.length; i++) {
 
     splittedDates[val] =
         trainings.filter(({ date }) => {
-            if(isSameHour(new Date(val).getHours(), date.getHours())) {
-                if (date.getMinutes() >= 0 && date.getMinutes() < 30) {
-                    return date.getMinutes() >= new Date(val).getMinutes()
-                } else if (date.getMinutes() >= 30 && date.getMinutes() <= 59) {
-                    let next = new Date(arr[i + 1]).getMinutes();
-                    return date.getMinutes() >= new Date(val).getMinutes() && (next === 0 ? 59 : next - 1) >= date.getMinutes()
-                }
+                    if (date.getMinutes() < 30 && date.getMinutes() >= 0) {
+                        return date.getMinutes() >= new Date(val).getMinutes()
+                    }
+                return date.getMinutes() >= new Date(val).getMinutes() && date.getMinutes() <= new Date(arr[i+1]).getMinutes()
             }
-        }
         )
 }
 
-console.log(arr[0]);
 console.log(JSON.stringify(splittedDates, null, 4))
 
 
