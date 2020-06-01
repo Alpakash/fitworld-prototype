@@ -13,14 +13,19 @@ class App extends React.Component<any, any> {
         cachePersisted: false,
     };
 
-    componentDidMount(): void {
+    hydrateStore = async (preHide: () => void) => {
         client.setupClient()
             .then(stored => {
                 this.setState({cachePersisted: true}, () => {
+                    preHide();
                     SplashScreen.hide();
                 });
             })
             .catch(err => console.log(err))
+    };
+
+    componentDidMount(): void {
+       this.hydrateStore(() => {});
     }
 
     render() {
@@ -29,7 +34,15 @@ class App extends React.Component<any, any> {
             return null;
         } else {
             return (
-                <RootContext.Provider value={rootContextDefaultState}>
+                <RootContext.Provider value={{
+                    // DO NOT USE UNLESS YOU KNOW WHAT YOU'RE DOING
+                    forceAppReRender: () => {
+                        SplashScreen.show();
+                        this.hydrateStore(() => {
+                            this.forceUpdate();
+                        })
+                    }
+                }}>
                     <ThemeProvider theme={theme}>
                         <ApolloProvider client={client.getClient()}>
                             <AppNavigation/>

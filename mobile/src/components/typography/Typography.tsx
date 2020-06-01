@@ -373,6 +373,11 @@ export const H6Bold = t(e => e
     .isH6Size()
     .isBold());
 
+export const H6BoldWhite = t(e => e
+    .isH6Size()
+    .isWhite()
+    .isBold());
+
 export const H6BoldItalic = t(e => e
     .isH6Size()
     .isBoldItalic());

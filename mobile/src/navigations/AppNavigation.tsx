@@ -19,6 +19,7 @@ import CalendarActiveIcon from "../assets/svg/tabBar/calendar_active_icon.svg";
 import HomeActiveIcon from "../assets/svg/tabBar/home_active_icon.svg";
 import NotificationActiveIcon from "../assets/svg/tabBar/notification_active_icon.svg";
 import ProfileActiveIcon from "../assets/svg/tabBar/profile_active_icon.svg";
+import Profile from "../screens/Profile";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -50,7 +51,7 @@ const AppNavigation = () => {
             label: "Notifications"
         },
         {
-            comp: Typography,
+            comp: Profile,
             icon: ProfileIcon,
             activeIcon: ProfileActiveIcon,
             label: "Profile"
