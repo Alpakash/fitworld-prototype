@@ -72,7 +72,6 @@ class GraphQLClient {
             },
         });
 
-        console.log(JSON.stringify(stored, null, 4))
         return stored;
     };
 

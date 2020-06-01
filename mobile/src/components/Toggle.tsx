@@ -1,126 +1,123 @@
-import React, { Component } from 'react'
+import React, {useRef, useState} from 'react'
 import styled from 'styled-components'
-import { Animated, Dimensions, Easing, TouchableOpacity, View } from 'react-native'
-import _ from 'lodash'
-
-const { width } = Dimensions.get('window');
+import {Animated, TouchableOpacity, View} from 'react-native'
+import _ from "lodash";
 
 const Container = styled(View)<{ width: number }>`
-background-color: ${ ({ theme }) => theme.background.white };
-width: ${ props => props.width }px;
-border-radius: 25px;
-flex-direction: row;
-margin: 13px 0;
+    background-color: ${({theme}) => theme.background.white};
+    width: ${props => props.width}px;
+    border-radius: 25px;
+    flex-direction: row;
+    margin: 13px 0;
 `;
 
 const Switch = styled(Animated.View)`
-background-color: black;
-position: absolute;
-border-radius: 26px;
+    background-color: black;
+    position: absolute;
+    border-radius: 26px;
 `;
 
 const StyledButton = styled(TouchableOpacity)`
-padding: 5px 20px;
-align-items: center;
-justify-content: center;
-z-index: 1;
+    padding: 5px 20px;
+    align-items: center;
+    justify-content: center;
+    z-index: 1;
 `;
 
-// De Toggle Component ook 2D maken met een Y-as
-class Toggle extends Component<{ style?: object, elevation?: number, margin?: number}, {}> {
-    state = {
-        scrollAnim: new Animated.Value(0),
-        widthAnim: new Animated.Value(0),
-        heightAnim: new Animated.Value(0),
-        currentIndex: 0
+interface Props {
+    style?: object,
+    elevation?: number,
+    margin?: number
+}
+
+const Toggle: React.FC<Props> = (props) => {
+    let [scrollAnim, setScrollAnim] = useState(useRef(new Animated.Value(0)).current);
+    let [widthAnim, setWidthAnim] = useState(useRef(new Animated.Value(0)).current);
+    let [heightAnim, setHeightAnim] = useState(useRef(new Animated.Value(0)).current);
+
+    const [currentIndex, setCurrentIndex] = useState(0);
+    const [containerWidth, setContainerWidth] = useState(0);
+
+    const references: any[] = [];
+    const widths: number[] = [];
+    const heights: number[] = [];
+
+    const recheckDimensionsOfItems = () => {
+        for (const ref of references) {
+            ref.measure((x: number, y: number, width: number, height: number) => {
+                widths.push(width);
+                heights.push(height);
+
+                // calculate the total sum of this.widths
+                setContainerWidth(_.sum(widths));
+
+                setWidthAnim(new Animated.Value(widths[0]));
+                setHeightAnim(new Animated.Value(heights[0]));
+            })
+        }
     };
 
-    references: any[] = [];
-    private widths: number[] = [];
-    private heights: number[] = [];
-    private containerWidth: number = width;
 
-    componentDidMount(): void {
-        // TODO this is dirty and we should change this
-        setTimeout(() => {
-            for (const ref of this.references) {
-                ref.measure((x: number, y: number, width: number, height: number) => {
-                    this.widths.push(width);
-                    this.heights.push(height);
-
-                    // calculate the total sum of this.widths
-                    this.containerWidth = _.sum(this.widths);
-
-                    this.setState({
-                        widthAnim: new Animated.Value(this.widths[0]),
-                        heightAnim: new Animated.Value(this.heights[0]),
-                    })
-                })
-            }
-        }, 2000)
-    }
-
-    scroll = (index: number) => {
+    const scroll = (index: number) => {
         let sum = 0;
-
-        this.setState({
-            currentIndex: { index }
-        });
+        setCurrentIndex(index);
 
         // calculate the total width of the components before the clicked components
         for (let i = 0; i < index; i++) {
-            sum += this.widths[i]
+            sum += widths[i]
         }
 
         // set the value to the calculated width in const sum
         // the switch component will scroll to this position
-        Animated.spring(this.state.scrollAnim, {
+        Animated.spring(scrollAnim, {
             toValue: sum
         }).start();
 
         // set value the width of the clicked component
-        Animated.spring(this.state.widthAnim, {
-            toValue: this.widths[index],
+        Animated.spring(widthAnim, {
+            toValue: widths[index],
             damping: 15
         }).start()
     };
 
-    render() {
-        if (typeof this.props.children !== 'function') throw new Error('children should be function');
-        const children = this.props.children({ currentIndex: this.state.currentIndex });
-        if (children.length < 2) throw new Error('Toggle should have an array with 2 children');
 
-        return (
-            <>
-                <Container width={ this.containerWidth }
-                           style={ {
-                               ...this.props.style,
-                               elevation: this.props.elevation ?? 4
-                           } }>
-                    {
-                        children
-                            .map((x: any, index: number) =>
-                                <StyledButton
-                                    ref={ (ref: any) => {
-                                        this.references.push(ref)
-                                    } }
-                                    onPress={ () => this.scroll(index) }
-                                    key={ index }>
-                                    { x(index, this.state.currentIndex) }
-                                </StyledButton>
-                            )
-                    }
+    if (typeof props.children !== 'function') throw new Error('children should be function');
+    const children = props.children({currentIndex: currentIndex});
+    if (children.length < 2) throw new Error('Toggle should have an array with 2 children');
 
-                    <Switch style={ {
-                        // the Switch Component gets animated on the X-as with an animated value
-                        transform: [{ translateX: this.state.scrollAnim }],
-                        width: this.state.widthAnim,
-                        height: this.state.heightAnim
-                    } }/>
-                </Container>
-            </>
-        )
-    }
-}
+    return (
+        <View
+            onLayout={() => recheckDimensionsOfItems()}
+        >
+            <Container
+                width={containerWidth}
+                style={{
+                    ...props.style,
+                    elevation: props.elevation ?? 4
+                }}>
+                {
+                    children
+                        .map((x: any, index: number) =>
+                            <StyledButton
+                                ref={(ref: any) => {
+                                    references.push(ref)
+                                }}
+                                onPress={() => scroll(index)}
+                                key={index}>
+                                {x(index, currentIndex)}
+                            </StyledButton>
+                        )
+                }
+
+                <Switch style={{
+                    // the Switch Component gets animated on the X-as with an animated value
+                    transform: [{translateX: scrollAnim}],
+                    width: widthAnim,
+                    height: heightAnim
+                }}/>
+            </Container>
+        </View>
+    )
+};
 
 export default Toggle

@@ -5,7 +5,8 @@ import {ThemeProvider} from "styled-components/native";
 import theme from "fitworld-common/lib/common/src/theming/theme";
 import AppNavigation from "./navigations/AppNavigation";
 import SplashScreen from 'react-native-splash-screen'
-import {RootContext, rootContextDefaultState} from './contexts/RootContext';
+import {RootContext} from './contexts/RootContext';
+import {Dimensions, View} from "react-native";
 
 
 class App extends React.Component<any, any> {
@@ -25,7 +26,8 @@ class App extends React.Component<any, any> {
     };
 
     componentDidMount(): void {
-       this.hydrateStore(() => {});
+        this.hydrateStore(() => {
+        });
     }
 
     render() {
@@ -33,6 +35,7 @@ class App extends React.Component<any, any> {
             // splash screen on android-level covers us so no need to render anything
             return null;
         } else {
+            const {width, height} =  Dimensions.get("window");
             return (
                 <RootContext.Provider value={{
                     // DO NOT USE UNLESS YOU KNOW WHAT YOU'RE DOING
@@ -41,13 +44,17 @@ class App extends React.Component<any, any> {
                         this.hydrateStore(() => {
                             this.forceUpdate();
                         })
+                    },
+                    dimensions: {
+                        height,
+                        width
                     }
                 }}>
-                    <ThemeProvider theme={theme}>
-                        <ApolloProvider client={client.getClient()}>
-                            <AppNavigation/>
-                        </ApolloProvider>
-                    </ThemeProvider>
+                        <ThemeProvider theme={theme}>
+                            <ApolloProvider client={client.getClient()}>
+                                <AppNavigation/>
+                            </ApolloProvider>
+                        </ThemeProvider>
                 </RootContext.Provider>
             )
         }
