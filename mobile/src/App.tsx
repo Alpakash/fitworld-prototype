@@ -1,12 +1,12 @@
 import React from 'react'
 import {ApolloProvider} from '@apollo/react-hooks'
-import Splash from "./screens/Splash";
 import {client} from "./GraphQLClient";
-import {Net} from "./util/Net";
 import {ThemeProvider} from "styled-components/native";
 import theme from "fitworld-common/lib/common/src/theming/theme";
 import AppNavigation from "./navigations/AppNavigation";
 import SplashScreen from 'react-native-splash-screen'
+import {RootContext, rootContextDefaultState} from './contexts/RootContext';
+
 
 class App extends React.Component<any, any> {
     state = {
@@ -29,11 +29,13 @@ class App extends React.Component<any, any> {
             return null;
         } else {
             return (
-                <ThemeProvider theme={theme}>
-                    <ApolloProvider client={client.getClient()}>
-                        <AppNavigation/>
-                    </ApolloProvider>
-                </ThemeProvider>
+                <RootContext.Provider value={rootContextDefaultState}>
+                    <ThemeProvider theme={theme}>
+                        <ApolloProvider client={client.getClient()}>
+                            <AppNavigation/>
+                        </ApolloProvider>
+                    </ThemeProvider>
+                </RootContext.Provider>
             )
         }
     }

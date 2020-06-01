@@ -41,6 +41,7 @@ class Toggle extends Component<{ style?: object, elevation?: number, margin?: nu
     private containerWidth: number = width;
 
     componentDidMount(): void {
+        // TODO this is dirty and we should change this
         setTimeout(() => {
             for (const ref of this.references) {
                 ref.measure((x: number, y: number, width: number, height: number) => {
@@ -56,7 +57,7 @@ class Toggle extends Component<{ style?: object, elevation?: number, margin?: nu
                     })
                 })
             }
-        }, 500)
+        }, 2000)
     }
 
     scroll = (index: number) => {

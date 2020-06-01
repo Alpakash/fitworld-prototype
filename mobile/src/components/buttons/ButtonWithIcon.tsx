@@ -6,15 +6,15 @@ import {ButtonText, ButtonTextWhite} from "../typography/Typography";
 
 const LeftTouchable = styled(StyledButton)`
   border-top-right-radius: 0px;
-  border-top-left-radius: 5px;
+  border-top-left-radius: 20px;
   border-bottom-right-radius: 0px;
-  border-bottom-left-radius: 5px;
+  border-bottom-left-radius: 20px;
 `;
 
 const RightTouchable = styled(StyledButton)`
-  border-top-right-radius: 5px;
+  border-top-right-radius: 20px;
   border-top-left-radius: 0px;
-  border-bottom-right-radius: 5px;
+  border-bottom-right-radius: 20px;
   border-bottom-left-radius: 0px;
 `;
 
@@ -31,8 +31,8 @@ interface IButtonProps {
 
 const ButtonWithIcon: React.FC<IButtonProps> = (props) => {
     const leftStyling = {
-        borderTopRightRadius: !!props.rightIcon ? 0 : 5,
-        borderBottomRightRadius: !!props.rightIcon ? 0 : 5,
+        borderTopRightRadius: !!props.rightIcon ? 0 : 20,
+        borderBottomRightRadius: !!props.rightIcon ? 0 : 20,
         ...props.style
     };
     const textStyling = {paddingLeft: props.leftIcon ? 10 : 0};
