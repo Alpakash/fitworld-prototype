@@ -5,4 +5,6 @@ export type DefaultProps<T> = T & {
     children?: ReactNode;
     style?: object;
     theme?: typeof theme;
+    // Elevation API for View
+    elevation?: number
 }

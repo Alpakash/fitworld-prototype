@@ -1,19 +1,18 @@
 import React, { useRef } from 'react';
-import { Animated, Text, TextInput, View } from "react-native";
+import { Animated, TextInput, View } from "react-native";
 import styled from 'styled-components';
 import Icon from 'react-native-vector-icons/FontAwesome';
-import Col from "./layout/Col";
 
 const Container = styled(View)`
-background-color: white;
+background-color: ${ ({ theme }) => theme.background.ghostWhite };
 flex-direction: row;
 align-items: center;
+justify-content: space-around;
 border-radius: 25px;
 `;
 
 const SearchInput = styled(TextInput)`
-background-color: white;
-border-color: gray;
+background-color: ${ ({ theme }) => theme.background.ghostWhite };
 font-size: 20px;
 border-radius: 25px;
 `;
@@ -26,61 +25,65 @@ interface Props {
 const InputWithIcon: React.FC<Props> = (props) => {
     const [value, onChangeText] = React.useState('');
     const iconOpacity = useRef(new Animated.Value(1)).current;
-    const scrollAnim = useRef(new Animated.Value(0)).current;
+    const flexAnim = useRef(new Animated.Value(1)).current;
+    const paddingAnimation = useRef(new Animated.Value(0)).current;
 
-    // use spring based animation
-    const fadeOut = () => {
-        Animated.spring(iconOpacity, {
-            toValue: 0
-        }).start()
+    const onSelect = () => {
+        // use animations if the input value is filled
+        if (!value) {
+            Animated.spring(iconOpacity, {
+                toValue: 0
+            }).start()
 
-        Animated.spring(scrollAnim, {
-            toValue: -60,
-            bounciness: 13
-        }).start()
+            Animated.spring(paddingAnimation, {
+                toValue: 30
+            }).start()
+
+            Animated.spring(flexAnim, {
+                toValue: 0,
+            }).start()
+        }
     };
 
-    const fadeIn = () => {
-        Animated.spring(iconOpacity, {
-            toValue: 1
-        }).start()
+    const onDeselect = () => {
+        // use animations if the input value is filled
+        if (!value) {
+            Animated.spring(iconOpacity, {
+                toValue: 1
+            }).start()
 
-        Animated.spring(scrollAnim, {
-            toValue: 0,
-            bounciness: 0
-        }).start()
+            Animated.spring(flexAnim, {
+                toValue: 1,
+                bounciness: 0
+            }).start()
+        }
     };
+
 
     return (
         <>
             <Container style={ { elevation: 4 } }>
-                {/* Empty space before the icon */}
-                <Col size={ 2 }/>
-                <Animated.View style={{opacity: iconOpacity}}>
-                        <Icon name={ props.icon } size={ 25 } color="lightgrey"/>
+                {/* Animated opacity for icon*/ }
+                <Animated.View style={ {
+                    position: "absolute",
+                    left: 20,
+                    opacity: iconOpacity
+                } }>
+                    <Icon name={ props.icon } size={ 25 } color="lightgrey"/>
                 </Animated.View>
-                {/* Empty space after the icon */}
-                <Col size={ 3 }/>
-                <Animated.View style={{
-                    transform: [{ translateX: scrollAnim }],
-                }}>
-                <SearchInput
-                    onChangeText={ text => onChangeText(text) }
-                    onFocus={fadeOut}
-                    onBlur={fadeIn}
-                    placeholder={props.placeholder}
-                    value={ value }
-                />
+                {/* Animated flex for input field*/ }
+                <Animated.View style={ { flex: flexAnim } }/>
+                <Animated.View style={ { flex: 1, flexBasis: 50, paddingLeft: paddingAnimation } }>
+                    <SearchInput
+                        onChangeText={ text => onChangeText(text) }
+                        placeholder={ props.placeholder }
+                        onFocus={ onSelect }
+                        onBlur={ onDeselect }
+                        value={ value }
+                    />
                 </Animated.View>
-                {/* Empty space after the placeholder text */}
-                <Col size={ 7 }/>
+                <Animated.View style={ { flex: flexAnim } }/>
             </Container>
-
-            {/* Dummy check for a word on Input field */}
-            <View style={ { alignSelf: 'center', marginTop: 5, marginBottom: 10 } }>
-                { value.includes("yo") ? <Text>You typed in "yo" somewhere!</Text> :
-                    <Text>String doesn't contain the word "yo"</Text> }
-            </View>
         </>
     );
 };

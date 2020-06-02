@@ -9,6 +9,16 @@ import Splash from "../screens/Splash";
 import Typography from "../screens/Typography";
 import {createStackNavigator} from "@react-navigation/stack";
 import Onboarding from "../screens/Onboarding/Onboarding";
+import TabBar from "./TabBar";
+import CalendarIcon from "../assets/svg/tabBar/calendar_icon.svg";
+import HomeIcon from "../assets/svg/tabBar/home_icon.svg";
+import NotificationIcon from "../assets/svg/tabBar/notification_icon.svg";
+import ProfileIcon from "../assets/svg/tabBar/profile_icon.svg";
+
+import CalendarActiveIcon from "../assets/svg/tabBar/calendar_active_icon.svg";
+import HomeActiveIcon from "../assets/svg/tabBar/home_active_icon.svg";
+import NotificationActiveIcon from "../assets/svg/tabBar/notification_active_icon.svg";
+import ProfileActiveIcon from "../assets/svg/tabBar/profile_active_icon.svg";
 
 const Tab = createBottomTabNavigator();
 const Stack = createStackNavigator();
@@ -20,6 +30,33 @@ const GET_TOKEN = gql`
     }`;
 
 const AppNavigation = () => {
+    const nav = [
+        {
+            comp: Home,
+            icon: HomeIcon,
+            activeIcon: HomeActiveIcon,
+            label: "Home"
+        },
+        {
+            comp: Home,
+            icon: CalendarIcon,
+            activeIcon: CalendarActiveIcon,
+            label: "My bookings"
+        },
+        {
+            comp: Splash,
+            icon: NotificationIcon,
+            activeIcon: NotificationActiveIcon,
+            label: "Notifications"
+        },
+        {
+            comp: Typography,
+            icon: ProfileIcon,
+            activeIcon: ProfileActiveIcon,
+            label: "Profile"
+        }
+    ] as {comp: any, icon: any, activeIcon: any, label: string}[];
+
     //@ts-ignore
     const { data: { onboardingComplete } } = useQuery(GET_TOKEN);
     return (
@@ -34,38 +71,23 @@ const AppNavigation = () => {
 
             {onboardingComplete && (
                 <Tab.Navigator
+                    tabBar={props => <TabBar {...props}/>}
                     backBehavior={"none"}
                     tabBarOptions={{"showIcon": true}}
                 >
-                    <Tab.Screen
-                        name={"Home"}
-                        component={Home}
+                    {nav.map(x => <Tab.Screen
+                        key={x.label}
+                        name={x.label}
+                        component={x.comp}
                         options={{
-                            tabBarLabel: "Homie",
-                            tabBarIcon: ({color, size}) => (
-                                <MaterialCommunityIcons name={"home"} color={color} size={size}/>
+                            tabBarLabel: x.label,
+                            tabBarIcon: ({style, isFocused}: any) => (
+                                isFocused
+                                    ? <x.activeIcon style={style}/>
+                                    : <x.icon style={style}/>
                             )
-                        }}/>
-                    <Tab.Screen
-                        name={"Splash"}
-                        component={Splash}
-                        options={{
-                            tabBarLabel: "Splash",
-                            tabBarIcon: ({color, size}) => (
-                                <MaterialCommunityIcons name={"image-filter-vintage"} color={color}
-                                                        size={size}/>
-                            )
-                        }}/>
-
-                    <Tab.Screen
-                        name={"Typography"}
-                        component={Typography}
-                        options={{
-                            tabBarLabel: "Typography",
-                            tabBarIcon: ({color, size}) => (
-                                <MaterialCommunityIcons name={"pen"} color={color} size={size}/>
-                            )
-                        }}/>
+                        }}
+                    />)}
                 </Tab.Navigator>
             )}
         </NavigationContainer>
