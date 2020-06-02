@@ -40,7 +40,6 @@ class App extends React.Component<any, any> {
                 <RootContext.Provider value={{
                     // DO NOT USE UNLESS YOU KNOW WHAT YOU'RE DOING
                     forceAppReRender: () => {
-                        SplashScreen.show();
                         this.hydrateStore(() => {
                             this.forceUpdate();
                         })

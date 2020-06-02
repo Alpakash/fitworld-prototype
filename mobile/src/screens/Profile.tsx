@@ -11,6 +11,7 @@ import {client} from "../GraphQLClient";
 import AsyncStorage from "@react-native-community/async-storage";
 import {RootContext} from "../contexts/RootContext";
 import {StackNavigationProp} from "@react-navigation/stack";
+import SplashScreen from "react-native-splash-screen";
 
 
 const Container = styled(View)`
@@ -41,6 +42,7 @@ const Profile: FunctionComponent<Props> = (props) => {
     const onLogoutAndResetAppClick = () => {
         AsyncStorage.clear()
             .then(x => {
+                SplashScreen.show();
                 props.navigation.navigate("Home")
                 rootCtx.forceAppReRender();
             })
