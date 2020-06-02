@@ -77,6 +77,7 @@ const TabBar: FunctionComponent<Props> = ({state, descriptors, navigation}) => {
                 onPress={onPress}
                 onLongPress={onLongPress}
                 style={{flex: 12 / state.routes.length}}
+                key={`tab-nav-${index}`}
             >
                 <Icon style={{alignSelf: "center"}} isFocused={isFocused}/>
                 {isFocused && <LabelText style={{alignSelf: "center", paddingTop: 5}}>
