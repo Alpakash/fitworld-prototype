@@ -1,10 +1,10 @@
-import React from 'react';
+import React, { useMemo } from 'react';
 import Row from "../layout/Row";
 import Col from "../layout/Col";
 import { BodyText, H2, H3Bold, H6 } from "../typography/Typography";
 import styled from "styled-components";
 import { Image, Text, View } from "react-native";
-import { format, isSameHour } from 'date-fns';
+import { format } from 'date-fns';
 import Distance from '../../assets/svg/distance_sign.svg';
 import Pin from '../../assets/svg/location_pin.svg';
 import ListDivider from "./ListDivider";
@@ -35,12 +35,18 @@ type Training = {
 
 const trainings: Training[] = [
     {
-        date: new Date(2020, 4, 28, 8, 35),
+        date: new Date(2020, 4, 28, 8, 29),
         name: "Swimming",
         distance: 25.4,
         location: "Dolfinarium"
     }, {
-        date: new Date(2020, 4, 28, 8, 59),
+        date: new Date(2020, 4, 28, 8, 47),
+        name: "Kickboxing",
+        distance: 23.2,
+        location: "Colosseum"
+    },
+    {
+        date: new Date(2020, 4, 28, 8, 42),
         name: "Kickboxing",
         distance: 23.2,
         location: "Colosseum"
@@ -51,7 +57,7 @@ const trainings: Training[] = [
         location: "The Ring"
     },
     {
-        date: new Date(2020, 4, 28, 9, 21),
+        date: new Date(2020, 4, 28, 9, 45),
         name: "YO",
         distance: 5,
         location: "Groet plaats"
@@ -65,40 +71,31 @@ const trainings: Training[] = [
 ];
 
 const splittedDates: any = {};
-const sortedTrainings = trainings.sort((a: any, b: any) => a.date - b.date)
 const now = new Date();
-
-sortedTrainings.map(({ date }, i) => {
-    if (!Object.keys(splittedDates).includes(`${ new Date(now.getFullYear(), now.getMonth(), now.getDate(), date.getHours()) }`)) {
-        let dateKey: Date = date;
+const sortedTrainings = trainings
+    .sort((a: any, b: any) => a.date - b.date)
+    .map(({ date, ...rest }, i) => {
+        let dateKey;
+        const val = { date, ...rest };
         if (date.getMinutes() >= 0 && date.getMinutes() <= 30) {
             dateKey = new Date(now.getFullYear(), now.getMonth(), now.getDate(), date.getHours(), 0)
         } else if (date.getMinutes() <= 59 && date.getMinutes() > 30) {
             dateKey = new Date(now.getFullYear(), now.getMonth(), now.getDate(), date.getHours(), 30)
         }
-        // @ts-ignore
-        return splittedDates[dateKey] = [];
-    }
-});
-
-let arr = Object.keys(splittedDates)
-for (let i = 0; i < arr.length; i++) {
-    const val = arr[i];
-
-    splittedDates[val] =
-        trainings.filter(({ date }) => {
-                    if (date.getMinutes() < 30 && date.getMinutes() >= 0) {
-                        return date.getMinutes() >= new Date(val).getMinutes()
-                    }
-                return date.getMinutes() >= new Date(val).getMinutes() && date.getMinutes() <= new Date(arr[i+1]).getMinutes()
-            }
-        )
-}
-
-console.log(JSON.stringify(splittedDates, null, 4))
-
+        //@ts-ignore
+        if (Array.isArray(splittedDates[dateKey])) {
+            // @ts-ignore
+            splittedDates[dateKey].push(val)
+        } else {
+            // @ts-ignore
+            splittedDates[dateKey] = [val];
+        }
+        return { date, ...rest };
+    });
 
 const TrainingList = (props: { expandedList: string }) => {
+    useMemo(() => sortedTrainings, [trainings]);
+
     return (
         <>
             {
