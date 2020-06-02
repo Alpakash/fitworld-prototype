@@ -114,7 +114,7 @@ class Onboarding extends Component<DefaultProps<{}>> {
                         alignSelf: "flex-end",
                     }
                 }>
-                    <ButtonWithoutIcon border={"1px white"} click={() => this.toggleModal()}>
+                    <ButtonWithoutIcon border={"1px white"} style={{backgroundColor: "#212121"}} click={() => this.toggleModal()}>
                         Get started
                     </ButtonWithoutIcon>
                 </View>

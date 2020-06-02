@@ -373,6 +373,11 @@ export const H6Bold = t(e => e
     .isH6Size()
     .isBold());
 
+export const H6BoldWhite = t(e => e
+    .isH6Size()
+    .isWhite()
+    .isBold());
+
 export const H6BoldItalic = t(e => e
     .isH6Size()
     .isBoldItalic());
@@ -393,6 +398,12 @@ export const H6LightItalic = t(e => e
 export const ButtonText = t(e => e
     .isButtonSize()
     .isBold()
+    .isUppercase());
+
+export const ButtonTextWhite = t(e => e
+    .isButtonSize()
+    .isBold()
+    .isWhite()
     .isUppercase());
 
 export const LabelText = t(e => e

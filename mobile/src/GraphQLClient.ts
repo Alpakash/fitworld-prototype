@@ -7,11 +7,12 @@ import {ApolloClient, HttpLink} from "apollo-boost";
 class GraphQLClient {
     static whitelist = [
         "token",
-        "onboardingComplete"
+        "onboardingComplete",
     ];
     public static readonly defaultData = {
+        __typename: "defaultData",
         token: "",
-        onboardingComplete: false
+        onboardingComplete: false,
     } as { [key: string]: any };
 
     public client: any = undefined;
