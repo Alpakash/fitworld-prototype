@@ -1,4 +1,4 @@
-import React, { useMemo } from 'react';
+import React, { useContext, useMemo } from 'react';
 import Row from "../layout/Row";
 import Col from "../layout/Col";
 import { BodyText, H2, H3Bold, H6 } from "../typography/Typography";
@@ -8,6 +8,11 @@ import { format } from 'date-fns';
 import Distance from '../../assets/svg/distance_sign.svg';
 import Pin from '../../assets/svg/location_pin.svg';
 import ListDivider from "./ListDivider";
+import TrainingListButton from "../buttons/TrainingListButton";
+import { useQuery } from "@apollo/react-hooks";
+import gql from "graphql-tag";
+import { HomeContext } from "../../contexts/HomeContext";
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 
 const Container = styled(View)`
 background-color: ${ ({ theme }) => theme.background.ghostWhite };
@@ -19,120 +24,151 @@ margin: 5px 0;
 flex-direction: row;
 `;
 
-const Price = styled(View)`
+const Price = styled(View)<{ expandedList?: string }>`
 flex: 1;
-padding-right: 20px;
+padding-right: ${ (props) => props.expandedList == "expanded" ? 0 : 20 }px;
 align-items: flex-end;
 justify-content: center;
 `;
 
 type Training = {
-    date: Date,
-    name: string,
-    distance: number,
-    location: string,
+    id: number,
+    time: string | Date,
+    training: {name: string, images: {url: string}},
+    distanceInMeters: number,
+    location: { address: { city: string } },
+    price: number
 }
 
-const trainings: Training[] = [
-    {
-        date: new Date(2020, 4, 28, 8, 29),
-        name: "Swimming",
-        distance: 25.4,
-        location: "Dolfinarium"
-    }, {
-        date: new Date(2020, 4, 28, 8, 47),
-        name: "Kickboxing",
-        distance: 23.2,
-        location: "Colosseum"
-    },
-    {
-        date: new Date(2020, 4, 28, 8, 42),
-        name: "Kickboxing",
-        distance: 23.2,
-        location: "Colosseum"
-    }, {
-        date: new Date(2020, 4, 28, 9, 22),
-        name: "Boxing",
-        distance: 5,
-        location: "The Ring"
-    },
-    {
-        date: new Date(2020, 4, 28, 9, 45),
-        name: "YO",
-        distance: 5,
-        location: "Groet plaats"
-    },
-    {
-        date: new Date(2020, 4, 28, 11, 50),
-        name: "YO",
-        distance: 5,
-        location: "Groet plaats"
-    },
-];
+const GET_TRAININGS = gql`
+    query GET_TRAININGS(
+        $paginationOpts: PaginationOpts!,
+        $rangeInMeters: Float!,
+        $currentLocation: FindAllSessionsCoordinatesInputType!,
+        $start: DateTime!,
+        $end: DateTime!
+    ){
+        findAllSessions(
+            currentLocation: $currentLocation,
+            paginationOpts: $paginationOpts,
+            rangeInMeters: $rangeInMeters,
+            start: $start,
+            end: $end
+        ) { id
+            time
+            price
+            training {
+                name
+                images {
+                    url
+                    alt
+                }
+            }
+            location {
+                address {
+                    city
+                }
+            }
+            distanceInMeters
+        }
+    }
+`;
 
-const splittedDates: any = {};
-const now = new Date();
-const sortedTrainings = trainings
-    .sort((a: any, b: any) => a.date - b.date)
-    .map(({ date, ...rest }, i) => {
-        let dateKey;
-        const val = { date, ...rest };
-        if (date.getMinutes() >= 0 && date.getMinutes() <= 30) {
-            dateKey = new Date(now.getFullYear(), now.getMonth(), now.getDate(), date.getHours(), 0)
-        } else if (date.getMinutes() <= 59 && date.getMinutes() > 30) {
-            dateKey = new Date(now.getFullYear(), now.getMonth(), now.getDate(), date.getHours(), 30)
+const TrainingList = () => {
+    const ctx = useContext(HomeContext);
+    const { loading, error, data } = useQuery(GET_TRAININGS, {
+        variables: {
+            currentLocation: { latitude: 52, longitude: 5 },
+            paginationOpts: { page: 0, pageSize: 100 },
+            rangeInMeters: 500000,
+            start: "2020-01-01T14:39:27.000Z",
+            end: "2020-12-30T14:39:27.000Z"
         }
-        //@ts-ignore
-        if (Array.isArray(splittedDates[dateKey])) {
-            // @ts-ignore
-            splittedDates[dateKey].push(val)
-        } else {
-            // @ts-ignore
-            splittedDates[dateKey] = [val];
-        }
-        return { date, ...rest };
     });
 
-const TrainingList = (props: { expandedList: string }) => {
-    useMemo(() => sortedTrainings, [trainings]);
+    const splittedDates: any = {};
+    const now = new Date();
+
+    const sortTrainings = () => data.findAllSessions
+        .sort((a: any, b: any) => a.time - b.time)
+        .map(({ time, ...rest }: Training, i: number) => {
+            time = new Date(time);
+            let dateKey;
+            const val = { time, ...rest };
+            if (time.getMinutes() >= 0 && time.getMinutes() <= 30) {
+                dateKey = new Date(now.getFullYear(), now.getMonth(), now.getDate(), time.getHours(), 0)
+            } else if (time.getMinutes() <= 59 && time.getMinutes() > 30) {
+                dateKey = new Date(now.getFullYear(), now.getMonth(), now.getDate(), time.getHours(), 30)
+            }
+            //@ts-ignore
+            if (Array.isArray(splittedDates[dateKey])) {
+                // @ts-ignore
+                splittedDates[dateKey].push(val)
+            } else {
+                // @ts-ignore
+                splittedDates[dateKey] = [val];
+            }
+            return { time, ...rest };
+        });
+
+
+    loading ? console.log("loading") : sortTrainings();
+    // const trainingsMemoized = useMemo(() => sortTrainings(), [data]);
 
     return (
         <>
+            { loading ? <Text>Loading...</Text> : null }
+            { error ? <Text>Error! { error.message }</Text> : null }
+
             {
                 Object.entries(splittedDates)
                     .map((x, idx) => {
                         const [key, value] = x as unknown as [string, Training[]];
                         return <>
-                            <ListDivider>{ format(Date.parse(key), "HH:mm") }</ListDivider>
+                            <ListDivider key={`divider-${idx}`}>{ format(Date.parse(key), "HH:mm") }</ListDivider>
                             { value.map(y =>
-                                <Row key={ idx }>
+                                <Row key={ `training-${ y.id }` }>
                                     <Col size={ 1 }/>
                                     <Container style={ { elevation: 4 } }>
                                         <View style={ { flex: 2 } }>
                                             <Row>
                                                 <H6 style={ { marginTop: 5, marginRight: 10 } }>
-                                                    <Text>{ format(y.date, "HH:mm") }</Text>
+                                                    {/* @ts-ignore */}
+                                                    <Text>{ format(y.time, "HH:mm") }</Text>
                                                 </H6>
                                                 <H3Bold>
-                                                    { y.name }
+                                                    { y.training.name }
                                                 </H3Bold>
                                             </Row>
-                                            <H6><Distance/> { <BodyText>{ y.distance }</BodyText> } KM</H6>
-                                            <H6><Pin/> { <BodyText>{ y.location }</BodyText> }</H6>
+                                            <H6><Distance/> { <BodyText>{ Math.floor(y.distanceInMeters) }</BodyText> } KM</H6>
+                                            <H6><Pin/> { <BodyText>{ y.location.address.city }</BodyText> }</H6>
+                                            { ctx.homeHeader.listView.listViewToggle == "expanded" ?
+                                                <TrainingListButton click={() => console.log("HI")} style={{marginLeft: 50}}>
+                                                    <>
+                                                        <Text style={ { borderBottomWidth: 2 } }>
+                                                            Make reservation
+                                                        </Text>
+                                                        <MaterialCommunityIcons name={ "chevron-right" } size={ 25 }/>
+                                                    </>
+                                                </TrainingListButton> : null
+                                            }
                                         </View>
-                                        <Price>
-                                            <H2>€0,00</H2>
+
+                                        <Price expandedList={ ctx.homeHeader.listView.listViewToggle }>
+                                            <H2>€{y.price}</H2>
                                         </Price>
                                     </Container>
+
                                     {
-                                        props.expandedList == "expanded" ?
+                                        ctx.homeHeader.listView.listViewToggle == "expanded" ?
                                             <Col size={ 4 }>
                                                 <Image
                                                     style={ { marginLeft: 5, borderRadius: 10 } }
                                                     source={ {
-                                                        uri: "https://icatcare.org/app/uploads/2018/07/Thinking-of-getting-a-cat.png",
+                                                        // uri: `${ y.training.images.url }`,
+                                                        uri: "https://images.pexels.com/photos/617278/pexels-photo-617278.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
                                                         width: 80,
-                                                        height: 99
+                                                        height: 125
                                                     } }/>
                                             </Col> : null
                                     }

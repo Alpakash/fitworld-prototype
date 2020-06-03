@@ -1,13 +1,12 @@
 import React, {useState} from 'react'
-import {Button, ScrollView, View} from 'react-native'
+import {Button, ScrollView, Text, View} from 'react-native'
 import AuthGet from '../../AuthGet'
 import AsyncStorage from '@react-native-community/async-storage'
 import styled from 'styled-components'
-import Col from "../../components/layout/Col";
-import Row from "../../components/layout/Row";
-import {H1} from "../../components/typography/Typography";
+
 import {HomeHeader} from "./HomeHeader";
 import {HomeContext} from "../../contexts/HomeContext";
+import TrainingList from "../../components/lists/TrainingList";
 
 const CacheButton = styled(Button)`
   align-self: flex-start;
@@ -15,6 +14,7 @@ const CacheButton = styled(Button)`
 
 const Home = () => {
     const [filterOpened, setFilterOpened] = useState(true);
+    const [listViewToggle, setListViewToggle] = useState("expanded");
     const [homeHeaderRangeFilter, setHomeHeaderRangeFilter] = useState(25000);
     const [start, setStartDate] = useState(new Date());
     const [end, setEndDate] = useState(new Date());
@@ -35,9 +35,15 @@ const Home = () => {
         }
     };
 
+
     return (
         <HomeContext.Provider value={{
             homeHeader: {
+                listView: {
+                    listViewToggle,
+                    setListViewToggle
+                },
+
                 filterOpened,
                 setFilterOpened,
                 filters: {
@@ -74,28 +80,7 @@ const Home = () => {
             <View>
                 <HomeHeader/>
                 <ScrollView style={{paddingTop: 20}}>
-
-                    {Array(4)
-                        .fill(null)
-                        .map((x, index) => <Row key={`i${index}`}>
-                            <Col size={1}/>
-                            <Col elevation={4}
-                                 size={10}
-                                 style={{
-                                     backgroundColor: "white",
-                                     marginTop: 5,
-                                     marginBottom: 5,
-                                     padding: 10,
-                                     borderRadius: 10
-                                 }}>
-                                <H1>
-                                    hi
-                                </H1>
-                            </Col>
-                            <Col size={1}/>
-                        </Row>)
-                    }
-
+                        <TrainingList/>
                     <View style={{margin: 30, flexDirection: "row"}}>
                         <CacheButton title={'clear the cache'}
                                      onPress={() => AsyncStorage.clear()}/>

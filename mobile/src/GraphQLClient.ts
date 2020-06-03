@@ -48,7 +48,7 @@ class GraphQLClient {
             link: new HttpLink({
                 uri: 'https://api.fitworld.io/graphql',
                 headers: {
-                    authorization: stored.token
+                    Authorization: `Bearer ${stored.token}`
                 },
             }),
             cache,

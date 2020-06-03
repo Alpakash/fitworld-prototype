@@ -1,0 +1,171 @@
+# This file was generated based on ".graphqlconfig". Do not edit manually.
+
+schema {
+    query: Query
+}
+
+union FindAllSessionReturnTypeUnion = FindAllSessionReturnType | Session
+
+type Address {
+    address: String!
+    city: String!
+    id: String!
+    province: String!
+    zipcode: String!
+}
+
+type Company {
+    address: Address!
+    email: String!
+    id: String!
+    locations: [Location]!
+    logo: Image
+    name: String!
+    telephone_number: String
+    website: String
+}
+
+type Coordinates {
+    id: String!
+    latitude: Float!
+    longitude: Float!
+}
+
+type ErrorResponse {
+    message: String!
+    stacktrace: String
+}
+
+type FindAllSessionReturnType {
+    distanceInMeters: Float!
+}
+
+type Image {
+    alt: String
+    id: String!
+    training: Training
+    url: String!
+}
+
+type Location {
+    address: Address!
+    companies: [Company]!
+    coordinates: Coordinates!
+    id: String!
+    sessions: [Address]!
+}
+
+type PayReservationReturn {
+    checkoutLink: String!
+    reservation: Reservation!
+}
+
+type Payment {
+    amount: String!
+    currencyCode: CurrencyCode!
+    description: String!
+    id: String!
+    reservation: Reservation
+    status: PaymentStatus!
+    user: User!
+}
+
+type Query {
+    findAllSessions(currentLocation: FindAllSessionsCoordinatesInputType!, end: DateTime!, paginationOpts: PaginationOpts!, rangeInMeters: Float!, start: DateTime!): [FindAllSessionReturnTypeUnion]!
+    myReservations: [Reservation]!
+    payReservation(reservationId: String!): PayReservationReturn!
+    refundReservation(paymentId: String!): RefundReservationReturn!
+    searchSessions(paginationOpts: PaginationOpts!, trainingName: String!): [Session]!
+}
+
+type RefundReservationReturn {
+    payment: Payment!
+}
+
+type Reservation {
+    id: String!
+    payments: [Payment]!
+    session: Session!
+}
+
+type ResponseStatusReturn {
+    errors: [ErrorResponse]!
+    status: Boolean!
+}
+
+type Session {
+    capacity: Float!
+    id: String!
+    location: Location!
+    price: String!
+    reservations: [Reservation]!
+    time: DateTime!
+    training: Training!
+}
+
+type Training {
+    description: String!
+    id: String!
+    images: [Image!]!
+    name: String!
+    sessions: [Session]!
+}
+
+type User {
+    email: String!
+    id: String!
+    password: String!
+    payments: [Payment!]
+    profileImage: Image
+    reservations: [Reservation!]!
+    role: Role!
+    type: UserType!
+}
+
+"Currency code, e.g EUR"
+enum CurrencyCode {
+    EUR
+}
+
+"Status of the payment"
+enum PaymentStatus {
+    authorized
+    canceled
+    expired
+    failed
+    open
+    paid
+    pending
+    processing
+    queued
+    refund_pending
+    refunded
+}
+
+"The role of user."
+enum Role {
+    Anonymous
+    None
+    Trainer
+    User
+}
+
+"The type of user."
+enum UserType {
+    Anonymous
+    User
+}
+
+input FindAllSessionsCoordinatesInputType {
+    latitude: Float!
+    longitude: Float!
+}
+
+input PaginationOpts {
+    page: Float!
+    pageSize: Float!
+}
+
+
+"The javascript `Date` as string. Type represents date and time as the ISO Date string."
+scalar DateTime
