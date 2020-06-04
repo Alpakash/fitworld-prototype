@@ -1,11 +1,11 @@
-import React, {useState} from 'react'
-import {Button, ScrollView, Text, View} from 'react-native'
+import React, { useState } from 'react'
+import { Button, ScrollView, View } from 'react-native'
 import AuthGet from '../../AuthGet'
 import AsyncStorage from '@react-native-community/async-storage'
 import styled from 'styled-components'
 
-import {HomeHeader} from "./HomeHeader";
-import {HomeContext} from "../../contexts/HomeContext";
+import { HomeHeader } from "./HomeHeader";
+import { HomeContext } from "../../contexts/HomeContext";
 import TrainingList from "../../components/lists/TrainingList";
 
 const CacheButton = styled(Button)`
@@ -37,7 +37,7 @@ const Home = () => {
 
 
     return (
-        <HomeContext.Provider value={{
+        <HomeContext.Provider value={ {
             homeHeader: {
                 listView: {
                     listViewToggle,
@@ -76,21 +76,13 @@ const Home = () => {
                     }
                 }
             }
-        }}>
-            <View>
+        } }>
+            <ScrollView bounces={false} overScrollMode={"never"}>
                 <HomeHeader/>
-                <ScrollView style={{paddingTop: 20}}>
-                        <TrainingList/>
-                    <View style={{margin: 30, flexDirection: "row"}}>
-                        <CacheButton title={'clear the cache'}
-                                     onPress={() => AsyncStorage.clear()}/>
-                    </View>
-                    <View>
-                        <AuthGet/>
-                    </View>
+                <TrainingList style={{marginTop: 30}}/>
+                    {/*<AuthGet/>*/}
 
-                </ScrollView>
-            </View>
+            </ScrollView>
         </HomeContext.Provider>
     )
 };
