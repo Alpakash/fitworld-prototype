@@ -2,7 +2,7 @@ import {Animated, Text, View} from "react-native";
 import {H2BoldWhite, H4, H5, H5Bold, H6, H6Bold} from "../../components/typography/Typography";
 import Row from "../../components/layout/Row";
 import Col from "../../components/layout/Col";
-import React, {useContext, useRef} from "react";
+import React, { useContext, useRef, useState } from "react";
 import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
 import Toggle from "../../components/Toggle";
 import {useTheme} from "../../util/useTheme";
@@ -14,7 +14,9 @@ import InputWithIcon from "../../components/InputWithIcon";
 import ButtonWithIcon from "../../components/buttons/ButtonWithIcon";
 import styled from "styled-components";
 import {HomeContext} from "../../contexts/HomeContext";
+// @ts-ignore
 import Slider from "@react-native-community/slider";
+// @ts-ignore
 import RNDateTimePicker from "@react-native-community/datetimepicker";
 import {format} from "date-fns";
 import ButtonWithoutIcon from "../../components/buttons/ButtonWithoutIcon";
@@ -37,21 +39,29 @@ export const HomeHeader = () => {
     const theme = useTheme();
     const ctx = useContext(HomeContext);
 
-
     const ToggleData = (obj: { currentIndex: any }) => {
         const firstIndexActiveOnLoad = (typeof obj.currentIndex === 'number') ? obj.currentIndex : obj.currentIndex.index;
+
         return [
-            (myIndex: number) =>
-                <ToggleText
-                    // onPress={ () => toggleListView("expanded") }
-                    active={myIndex === firstIndexActiveOnLoad}>
-                    <MaterialCommunityIcons
-                        name={"view-sequential"} size={30}/></ToggleText>,
-            (myIndex: number) => <ToggleText
-                // onPress={ () => toggleListView("simple") }
-                active={myIndex === obj.currentIndex.index}><MaterialCommunityIcons
-                name={"view-stream"}
-                size={30}/></ToggleText>
+            {
+                onPress: () => {
+                    ctx.homeHeader.listView.setListViewToggle("expanded");
+                },
+                comp: (myIndex: number) =>
+                    <ToggleText
+                        active={myIndex === firstIndexActiveOnLoad}>
+                        <MaterialCommunityIcons
+                            name={"view-sequential"} size={30}/></ToggleText>
+            },
+            {
+                onPress: () => {
+                    ctx.homeHeader.listView.setListViewToggle("simple");
+                },
+                comp: (myIndex: number) => <ToggleText
+                    active={myIndex === obj.currentIndex.index}><MaterialCommunityIcons
+                    name={"view-stream"}
+                    size={30}/></ToggleText>
+            }
         ]
     };
 

@@ -1,9 +1,7 @@
 import React from 'react';
-import styled from 'styled-components/native';
 import {GestureResponderEvent, TouchableHighlight} from "react-native";
 import {ButtonText, ButtonTextWhite} from "../typography/Typography";
 import {StyledButton} from "./StyledButton";
-
 
 interface IButtonProps {
     color?: string;

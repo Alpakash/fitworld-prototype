@@ -2,6 +2,12 @@ import React from "react";
 
 export const homeHeaderContextDefaultState = {
     homeHeader: {
+        listView: {
+            listViewToggle: "",
+            setListViewToggle: (s: string) => {
+
+            }
+        },
         filterOpened: true,
         setFilterOpened: (b: boolean) => {
         },
