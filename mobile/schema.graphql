@@ -4,8 +4,6 @@ schema {
     query: Query
 }
 
-union FindAllSessionReturnTypeUnion = FindAllSessionReturnType | Session
-
 type Address {
     address: String!
     city: String!
@@ -37,7 +35,14 @@ type ErrorResponse {
 }
 
 type FindAllSessionReturnType {
+    capacity: Float!
     distanceInMeters: Float!
+    id: String!
+    location: Location!
+    price: String!
+    reservations: [Reservation]!
+    time: DateTime!
+    training: Training!
 }
 
 type Image {
@@ -71,7 +76,7 @@ type Payment {
 }
 
 type Query {
-    findAllSessions(currentLocation: FindAllSessionsCoordinatesInputType!, end: DateTime!, paginationOpts: PaginationOpts!, rangeInMeters: Float!, start: DateTime!): [FindAllSessionReturnTypeUnion]!
+    findAllSessions(currentLocation: FindAllSessionsCoordinatesInputType!, end: DateTime!, paginationOpts: PaginationOpts!, rangeInMeters: Float!, start: DateTime!): [FindAllSessionReturnType]!
     myReservations: [Reservation]!
     payReservation(reservationId: String!): PayReservationReturn!
     refundReservation(paymentId: String!): RefundReservationReturn!

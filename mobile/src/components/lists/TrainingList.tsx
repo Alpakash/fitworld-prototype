@@ -1,19 +1,26 @@
 import React, { useContext, useMemo } from 'react';
 import styled from "styled-components";
-import { Text, View } from "react-native";
+import { Image, Text, TouchableWithoutFeedback, View } from "react-native";
 import { compareAsc, formatISO, format } from 'date-fns';
 import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { HomeContext } from "../../contexts/HomeContext";
 import { DefaultProps } from "../../typings/DefaultProps";
-import { ButtonText } from "../typography/Typography";
+import { BodyText, ButtonText, H2, H3Bold, H6 } from "../typography/Typography";
+import Col from "../layout/Col";
+import Row from "../layout/Row";
+import ButtonWithIcon from "../buttons/ButtonWithIcon";
+import ListDivider from "./ListDivider";
+import Pin from '../../assets/svg/location_pin.svg'
+import Distance from '../../assets/svg/distance_sign.svg'
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const Container = styled(View)`
     background-color: ${ ({ theme }) => theme.background.ghostWhite };
     border-radius: 10px;
     justify-content: space-between;
     padding: 10px;
-    flex: 10;
+    flex-direction: row;
     margin: 5px 0;
 `;
 
@@ -24,7 +31,7 @@ const Price = styled(View)<{ expandedList?: string }>`
     justify-content: center;
 `;
 
-type Training = {
+type Session = {
     id: number,
     time: string | Date,
     training: {
@@ -102,15 +109,15 @@ const TrainingList: React.FC<DefaultProps<{}>> = (props) => {
 
     const sortTrainings = () => {
         data.findAllSessions
-            .sort((a: any, b: any) => compareAsc(a, b))
-            .map(({ time, ...rest }: Training, i: number) => {
+            .sort((a: any, b: any) => compareAsc(new Date(a.time), new Date(b.time)))
+            .map(({ time, ...rest }: Session, i: number) => {
                 time = new Date(time);
                 let dateKey;
                 const val = { time, ...rest };
-                if (time.getMinutes() >= 0 && time.getMinutes() <= 30) {
-                    dateKey = new Date(now.getFullYear(), now.getMonth(), now.getDate(), time.getHours(), 0)
-                } else if (time.getMinutes() <= 59 && time.getMinutes() > 30) {
-                    dateKey = new Date(now.getFullYear(), now.getMonth(), now.getDate(), time.getHours(), 30)
+                if (time.getMinutes() >= 0 && time.getMinutes() <= 29) {
+                    dateKey = new Date(time.getFullYear(), time.getMonth(), time.getDate(), time.getHours(), 0)
+                } else if (time.getMinutes() <= 59 && time.getMinutes() > 29) {
+                    dateKey = new Date(time.getFullYear(), time.getMonth(), time.getDate(), time.getHours(), 30)
                 }
                 //@ts-ignore
                 if (Array.isArray(splittedDates[dateKey])) {
@@ -126,23 +133,27 @@ const TrainingList: React.FC<DefaultProps<{}>> = (props) => {
 
         return Object.entries(splittedDates)
             .reduce((acc: object, cur: [string, unknown], idx: any, src: any) => {
-                const [key, value] = cur as unknown as [string, Training[]];
+                const [key, value] = cur as unknown as [string, Session[]];
                 const time = new Date(value[0].time)
                 time.setMinutes(0);
                 time.setHours(0);
                 time.setMilliseconds(0);
-                let objKey = formatISO(time)
+                time.setSeconds(0);
+                let objKey = time;
+                const segment = key;
                 // @ts-ignore
                 if (!!acc[objKey]) {
                     // @ts-ignore
                     acc[objKey] = {
                         // @ts-ignore
                         ...acc[objKey],
+                        // @ts-ignore
                         [key]: value
                     }
                 } else {
                     // @ts-ignore
                     acc[objKey] = {
+                        // @ts-ignore
                         [key]: value
                     };
                 }
@@ -168,79 +179,109 @@ const TrainingList: React.FC<DefaultProps<{}>> = (props) => {
         <View style={ props.style ?? {} }>
             { loading ? <Text>Loading...</Text> : null }
             { error ? <Text>Error! { error.message }</Text> : null }
+            <Row>
+                <Col size={ 1 }/>
+                <Col size={ 10 }>
+                    <View>
+                        {
+                            Object.entries(splittedDates)
+                                .map(([key, value]: [string, unknown], index) => {
+                                    // inject/return (day header here)
 
-            {
-                Object.entries(splittedDates)
-                    .map((x, idx) => {
-                        const [key, value] = x as unknown as [string, Training[]];
-                        return Object.entries(value)
-                            .map((v, idx2) => {
-                                const [vKey, vValue] = v as unknown as [string, Training[]];
-                                return vValue
-                                    .map((z: Training, zIdx: number) => {
-                                    return (
-                                        <>
-                                            { zIdx === Object.keys(value).length - 1 && (
-                                                <ButtonText>{format(new Date(key), "EEEE dd-LL-uuuu")}</ButtonText>
-                                            ) }
-                                            <Text>{ formatISO(new Date(z.time)) } - { z.training.name }</Text>
-                                        </>
-                                    )
+                                    return <React.Fragment key={ key }>
+                                        <ListDivider>{ format(new Date(key), "EEEE") }</ListDivider>
+                                        { Object.entries(value as any)
+                                            .map(([key2, value2], index2) => {
+                                                // inject/return segment header here
+                                                return <View key={ key2 }>
+                                                    <ListDivider>{ format(new Date(key2), "HH:mm") }</ListDivider>
+                                                    <View>
+                                                        { (value2 as any).map((session: Session, idx: number) => {
+                                                            // return individual session component here
+                                                            const canShowExpanded = ctx.homeHeader.listView.listViewToggle == "expanded" && session.training.images.length > 0;
+                                                            return (
+                                                                <Container key={ `${ key2 }-${ idx }` }>
+                                                                    <Row style={ { flex: canShowExpanded ? 8 : 12 } }>
+                                                                        <Col
+                                                                            size={ 8 }>
+                                                                            <Row>
+                                                                                <H6 style={ {
+                                                                                    marginTop: 5,
+                                                                                    marginRight: 10
+                                                                                } }>
+                                                                                    <Text>{ format(new Date(session.time), "HH:mm") }</Text>
+                                                                                </H6>
+                                                                                <H3Bold>
+                                                                                    { session.training.name }
+                                                                                </H3Bold>
+                                                                            </Row>
+                                                                            <H6> {
+                                                                                <BodyText><Distance/> { Math.floor(session.distanceInMeters) }
+                                                                                </BodyText> } KM</H6>
+                                                                            <H6>{
+                                                                                <BodyText><Pin/> { session.location.address.city }
+                                                                                </BodyText> }</H6>
+                                                                            { canShowExpanded &&
+                                                                            <View>
+                                                                                <TouchableWithoutFeedback
+                                                                                    style={ { backgroundColor: "white", alignSelf: "flex-end" } }>
+                                                                                    <Row>
+                                                                                        <Text
+                                                                                            style={ { borderBottomWidth: 2 } }>
+                                                                                            Make reservation
+                                                                                        </Text>
+                                                                                        <MaterialCommunityIcons
+                                                                                            name={ "chevron-right" }
+                                                                                            size={ 25 }/>
+                                                                                    </Row>
+                                                                                </TouchableWithoutFeedback>
+
+                                                                                </View>
+                                                                            }
+                                                                        </Col>
+                                                                        <Col size={ 4 }>
+                                                                            <Price
+                                                                                expandedList={ ctx.homeHeader.listView.listViewToggle }>
+                                                                                <H2>€{ session.price }</H2>
+                                                                            </Price>
+                                                                        </Col>
+                                                                    </Row>
+                                                                    {
+                                                                        canShowExpanded &&
+                                                                        <Row style={ { flex: 4 } }>
+                                                                            <Image
+                                                                                style={ {
+                                                                                    marginLeft: 5,
+                                                                                    borderRadius: 10
+                                                                                } }
+                                                                                source={ {
+                                                                                    uri: `${ session.training.images[0].url }`,
+                                                                                    width: 80,
+                                                                                    height: 125
+                                                                                } }/>
+                                                                        </Row>
+                                                                    }
+                                                                </Container>
+                                                            );
+                                                        }) }
+                                                    </View>
+                                                </View>
+                                            }) }
+                                    </React.Fragment>
                                 })
-                            })
-                    })
-            }
-
+                                .map(x => {
+                                    return x;
+                                })
+                        }
+                    </View>
+                </Col>
+                <Col size={ 1 }/>
+            </Row>
         </View>
     )
 };
 
 export default TrainingList;
 
-//                                  <Row key={ `training-${ y.id }` }>
-//                                     <Col size={ 1 }/>
-//                                     <Container style={ { elevation: 4 } }>
-//                                         <View style={ { flex: 2 } }>
-//                                             <Row>
-//                                                 <H6 style={ { marginTop: 5, marginRight: 10 } }>
-//                                                     {/* @ts-ignore */}
-//                                                     <Text>{ format(y.time, "HH:mm") }</Text>
-//                                                 </H6>
-//                                                 <H3Bold>
-//                                                     { y.training.name }
-//                                                 </H3Bold>
-//                                             </Row>
-//                                             <H6><Distance/> { <BodyText>{ Math.floor(y.distanceInMeters) }</BodyText> } KM</H6>
-//                                             <H6><Pin/> { <BodyText>{ y.location.address.city }</BodyText> }</H6>
-//                                             { ctx.homeHeader.listView.listViewToggle == "expanded" ?
-//                                                 <TrainingListButton click={() => console.log("HI")} style={{marginLeft: 50}}>
-//                                                     <>
-//                                                         <Text style={ { borderBottomWidth: 2 } }>
-//                                                             Make reservation
-//                                                         </Text>
-//                                                         <MaterialCommunityIcons name={ "chevron-right" } size={ 25 }/>
-//                                                     </>
-//                                                 </TrainingListButton> : null
-//                                             }
-//                                         </View>
-//
-//                                         <Price expandedList={ ctx.homeHeader.listView.listViewToggle }>
-//                                             <H2>€{y.price}</H2>
-//                                         </Price>
-//                                     </Container>
-//
-//                                     {
-//                                         ctx.homeHeader.listView.listViewToggle == "expanded" ?
-//                                             <Col size={ 4 }>
-//                                                 <Image
-//                                                     style={ { marginLeft: 5, borderRadius: 10 } }
-//                                                     source={ {
-//                                                         // uri: `${ y.training.images.url }`,
-//                                                         uri: "https://images.pexels.com/photos/617278/pexels-photo-617278.jpeg?auto=compress&cs=tinysrgb&dpr=1&w=500",
-//                                                         width: 80,
-//                                                         height: 125
-//                                                     } }/>
-//                                             </Col> : null
-//                                     }
-//                                     <Col size={ 1 }/>
-//                                 </Row>
+
+

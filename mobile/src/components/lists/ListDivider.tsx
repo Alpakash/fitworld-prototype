@@ -8,12 +8,7 @@ import { H1Bold } from "../typography/Typography";
 
 const ListDivider: React.FC<IDefaultProps> = (props) => {
     return (
-        <Row>
-            <Col size={ 1 }/>
-            <View style={ { flex: 3 } }><H1Bold>{ props.children }</H1Bold></View>
-            <View style={ { flex: 9, justifyContent: "center" } }><Divider/></View>
-            <Col size={ 1 }/>
-        </Row>
+                <H1Bold>{ props.children }</H1Bold>
     );
 };
 
