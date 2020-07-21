@@ -6,7 +6,7 @@ import { useQuery } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { HomeContext } from "../../contexts/HomeContext";
 import { DefaultProps } from "../../typings/DefaultProps";
-import { BodyText, ButtonText, H2, H3Bold, H6 } from "../typography/Typography";
+import { BodyText, ButtonText, H2, H3Bold, H5Bold, H6 } from "../typography/Typography";
 import Col from "../layout/Col";
 import Row from "../layout/Row";
 import ButtonWithIcon from "../buttons/ButtonWithIcon";
@@ -194,7 +194,7 @@ const TrainingList: React.FC<DefaultProps<{}>> = (props) => {
                                             .map(([key2, value2], index2) => {
                                                 // inject/return segment header here
                                                 return <View key={ key2 }>
-                                                    <ListDivider>{ format(new Date(key2), "HH:mm") }</ListDivider>
+                                                    <H5Bold>{ format(new Date(key2), "HH:mm") }</H5Bold>
                                                     <View>
                                                         { (value2 as any).map((session: Session, idx: number) => {
                                                             // return individual session component here
