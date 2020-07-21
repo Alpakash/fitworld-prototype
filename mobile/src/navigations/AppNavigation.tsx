@@ -72,7 +72,7 @@ const AppNavigation = () => {
 
             {onboardingComplete && (
                 <Tab.Navigator
-                    tabBar={props => <TabBar {...props}/>}
+                    tabBar={(props: any) => <TabBar {...props}/>}
                     backBehavior={"none"}
                     tabBarOptions={{"showIcon": true}}
                 >

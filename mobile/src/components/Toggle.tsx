@@ -1,21 +1,21 @@
-import React, {Component} from 'react'
+import React, { Component } from 'react'
 import styled from 'styled-components'
-import {Animated, Dimensions, TouchableOpacity, View} from 'react-native'
-import {RootContext} from "../contexts/RootContext";
+import { Animated, Dimensions, TouchableOpacity, View } from 'react-native'
+import { RootContext } from "../contexts/RootContext";
 import _ from "lodash";
 
-const Container = styled(View)<{ width: number }>`
-    background-color: ${({theme}) => theme.background.white};
-    width: ${props => props.width}px;
+const Container = styled(View)<{ width: string }>`
+    background-color: ${ ({ theme }) => theme.background.white };
     border-radius: 25px;
     flex-direction: row;
     margin: 13px 0;
+    ${({width}) => !!width ? width : ""}
 `;
 
 const Switch = styled(Animated.View)`
-    background-color: black;
-    position: absolute;
-    border-radius: 26px;
+background-color: ${ ({ theme }) => theme.palette.common.black };
+position: absolute;
+border-radius: 26px;
 `;
 
 const StyledButton = styled(TouchableOpacity)`
@@ -35,6 +35,7 @@ interface State {
 
 // De Toggle Component ook 2D maken met een Y-as
 class Toggle extends Component<{ style?: object, elevation?: number, margin?: number }, State> {
+    static contextType = RootContext;
     state = {
         scrollAnim: new Animated.Value(0),
         widthAnim: undefined,
@@ -42,35 +43,38 @@ class Toggle extends Component<{ style?: object, elevation?: number, margin?: nu
         currentIndex: 0,
         show: false,
     } as State;
-
-    static contextType = RootContext;
-
     references: any[] = [];
     private widths: number[] = [];
     private heights: number[] = [];
     private containerWidth: number = Dimensions.get("window").width;
 
-    measureItemWidths = () => {
+    measureItemWidths = (o = 0) => {
         this.widths = [];
         this.heights = [];
-        for (const ref of this.references) {
-            ref.measure((x: number, y: number, width: number, height: number) => {
-                if (width === undefined || height === undefined) {
-                    console.log("[toggle] inconsistent behavior from requestAnimationFrame, falling back to recursion");
-                    return setTimeout(this.measureItemWidths, 25);
-                }
-                this.widths.push(width);
-                this.heights.push(height);
 
-                // calculate the total sum of this.widths
-                this.containerWidth = _.sum(this.widths);
+        const measure = (ref: any, x: number, y: number, width: number, height: number) => {
+            if (width === undefined || height === undefined) {
+                console.log("[toggle] inconsistent behavior from requestAnimationFrame, falling back to recursion");
+                return setTimeout(() => ref.measure(
+                    (x: any, y: any, w: any, h: any) => measure(ref, x, y, w, h)
+                ), 25);
+            }
 
-                this.setState({
-                    widthAnim: new Animated.Value(this.widths[0]),
-                    heightAnim: new Animated.Value(this.heights[0]),
-                    show: true,
-                });
-            })
+            this.widths.push(width);
+            this.heights.push(height);
+            // calculate the total sum of this.widths
+            this.containerWidth = _.sum(this.widths);
+
+            this.setState({
+                widthAnim: new Animated.Value(this.widths[0]),
+                heightAnim: new Animated.Value(this.heights[0]),
+                show: true,
+            });
+        }
+
+        for (let i = o; i < this.references.length; i++) {
+            const ref = this.references[i];
+            ref.measure((x: any, y: any, w: any, h: any) => measure(ref, x, y, w, h));
         }
     };
 
@@ -85,11 +89,14 @@ class Toggle extends Component<{ style?: object, elevation?: number, margin?: nu
     }
 
     scroll = (index: number) => {
-        if (!this.state.widthAnim) return;
+        if (!this.state.widthAnim) {
+            console.log("[toggle] no width anim");
+            return;
+        }
         let sum = 0;
 
         this.setState({
-            currentIndex: {index}
+            currentIndex: { index }
         });
 
         // calculate the total width of the components before the clicked components
@@ -97,53 +104,54 @@ class Toggle extends Component<{ style?: object, elevation?: number, margin?: nu
             sum += this.widths[i]
         }
 
-        // set the value to the calculated width in const sum
-        // the switch component will scroll to this position
-        Animated.spring(this.state.scrollAnim, {
-            toValue: sum
-        }).start();
-
-        // set value the width of the clicked component
-        Animated.spring(this.state.widthAnim, {
-            toValue: this.widths[index],
-            damping: 15
-        }).start()
+        Animated.parallel([
+            Animated.spring(this.state.scrollAnim, {
+                toValue: sum
+            }),
+            Animated.spring(this.state.widthAnim, {
+                toValue: this.widths[index],
+                damping: 15
+            })
+        ]).start();
     };
 
     render() {
         if (typeof this.props.children !== 'function') throw new Error('children should be function');
-        const children = this.props.children({currentIndex: this.state.currentIndex});
+        const children = this.props.children({ currentIndex: this.state.currentIndex });
         if (children.length < 2) throw new Error('Toggle should have an array with 2 children');
 
         return (
             <>
                 <Container
-                    width={this.containerWidth}
-                    style={{
+                    width={this.containerWidth > 0 ? `width: ${this.containerWidth}px;` : ""}
+                    style={ {
                         ...this.props.style,
                         elevation: this.props.elevation ?? 4,
                         opacity: this.state.show ? 1 : 0
-                    }}>
+                    } }>
                     {
                         children
                             .map((x: any, index: number) =>
                                 <StyledButton
-                                    ref={(ref: any) => {
+                                    ref={ (ref: any) => {
                                         this.references.push(ref)
-                                    }}
-                                    onPress={() => this.scroll(index)}
-                                    key={index}>
-                                    {x(index, this.state.currentIndex)}
+                                    } }
+                                    onPress={ () => {
+                                        x.onPress();
+                                        this.scroll(index)
+                                    } }
+                                    key={ `toggle-button-child-${index}` }>
+                                    { x.comp(index, this.state.currentIndex) }
                                 </StyledButton>
                             )
                     }
 
-                    {(!!this.state.widthAnim && !!this.state.heightAnim) && <Switch style={{
+                    { (!!this.state.widthAnim && !!this.state.heightAnim) && <Switch style={ {
                         // the Switch Component gets animated on the X-as with an animated value
-                        transform: [{translateX: this.state.scrollAnim}],
+                        transform: [{ translateX: this.state.scrollAnim }],
                         width: this.state.widthAnim,
                         height: this.state.heightAnim
-                    }}/>}
+                    } }/> }
                 </Container>
             </>
         )
