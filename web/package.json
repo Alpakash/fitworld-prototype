@@ -54,6 +54,6 @@
   },
   "devDependencies": {
     "@types/lodash": "^4.14.149",
-    "electron": "^8.0.1"
+    "electron": "^8.2.4"
   }
 }
