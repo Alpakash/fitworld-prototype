@@ -29,7 +29,7 @@
     "@types/recompose": "^0.30.7",
     "@types/styled-components": "^5.0.1",
     "apollo-cache-persist": "^0.1.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "date-fns": "^2.14.0",
     "fitworld-common": "^1.152.0",
     "date-fns": "^2.13.0",
