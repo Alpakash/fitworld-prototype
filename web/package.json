@@ -16,7 +16,7 @@
     "apollo-boost": "^0.4.7",
     "apollo-cache-inmemory": "^1.6.5",
     "apollo-cache-persist": "^0.1.1",
-    "axios": "^0.19.2",
+    "axios": "^0.21.1",
     "fitworld-common": "^1.132.0",
     "graphql": "^14.6.0",
     "graphql-tag": "^2.10.3",
